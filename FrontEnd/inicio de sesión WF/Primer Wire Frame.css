@@ -1,6 +1,23 @@
+body {
+    
+    font-family: Arial, sans-serif;
+} 
+
 h1{
     text-align: center;
+        font-size: 2.5em;
+        color: #333;
 }
-#Logo{
-    
+h2 {
+    font-size: 1.2em;
+    color: #000000;     
+   
+    text-align: center;
+}
+
+#Logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto; /* averiguar bien que es esto que no estoy seguro  */
+    width: 250px; 
 }
