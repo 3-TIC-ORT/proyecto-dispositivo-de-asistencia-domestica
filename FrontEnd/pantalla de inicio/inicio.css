@@ -1,8 +1,19 @@
-body{font-family: Arial, Helvetica, sans-serif;
-background-color: #ffffff;
-}
- .box{
-    background-color: #D9D9D9; 
-    border: 1px solid #999  ;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+  }
+  .container{
+    display: flex;         
+    height: 100vh;  
+    align-items: center; 
+    flex-direction: column;
+    }
+    .sidebar{
+        width: 80px;
+        background-color: #b3b2b2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-}
+    }
