@@ -21,3 +21,8 @@ h2 {
     margin-right: auto; /* averiguar bien que es esto que no estoy seguro  */
     width: 250px; 
 }
+.boton{
+    display: flex;
+   flex-direction: column;
+   align-items: center;
+ }
