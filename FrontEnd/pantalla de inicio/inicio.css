@@ -4,9 +4,10 @@ body {
     margin: 0;
   }
   .container{
-    display: flex;         
-    height: 100vh;  
-    align-items: center; 
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* dos columnas */
+    gap: 20px;
+    padding: 20px;
     }
     .box{
       width: 200px;           
@@ -18,13 +19,11 @@ body {
       align-content: center;
 
     }
-
-    .lateral{
-        width: 80px;
-        height: 832px;
-        background-color: #b3b2b2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-    }
+    .tareas {
+      grid-column: 1 / span 2; /* ocupa las dos columnas */
+      grid-row: 3;             /* va en la segunda fila */
+      width: 70rem;           
+      height: 100px;           
+      background-color: rgb(243, 202, 68);  
+      margin-left: auto;
+    }  
