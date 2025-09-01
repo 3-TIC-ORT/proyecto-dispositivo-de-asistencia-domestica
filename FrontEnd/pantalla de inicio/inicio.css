@@ -1,5 +1,6 @@
 body{
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(168, 166, 166);
+  
   
 }
 .contenedor {
@@ -7,12 +8,13 @@ body{
   display: flex;
   justify-content: flex-start;
   gap: 20px; 
+  border-radius: 15px;
   
 }
 .cajarecor{
   width: 20rem;           
   height: 15rem;           
-  background-color: rgb(243, 202, 68); 
+  background-color: rgb(230, 105, 21); 
   padding: 3rem;   
   margin: 3rem;         
   display: flex;
@@ -21,7 +23,7 @@ body{
 .cajalarga {
   width: 70rem; 
   height: 5rem;             
-  background-color: rgb(247, 181, 51);
+  background-color: rgb(230, 105, 21);
   padding: 20px;
   margin-top: 20px;
   margin-left: 3rem;
@@ -41,3 +43,21 @@ body{
   display: flex;
   height: 100vh; 
    }
+
+  .Botoncitos{
+    gap: 10px;      
+    margin: 8px 0;  
+  }
+
+  .caji {
+    background-color: #333;  
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-align: center;
+    width: 16rem;             
+    height: 30px;            
+    line-height: 30px;       
+    margin: 5px;  
+              
+}
