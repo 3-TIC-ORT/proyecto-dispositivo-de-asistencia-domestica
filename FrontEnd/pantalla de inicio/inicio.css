@@ -1,55 +1,62 @@
 body{
   background-color: rgb(168, 166, 166);
-  
-  
 }
+
+.contenido {
+  flex: 1; /* Take up the remaining horizontal space */
+  display: flex;
+  flex-direction: column; /* Stack content and cajalarga vertically *//
+}
+
 .contenedor {
-  
   display: flex;
   justify-content: flex-start;
   gap: 20px; 
   border-radius: 15px;
-  
+  flex: 1;
 }
-.cajarecor{
-  width: 20rem;           
-  height: 15rem;           
-  background-color: rgb(230, 105, 21); 
-  padding: 3rem;   
-  margin: 3rem;         
+.cajarecor {
+  position: relative;
+  width: 20rem;
+  min-height: 15rem; 
+  background-color: rgb(230, 105, 21);
+  padding: 1rem; 
+  margin: 3rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column; 
+  align-items: flex-start; 
 }
 .cajalarga {
-  width: 70rem; 
-  height: 5rem;             
+  width: calc(100%); 
+  height: 5rem;
   background-color: rgb(230, 105, 21);
   padding: 20px;
-  margin-top: 20px;
-  margin-left: 3rem;
-  align-items: center;   
-  justify-content: center; 
+  margin-left: 7rem; 
+  align-items: center;
+  justify-content: center;
+  display: flex; 
 }
 .sidebar {
-  width: 7rem;                  
-  background-color: rgb(100, 100, 150); 
+  width: 7rem; 
+  background-color: rgb(100, 100, 150);
   padding: 20px;
-  box-sizing: border-box;
-  padding: 20px;
+  
   margin-top: 20px;
 }
 
 .layout {
   display: flex;
   height: 100vh; 
-   }
+  flex-direction: row; 
+}
 
-  .Botoncitos{
+ .Botoncitos{
     gap: 10px;      
     margin: 8px 0;  
+    position: relative;
   }
 
-  .caji {
+.caji {
     background-color: #333;  
     color: white;
     padding: 8px 12px;
@@ -59,5 +66,5 @@ body{
     height: 30px;            
     line-height: 30px;       
     margin: 5px;  
-              
+    position: relative;          
 }
