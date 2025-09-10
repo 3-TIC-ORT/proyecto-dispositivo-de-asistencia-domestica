@@ -3,29 +3,35 @@ body{
 }
 
 .contenido {
-  flex: 1; /* Take up the remaining horizontal space */
+  flex: 1; 
   display: flex;
-  flex-direction: column; /* Stack content and cajalarga vertically *//
+  flex-direction: column; 
 }
 
 .contenedor {
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
   display: flex;
   justify-content: flex-start;
   gap: 20px; 
   border-radius: 15px;
   flex: 1;
+  flex-wrap: wrap;
 }
+
 .cajarecor {
-  position: relative;
-  width: 20rem;
-  min-height: 15rem; 
   background-color: rgb(230, 105, 21);
   padding: 1rem; 
-  margin: 3rem;
+  margin: 1rem;
   display: flex;
   flex-direction: column; 
   align-items: flex-start; 
+  border-radius: 10px;
+  flex: 1;
+  min-width: 18rem;
+  max-width: 22rem;
+  min-height: 13rem;
 }
+
 .cajalarga {
   width: calc(100%); 
   height: 5rem;
@@ -40,7 +46,6 @@ body{
   width: 7rem; 
   background-color: rgb(100, 100, 150);
   padding: 20px;
-  
   margin-top: 20px;
 }
 
