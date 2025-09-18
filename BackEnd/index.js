@@ -1,16 +1,16 @@
-import fs from "fs";
-
-// Leer usuarios
 function leerUsuarios() {
-  return JSON.parse(fs.readFileSync("usuarios.json", "utf-8"));
+  try {
+    const data = fs.readFileSync("usuarios.json", "utf-8");
+    return JSON.parse(data);
+  } catch (error) {
+    return [];
+  }
 }
 
-// Guardar usuarios
 function guardarUsuarios(usuarios) {
   fs.writeFileSync("usuarios.json", JSON.stringify(usuarios, null, 2));
 }
 
-// Signup
 function signup(username, password) {
   let usuarios = leerUsuarios();
 
@@ -21,22 +21,21 @@ function signup(username, password) {
 
   usuarios.push({ username, password });
   guardarUsuarios(usuarios);
-  console.log("Usuario registrado con éxito");
+
+  console.log("✅ Usuario registrado con éxito");
 }
 
-// Login
 function login(username, password) {
   let usuarios = leerUsuarios();
 
   const user = usuarios.find(u => u.username === username && u.password === password);
   if (user) {
-    console.log("Login exitoso, bienvenido " + username);
+    console.log("✅ Login exitoso, bienvenido " + username);
   } else {
-    console.log(" Usuario o contraseña incorrectos");
+    console.log("❌ Usuario o contraseña incorrectos");
   }
 }
 
-// ---- DEMO ----
+// --- DEMO ---
+// PRIMERA EJECUCIÓN: registra a juan
 signup("juan", "1234");
-login("juan", "1234");
-login("juan", "xxxx");
