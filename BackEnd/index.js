@@ -38,10 +38,16 @@ function login(username, password) {
   }
 }
 
-// --- DEMO ---
-// PRIMERA EJECUCIÓN: registra a juan
-signup("juan", "1234");
+// --- DEMO LOGIN ---
+// Comentamos los signup porque los usuarios ya están en usuarios.json
+// signup("juan", "1234");
+// signup("Lucas", "912");
+// signup("Yoni", "31");
 
-// SEGUNDA EJECUCIÓN: prueba login
-login("juan", "1234");
-login("juan", "xxxx");
+// Probar login
+login("juan", "1234");   // ✅ debería mostrar "bienvenido juan"
+login("juan", "xxxx");   // ❌ contraseña incorrecta
+login("Lucas", "912");   // ✅ debería mostrar "bienvenido Lucas"
+login("Lucas", "xxxx");  // ❌ contraseña incorrecta
+login("Yoni", "31");   // ✅ debería mostrar "bienvenido Yoni"
+login("Yoni", "xxxx");   // ❌ contraseña incorrecta
