@@ -1,3 +1,5 @@
+import fs from "fs";
+
 function leerUsuarios() {
   try {
     const data = fs.readFileSync("usuarios.json", "utf-8");
@@ -39,3 +41,7 @@ function login(username, password) {
 // --- DEMO ---
 // PRIMERA EJECUCIÓN: registra a juan
 signup("juan", "1234");
+
+// SEGUNDA EJECUCIÓN: prueba login
+login("juan", "1234");
+login("juan", "xxxx");
