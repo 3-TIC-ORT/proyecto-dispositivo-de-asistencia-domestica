@@ -22,20 +22,22 @@ h2 {
     width: 250px; 
 }
 .boton{
-    gap: 10px;      
-    margin: 8px 0;  
-    position: relative;
+    display: flex;
+    justify-content: center; 
+    align-items: center;    
+    height: 25vh;   
+    flex-direction: column;   
  }
 
- .Is{
+ .Is {
     font-size: 1rem;
-    display: flex;
-   flex-direction: column;
-   align-items: center;
-   background-color: peru;
-    width: 2rerm;  
-    border-radius: 8px; 
-    width: 16rem;             
-    height: 3rem;    
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+    background-color: peru;
+    border-radius: 8px;
+    width: 16rem;
+    height: 3rem;
     margin-top: 1rem;
- }
+}
