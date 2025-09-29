@@ -9,13 +9,11 @@ body{
 }
 
 .contenedor {
-  grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
   display: flex;
   justify-content: flex-start;
-  gap: 20px; 
-  border-radius: 15px;
-  flex: 1;
+  gap: 20px;
   flex-wrap: wrap;
+  flex: 1; 
 }
 
 .cajarecor {
@@ -30,6 +28,11 @@ body{
   min-width: 18rem;
   max-width: 22rem;
   min-height: 13rem;
+}
+
+.cajarecor h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 .cajalarga {
@@ -69,12 +72,12 @@ body{
   flex-direction: row; 
 }
 
- .Botoncitos{
-    gap: 10px;      
-    margin: 8px 0;  
-    position: relative;
-  }
-
+.Botoncitos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
 .caji {
     background-color: #333;  
     color: white;
