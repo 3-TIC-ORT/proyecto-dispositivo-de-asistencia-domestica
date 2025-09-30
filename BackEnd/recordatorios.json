@@ -1,0 +1,14 @@
+[
+  {
+    "titulo": "Cita médica",
+    "fecha": "2025-09-26",
+    "hora": "15:00",
+    "avisarAntesMinutos": 30
+  },
+  {
+    "titulo": "Cita médica",
+    "fecha": "2025-09-26",
+    "hora": "15:00",
+    "avisarAntesMinutos": 30
+  }
+]

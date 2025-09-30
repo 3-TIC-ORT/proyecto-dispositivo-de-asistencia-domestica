@@ -1,0 +1,10 @@
+[
+  {
+    "tarea": "Hacer la cama",
+    "realizada": true
+  },
+  {
+    "tarea": "Hacer la cama",
+    "realizada": false
+  }
+]
