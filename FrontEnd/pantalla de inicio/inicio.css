@@ -48,23 +48,24 @@ body{
   border-radius: 10px;
 }
 .sidebar {
-  width: 7rem; 
-  background-color: rgb(100, 100, 150);
+  width: 7rem;
+  background-color: rgb(233, 145, 64);
   padding: 20px;
-  margin-top: 20px;
-  border-radius: 10px;
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  gap: 10px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  justify-content: flex-start;
+  padding-top: 40px;
 }
 
-.circulos{
+.circulos {
   width: 3rem; 
   height: 3rem; 
   background-color: rgb(230, 105, 21); 
-  border-radius: 50%; 
+  border-radius: 50%;   
 }
+
 
 .layout {
   display: flex;

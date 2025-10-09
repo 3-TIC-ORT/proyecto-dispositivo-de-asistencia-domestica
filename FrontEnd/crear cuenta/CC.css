@@ -1,0 +1,43 @@
+body {
+    
+    font-family: Arial, sans-serif;
+} 
+
+h1{
+    text-align: center;
+        font-size: 2.5em;
+        color: #333;
+}
+h2 {
+    font-size: 1.2em;
+    color: #000000;     
+   
+    text-align: center;
+}
+
+#Logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto; 
+    width: 250px; 
+}
+.boton{
+    display: flex;
+    justify-content: center; 
+    align-items: center;    
+    height: 25vh;   
+    flex-direction: column;   
+ }
+
+ .Is {
+    font-size: 1rem;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+    background-color: peru;
+    border-radius: 8px;
+    width: 16rem;
+    height: 3rem;
+    margin-top: 1rem;
+}
