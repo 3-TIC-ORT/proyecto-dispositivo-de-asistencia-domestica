@@ -1,6 +1,6 @@
 import fs from "fs";
 
-// --- FUNCIONES GENERALES PARA JSON ---
+
 function leerArchivo(nombreArchivo) {
   try {
     const data = fs.readFileSync(nombreArchivo, "utf-8");
