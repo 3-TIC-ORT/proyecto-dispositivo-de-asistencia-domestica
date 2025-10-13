@@ -1,6 +1,7 @@
 import fs from "fs";
+import { subscribePOSTEvent, subscribeGETEvent, realTimeEvent, startServer } from "soquetic";
 
-
+// --- Funciones de archivo ---
 function leerArchivo(nombreArchivo) {
   try {
     const data = fs.readFileSync(nombreArchivo, "utf-8");
@@ -15,94 +16,101 @@ function guardarArchivo(nombreArchivo, datos) {
 }
 
 // --- USUARIOS ---
-function signup(username, password) {
+subscribePOSTEvent("signup", (data) => {
+  const { username, password } = data;
   let usuarios = leerArchivo("usuarios.json");
-  if (usuarios.find(u => u.username === username)) {
-    console.log("⚠️ El usuario ya existe");
-    return;
+
+  if (usuarios.find((u) => u.username === username)) {
+    return { ok: false, msg: "⚠️ El usuario ya existe" };
   }
+
   usuarios.push({ username, password });
   guardarArchivo("usuarios.json", usuarios);
-  console.log("Usuario registrado con éxito");
-}
+  return { ok: true, msg: "Usuario registrado con éxito" };
+});
 
-function login(username, password) {
+subscribePOSTEvent("login", (data) => {
+  const { username, password } = data;
   let usuarios = leerArchivo("usuarios.json");
-  const user = usuarios.find(u => u.username === username && u.password === password);
+  const user = usuarios.find((u) => u.username === username && u.password === password);
+
   if (user) {
-    console.log("Bienvenido " + username);
+    return { ok: true, msg: "Bienvenido " + username };
   } else {
-    console.log("Usuario o contraseña incorrectos");
+    return { ok: false, msg: "Usuario o contraseña incorrectos" };
   }
-}
+});
 
 // --- RECORDATORIOS ---
-function agregarRecordatorio(titulo, fecha, hora, avisarAntesMinutos = 0) {
+subscribePOSTEvent("agregarRecordatorio", (data) => {
+  const { titulo, fecha, hora, avisarAntesMinutos = 0 } = data;
   let recordatorios = leerArchivo("recordatorios.json");
+
   recordatorios.push({ titulo, fecha, hora, avisarAntesMinutos });
   guardarArchivo("recordatorios.json", recordatorios);
-  console.log("Recordatorio agregado: " + titulo);
-}
+
+  realTimeEvent("nuevoRecordatorio", { titulo, fecha, hora });
+  return { ok: true, msg: "Recordatorio agregado con éxito" };
+});
+
+subscribeGETEvent("listarRecordatorios", () => {
+  return leerArchivo("recordatorios.json");
+});
 
 // --- OBJETOS ---
-function agregarObjeto(objeto) {
+subscribePOSTEvent("agregarObjeto", (data) => {
+  const { objeto } = data;
   let objetos = leerArchivo("objetos.json");
   objetos.push({ objeto });
   guardarArchivo("objetos.json", objetos);
-  console.log("Objeto agregado: " + objeto);
-}
+  return { ok: true, msg: "Objeto agregado: " + objeto };
+});
 
-function eliminarObjeto(objeto) {
+subscribePOSTEvent("eliminarObjeto", (data) => {
+  const { objeto } = data;
   let objetos = leerArchivo("objetos.json");
-  objetos = objetos.filter(o => o.objeto !== objeto);
+  objetos = objetos.filter((o) => o.objeto !== objeto);
   guardarArchivo("objetos.json", objetos);
-  console.log("Objeto eliminado: " + objeto);
-}
+  return { ok: true, msg: "Objeto eliminado: " + objeto };
+});
+
+subscribeGETEvent("listarObjetos", () => {
+  return leerArchivo("objetos.json");
+});
 
 // --- TAREAS ---
-function agregarTarea(tarea) {
+subscribePOSTEvent("agregarTarea", (data) => {
+  const { tarea } = data;
   let tareas = leerArchivo("tareas.json");
   tareas.push({ tarea, realizada: false });
   guardarArchivo("tareas.json", tareas);
-  console.log("Tarea agregada: " + tarea);
-}
+  return { ok: true, msg: "Tarea agregada: " + tarea };
+});
 
-function marcarTareaRealizada(tarea) {
+subscribePOSTEvent("marcarTareaRealizada", (data) => {
+  const { tarea } = data;
   let tareas = leerArchivo("tareas.json");
-  let tareaObj = tareas.find(t => t.tarea === tarea);
+  let tareaObj = tareas.find((t) => t.tarea === tarea);
   if (tareaObj) {
     tareaObj.realizada = true;
     guardarArchivo("tareas.json", tareas);
-    console.log("Tarea realizada: " + tarea);
+    return { ok: true, msg: "Tarea realizada: " + tarea };
   } else {
-    console.log("Tarea no encontrada: " + tarea);
+    return { ok: false, msg: "Tarea no encontrada: " + tarea };
   }
-}
+});
 
-function eliminarTarea(tarea) {
+subscribePOSTEvent("eliminarTarea", (data) => {
+  const { tarea } = data;
   let tareas = leerArchivo("tareas.json");
-  tareas = tareas.filter(t => t.tarea !== tarea);
+  tareas = tareas.filter((t) => t.tarea !== tarea);
   guardarArchivo("tareas.json", tareas);
-  console.log("Tarea eliminada: " + tarea);
-}
+  return { ok: true, msg: "Tarea eliminada: " + tarea };
+});
 
-// --- DEMO ---
-signup("juan", "1234");
-signup("Lucas", "912");
-signup("Yoni", "31");
+subscribeGETEvent("listarTareas", () => {
+  return leerArchivo("tareas.json");
+});
 
-login("juan", "1234");
-login("Lucas", "912");
-login("Yoni", "31");
-
-agregarRecordatorio("Cita médica", "2025-09-26", "15:00", 30);
-agregarObjeto("Mochila");
-agregarObjeto("Llaves");
-agregarObjeto("Celular");
-agregarTarea("Hacer la cama");
-agregarTarea("Lavar los platos");
-agregarTarea("Poner la mesa");
-marcarTareaRealizada("Hacer la cama");
-eliminarObjeto("Llaves");
-eliminarTarea("Lavar los platos");
-eliminarTarea("Poner la mesa");
+// --- INICIAR SERVIDOR ---
+startServer(3000, true);
