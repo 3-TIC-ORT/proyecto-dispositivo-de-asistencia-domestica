@@ -1,12 +1,12 @@
 [
   {
-    "titulo": "Cita médica",
-    "fecha": "2025-09-26",
-    "hora": "15:00",
-    "avisarAntesMinutos": 30
+    "titulo": "Cita medica",
+    "fecha": "2025-12-9",
+    "hora": "12:00",
+    "avisarAntesMinutos": 60
   },
   {
-    "titulo": "Cita médica",
+    "titulo": "Cita medica",
     "fecha": "2025-09-26",
     "hora": "15:00",
     "avisarAntesMinutos": 30

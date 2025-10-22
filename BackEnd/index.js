@@ -1,7 +1,6 @@
 import fs from "fs";
 import { subscribePOSTEvent, subscribeGETEvent, realTimeEvent, startServer } from "soquetic";
 
-// --- Funciones de archivo ---
 function leerArchivo(nombreArchivo) {
   try {
     const data = fs.readFileSync(nombreArchivo, "utf-8");
@@ -14,8 +13,6 @@ function leerArchivo(nombreArchivo) {
 function guardarArchivo(nombreArchivo, datos) {
   fs.writeFileSync(nombreArchivo, JSON.stringify(datos, null, 2));
 }
-
-// --- USUARIOS ---
 subscribePOSTEvent("signup", (data) => {
   const { username, password } = data;
   let usuarios = leerArchivo("usuarios.json");
