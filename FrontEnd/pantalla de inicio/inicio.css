@@ -193,3 +193,14 @@ body {
 .circulo-mini:hover {
     text-decoration: underline;
 }
+
+
+.dato-recordatorio a {
+    color: black;
+    text-decoration: none;
+}
+
+.texto-recordatorio a{
+    color: black;
+    text-decoration: none;
+}
