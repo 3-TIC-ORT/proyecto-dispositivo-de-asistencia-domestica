@@ -48,73 +48,113 @@ function login (data) {
 
 // --- RECORDATORIOS ---
 subscribePOSTEvent("agregarRecordatorio", (data) => {
-  const { titulo, fecha, hora, avisarAntesMinutos = 0 } = data;
-  let recordatorios = leerArchivo("recordatorios.json");
+  let recordatorios = fs.readFileSync("recordatorios.json", "utf-8");
+  let recordatoriosjson = JSON.parse(recordatorios);
 
-  recordatorios.push({ titulo, fecha, hora, avisarAntesMinutos });
-  guardarArchivo("recordatorios.json", recordatorios);
+  recordatoriosjson.push({
+    titulo: data.titulo,
+    fecha: data.fecha,
+    hora: data.hora,
+    avisarAntes: data.avisarAntes
+  });
 
-  realTimeEvent("nuevoRecordatorio", { titulo, fecha, hora });
+  let recordatorioFinal = JSON.stringify(recordatoriosjson, null, 2);
+  fs.writeFileSync("recordatorios.json", recordatorioFinal);
+
+  realTimeEvent("nuevoRecordatorio", data);
+
   return { ok: true, msg: "Recordatorio agregado con éxito" };
 });
 
 subscribeGETEvent("listarRecordatorios", () => {
-  return leerArchivo("recordatorios.json");
+  let recordatorios = fs.readFileSync("recordatorios.json", "utf-8");
+  return JSON.parse(recordatorios);
 });
 
 // --- OBJETOS ---
 subscribePOSTEvent("agregarObjeto", (data) => {
-  const { objeto } = data;
-  let objetos = leerArchivo("objetos.json");
-  objetos.push({ objeto });
-  guardarArchivo("objetos.json", objetos);
-  return { ok: true, msg: "Objeto agregado: " + objeto };
+  let objetos = fs.readFileSync("objetos.json", "utf-8");
+  let objetosjson = JSON.parse(objetos);
+
+  objetosjson.push({ objeto: data.objeto });
+
+  let objetoFinal = JSON.stringify(objetosjson, null, 2);
+  fs.writeFileSync("objetos.json", objetoFinal);
+
+  return { ok: true, msg: "Objeto agregado"};
 });
 
 subscribePOSTEvent("eliminarObjeto", (data) => {
-  const { objeto } = data;
-  let objetos = leerArchivo("objetos.json");
-  objetos = objetos.filter((o) => o.objeto !== objeto);
-  guardarArchivo("objetos.json", objetos);
-  return { ok: true, msg: "Objeto eliminado: " + objeto };
+  let objetos = fs.readFileSync("objetos.json", "utf-8");
+  let objetosjson = JSON.parse(objetos);
+
+  let objetosFinales = [];
+  for (let i = 0; i < objetosjson.length; i++) {
+    if (objetosjson[i].objeto != data.objeto) {
+      objetosFinales.push(objetosjson[i]);
+    }
+  }
+
+  let objetoFinal = JSON.stringify(objetosFinales, null, 2);
+  fs.writeFileSync("objetos.json", objetoFinal);
+
+  return { ok: true, msg: "Objeto eliminado"};
 });
 
 subscribeGETEvent("listarObjetos", () => {
-  return leerArchivo("objetos.json");
+  let objetos = fs.readFileSync("objetos.json", "utf-8");
+  return JSON.parse(objetos);
 });
 
 // --- TAREAS ---
 subscribePOSTEvent("agregarTarea", (data) => {
-  const { tarea } = data;
-  let tareas = leerArchivo("tareas.json");
-  tareas.push({ tarea, realizada: false });
-  guardarArchivo("tareas.json", tareas);
-  return { ok: true, msg: "Tarea agregada: " + tarea };
+  let tareas = fs.readFileSync("tareas.json", "utf-8");
+  let tareasjson = JSON.parse(tareas);
+
+  tareasjson.push({ tarea: data.tarea, realizada: false });
+
+  let tareaFinal = JSON.stringify(tareasjson, null, 2);
+  fs.writeFileSync("tareas.json", tareaFinal);
+
+  return { ok: true, msg: "Tarea agregada"};
 });
 
 subscribePOSTEvent("marcarTareaRealizada", (data) => {
-  const { tarea } = data;
-  let tareas = leerArchivo("tareas.json");
-  let tareaObj = tareas.find((t) => t.tarea === tarea);
-  if (tareaObj) {
-    tareaObj.realizada = true;
-    guardarArchivo("tareas.json", tareas);
-    return { ok: true, msg: "Tarea realizada: " + tarea };
-  } else {
-    return { ok: false, msg: "Tarea no encontrada: " + tarea };
+  let tareas = fs.readFileSync("tareas.json", "utf-8");
+  let tareasjson = JSON.parse(tareas);
+
+  for (let i = 0; i < tareasjson.length; i++) {
+    if (tareasjson[i].tarea == data.tarea) {
+      tareasjson[i].realizada = true;
+    }
   }
+
+  let tareaFinal = JSON.stringify(tareasjson, null, 2);
+  fs.writeFileSync("tareas.json", tareaFinal);
+
+  return { ok: true, msg: "Tarea marcada como realizada"};
 });
 
 subscribePOSTEvent("eliminarTarea", (data) => {
-  const { tarea } = data;
-  let tareas = leerArchivo("tareas.json");
-  tareas = tareas.filter((t) => t.tarea !== tarea);
-  guardarArchivo("tareas.json", tareas);
-  return { ok: true, msg: "Tarea eliminada: " + tarea };
+  let tareas = fs.readFileSync("tareas.json", "utf-8");
+  let tareasjson = JSON.parse(tareas);
+
+  let tareasFinales = [];
+  for (let i = 0; i < tareasjson.length; i++) {
+    if (tareasjson[i].tarea != data.tarea) {
+      tareasFinales.push(tareasjson[i]);
+    }
+  }
+
+  let tareaFinal = JSON.stringify(tareasFinales, null, 2);
+  fs.writeFileSync("tareas.json", tareaFinal);
+
+  return { ok: true, msg: "Tarea eliminada" };
 });
 
 subscribeGETEvent("listarTareas", () => {
-  return leerArchivo("tareas.json");
+  let tareas = fs.readFileSync("tareas.json", "utf-8");
+  return JSON.parse(tareas);
 });
 
 // --- INICIAR SERVIDOR ---
