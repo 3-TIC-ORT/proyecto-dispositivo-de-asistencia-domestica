@@ -46,34 +46,6 @@ function login (data) {
 
 }
 
-function guardarArchivo(nombreArchivo, datos) {
-  fs.writeFileSync(nombreArchivo, JSON.stringify(datos, null, 2));
-}
-subscribePOSTEvent("signup", (data) => {
-  const { username, password } = data;
-  let usuarios = leerArchivo("usuarios.json");
-
-  if (usuarios.find((u) => u.username === username)) {
-    return { ok: false, msg: "⚠️ El usuario ya existe" };
-  }
-
-  usuarios.push({ username, password });
-  guardarArchivo("usuarios.json", usuarios);
-  return { ok: true, msg: "Usuario registrado con éxito" };
-});
-
-subscribePOSTEvent("login", (data) => {
-  const { username, password } = data;
-  let usuarios = leerArchivo("usuarios.json");
-  const user = usuarios.find((u) => u.username === username && u.password === password);
-
-  if (user) {
-    return { ok: true, msg: "Bienvenido " + username };
-  } else {
-    return { ok: false, msg: "Usuario o contraseña incorrectos" };
-  }
-});
-
 // --- RECORDATORIOS ---
 subscribePOSTEvent("agregarRecordatorio", (data) => {
   const { titulo, fecha, hora, avisarAntesMinutos = 0 } = data;
