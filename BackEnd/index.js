@@ -10,33 +10,41 @@ function leerArchivo(nombreArchivo) {
   }
 }
 
-function guardarArchivo(nombreArchivo, datos) {
-  fs.writeFileSync(nombreArchivo, JSON.stringify(datos, null, 2));
+function signup(data){
+
+    let usuarios = fs.readFileSync(nombreArchivo, "utf-8");
+
+    let usuariosjson = JSON.parse(usuarios);
+
+    usuariosjson.push({"username": data.nombre, "password": data.contraseña});
+
+    let usuariosFinal = JSON.stringify(datos, null, 2)
+
+    fs.writeFileSync(nombreArchivo, usuariosFinal);
+
+    return { ok: true, msg: "Usuario registrado con éxito" }
 }
-subscribePOSTEvent("signup", (data) => {
-  const { username, password } = data;
-  let usuarios = leerArchivo("usuarios.json");
 
-  if (usuarios.find((u) => u.username === username)) {
-    return { ok: false, msg: "⚠️ El usuario ya existe" };
+
+function login (data) {
+
+  let usuarios = fs.readFileSync("usuarios.json", "utf-8");
+
+  let usuariosjson = JSON.parse(usuarios);
+
+
+  for (let  i = 0; i < usuariosjson.length; i++){
+    if (usuariosjson[i].username == data.username){
+      return { ok: true, msg: "Iniciado con éxito" }
+    }
+    else {
+      return { ok: false, msg: "Verificar los datos" }
+
+    }
+
   }
 
-  usuarios.push({ username, password });
-  guardarArchivo("usuarios.json", usuarios);
-  return { ok: true, msg: "Usuario registrado con éxito" };
-});
-
-subscribePOSTEvent("login", (data) => {
-  const { username, password } = data;
-  let usuarios = leerArchivo("usuarios.json");
-  const user = usuarios.find((u) => u.username === username && u.password === password);
-
-  if (user) {
-    return { ok: true, msg: "Bienvenido " + username };
-  } else {
-    return { ok: false, msg: "Usuario o contraseña incorrectos" };
-  }
-});
+}
 
 // --- RECORDATORIOS ---
 subscribePOSTEvent("agregarRecordatorio", (data) => {
