@@ -55,7 +55,7 @@ subscribePOSTEvent("agregarRecordatorio", (data) => {
     titulo: data.titulo,
     fecha: data.fecha,
     hora: data.hora,
-    avisarAntes: data.avisarAntes
+    Avisar: data.Avisar
   });
 
   let recordatorioFinal = JSON.stringify(recordatoriosjson, null, 2);
