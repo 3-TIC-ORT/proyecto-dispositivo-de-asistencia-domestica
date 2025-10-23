@@ -10,6 +10,42 @@ function leerArchivo(nombreArchivo) {
   }
 }
 
+function signup(data){
+
+    let usuarios = fs.readFileSync(nombreArchivo, "utf-8");
+
+    let usuariosjson = JSON.parse(usuarios);
+
+    usuariosjson.push({"username": data.nombre, "password": data.contraseña});
+
+    let usuariosFinal = JSON.stringify(datos, null, 2)
+
+    fs.writeFileSync(nombreArchivo, usuariosFinal);
+
+    return { ok: true, msg: "Usuario registrado con éxito" }
+}
+
+
+function login (data) {
+
+  let usuarios = fs.readFileSync("usuarios.json", "utf-8");
+
+  let usuariosjson = JSON.parse(usuarios);
+
+
+  for (let  i = 0; i < usuariosjson.length; i++){
+    if (usuariosjson[i].username == data.username){
+      return { ok: true, msg: "Iniciado con éxito" }
+    }
+    else {
+      return { ok: false, msg: "Verificar los datos" }
+
+    }
+
+  }
+
+}
+
 function guardarArchivo(nombreArchivo, datos) {
   fs.writeFileSync(nombreArchivo, JSON.stringify(datos, null, 2));
 }
