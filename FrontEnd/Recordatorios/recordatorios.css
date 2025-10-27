@@ -61,8 +61,8 @@ body {
 
 .botonagregar {
   background-color: rgb(210, 210, 210);
-  width: 10rem;
-  height: 12rem;
+  width: 14rem;
+  height: 18rem;
   border-radius: 8px;
   font-size: 2rem;
   cursor: pointer;
@@ -78,17 +78,15 @@ body {
   background-color: rgb(190, 190, 190);
 }
 
-/* Estilos de la tarjeta */
 .tarjeta {
   background-color: #d4b5b0;
-  width: 22rem;
+  width: 14rem;
   border-radius: 12px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: fit-content;
+  height: 18rem;
 }
 
 .tarjeta-header {
@@ -98,7 +96,7 @@ body {
 }
 
 .mensaje-label {
-  font-size: 0.85rem;
+  font-size: .8rem;
   font-weight: bold;
   color: #333;
 }
@@ -115,40 +113,33 @@ body {
   border-radius: 8px;
 }
 
-.info-titulo {
-  font-size: 0.85rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
-}
-
 .info-detalles {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   margin-bottom: 12px;
 }
 
 .info-item {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   align-items: center;
 }
 
 .info-label {
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   font-weight: bold;
   color: #333;
 }
 
 .info-valor {
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   color: #000;
 }
 
 .avisar-antes {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   font-size: 0.8rem;
   font-weight: bold;
   color: #333;
@@ -168,11 +159,6 @@ body {
   font-size: 0.95rem;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.btn-tarjeta:hover {
-  transform: scale(1.02);
 }
 
 .btn-realizada {

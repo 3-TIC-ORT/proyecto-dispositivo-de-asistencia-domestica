@@ -90,7 +90,6 @@ function crearTarjeta(mensaje, fecha, horario, avisar) {
             <span class="mensaje-texto">${mensaje}</span>
         </div>
         <div class="tarjeta-info">
-            <div class="info-titulo">INFORMACIÓN ADICIONAL</div>
             <div class="info-detalles">
                 <div class="info-item">
                     <span class="info-label">FECHA:</span>
@@ -110,10 +109,10 @@ function crearTarjeta(mensaje, fecha, horario, avisar) {
         </div>
         <div class="tarjeta-botones">
             <button class="btn-tarjeta btn-realizada" onclick="marcarRealizada(this)">
-                Marcar como realizada ✓
+                Marcar como realizada 
             </button>
             <button class="btn-tarjeta btn-eliminar" onclick="eliminarTarea(this)">
-                Eliminar tarea 🗑️
+                Eliminar tarea 
             </button>
         </div>
     `;
