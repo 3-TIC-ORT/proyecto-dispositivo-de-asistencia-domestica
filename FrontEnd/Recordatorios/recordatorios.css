@@ -52,6 +52,13 @@ body {
   margin: 0;
 }
 
+/* Contenedor para botón + y tarjetas */
+.contenedor {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 .botonagregar {
   background-color: rgb(210, 210, 210);
   width: 10rem;
@@ -63,13 +70,123 @@ body {
   align-items: center;
   justify-content: center;
   color: #333;
+  border: 2px solid #333;
+  flex-shrink: 0;
 }
 
-.botonagregar:hover{
+.botonagregar:hover {
   background-color: rgb(190, 190, 190);
- }
- 
- .modal {
+}
+
+/* Estilos de la tarjeta */
+.tarjeta {
+  background-color: #d4b5b0;
+  width: 22rem;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  height: fit-content;
+}
+
+.tarjeta-header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mensaje-label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.mensaje-texto {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.tarjeta-info {
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.info-titulo {
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.info-detalles {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+
+.info-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.info-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.info-valor {
+  font-size: 0.8rem;
+  color: #000;
+}
+
+.avisar-antes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.tarjeta-botones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-tarjeta {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-tarjeta:hover {
+  transform: scale(1.02);
+}
+
+.btn-realizada {
+  background-color: #7bc96f;
+  color: white;
+}
+
+.btn-eliminar {
+  background-color: #ff5722;
+  color: white;
+}
+
+/* Modal */
+.modal {
   display: none;
   position: fixed;
   top: 0;
@@ -142,6 +259,7 @@ input {
   position: absolute;
   top: 2.5px;
   left: 25px;
+  transition: left 0.3s;
 }
 
 .botones {
@@ -167,4 +285,3 @@ input {
 .btn-cancelar {
   background-color: rgba(255, 255, 255, 0.7);
 }
- 
