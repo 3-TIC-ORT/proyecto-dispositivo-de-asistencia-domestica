@@ -1,4 +1,7 @@
 import fs from "fs";
+import { convertirTextoAVoz } from "./API.js";
+
+convertirTextoAVoz();
 
 function leerArchivo(nombreArchivo) {
   try {
