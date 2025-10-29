@@ -120,36 +120,15 @@ function crearTarjeta(mensaje, fecha, horario, avisar) {
     contenedor.appendChild(nuevaTarjeta);
 }
 
-// Función para marcar tarea como realizada
+// Función para marcar tarea como realizada (ahora elimina la tarjeta)
 function marcarRealizada(boton) {
     var tarjeta = boton.closest('.tarjeta');
-    tarjeta.style.opacity = '0.6';
-    
-    var mensajeTexto = tarjeta.querySelector('.mensaje-texto');
-    mensajeTexto.style.textDecoration = 'line-through';
-    
-    boton.disabled = true;
-    boton.style.cursor = 'not-allowed';
-    boton.style.opacity = '0.7';
-    boton.textContent = 'Realizada ✓';
+    tarjeta.remove();
 }
 
-// Función para eliminar tarea
+// Función para eliminar tarea (elimina inmediatamente)
 function eliminarTarea(boton) {
     var tarjeta = boton.closest('.tarjeta');
-    tarjeta.style.transition = 'all 0.3s ease';
-    tarjeta.style.transform = 'scale(0)';
-    tarjeta.style.opacity = '0';
+    tarjeta.remove();
+}
     
-    setTimeout(function() {
-        tarjeta.remove();
-    }, 300);
-}
-
-// Cerrar modal al hacer clic fuera
-window.onclick = function(event) {
-    var modal = document.getElementById('modal');
-    if (event.target === modal) {
-        cerrarModal();
-    }
-}
