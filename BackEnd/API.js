@@ -3,7 +3,7 @@ import { playAudio } from "openai/helpers/audio";
 
 const openai = new OpenAI();
 
-async function convertirTextoAVoz() {
+export async function convertirTextoAVoz() {
   try {
     const response = await openai.audio.speech.create({
       model: "gpt-4o-mini-tts",    // Asegúrate de que este modelo soporte español
