@@ -1,5 +1,4 @@
 import fs from "fs";
-import { subscribePOSTEvent, subscribeGETEvent, realTimeEvent, startServer } from "soquetic";
 
 function leerArchivo(nombreArchivo) {
   try {
@@ -11,27 +10,21 @@ function leerArchivo(nombreArchivo) {
 }
 
 function signup(data){
-
-    let usuarios = fs.readFileSync(nombreArchivo, "utf-8");
-
-    let usuariosjson = JSON.parse(usuarios);
-
-    usuariosjson.push({"username": data.nombre, "password": data.contraseña});
-
-    let usuariosFinal = JSON.stringify(datos, null, 2)
-
-    fs.writeFileSync(nombreArchivo, usuariosFinal);
-
-    return { ok: true, msg: "Usuario registrado con éxito" }
-}
-
-
-function login (data) {
-
   let usuarios = fs.readFileSync("usuarios.json", "utf-8");
-
   let usuariosjson = JSON.parse(usuarios);
 
+  usuariosjson.push({"username": data.nombre, "password": data.contraseña});
+
+  let usuariosFinal = JSON.stringify(usuariosjson, null, 2);
+
+  fs.writeFileSync("usuarios.json", usuariosFinal);
+
+  return { ok: true, msg: "Usuario registrado con éxito" }
+}
+
+function login (data) {
+  let usuarios = fs.readFileSync("usuarios.json", "utf-8");
+  let usuariosjson = JSON.parse(usuarios);
 
   for (let  i = 0; i < usuariosjson.length; i++){
     if (usuariosjson[i].username == data.username){
@@ -39,15 +32,12 @@ function login (data) {
     }
     else {
       return { ok: false, msg: "Verificar los datos" }
-
     }
-
   }
-
 }
 
-// --- RECORDATORIOS ---
-subscribePOSTEvent("agregarRecordatorio", (data) => {
+
+function agregarRecordatorio(data) {
   let recordatorios = fs.readFileSync("recordatorios.json", "utf-8");
   let recordatoriosjson = JSON.parse(recordatorios);
 
@@ -61,18 +51,17 @@ subscribePOSTEvent("agregarRecordatorio", (data) => {
   let recordatorioFinal = JSON.stringify(recordatoriosjson, null, 2);
   fs.writeFileSync("recordatorios.json", recordatorioFinal);
 
-  realTimeEvent("nuevoRecordatorio", data);
-
   return { ok: true, msg: "Recordatorio agregado con éxito" };
-});
+}
 
-subscribeGETEvent("listarRecordatorios", () => {
+
+function listarRecordatorios() {
   let recordatorios = fs.readFileSync("recordatorios.json", "utf-8");
   return JSON.parse(recordatorios);
-});
+}
 
-// --- OBJETOS ---
-subscribePOSTEvent("agregarObjeto", (data) => {
+
+function agregarObjeto(data) {
   let objetos = fs.readFileSync("objetos.json", "utf-8");
   let objetosjson = JSON.parse(objetos);
 
@@ -82,9 +71,9 @@ subscribePOSTEvent("agregarObjeto", (data) => {
   fs.writeFileSync("objetos.json", objetoFinal);
 
   return { ok: true, msg: "Objeto agregado"};
-});
+}
 
-subscribePOSTEvent("eliminarObjeto", (data) => {
+function eliminarObjeto(data) {
   let objetos = fs.readFileSync("objetos.json", "utf-8");
   let objetosjson = JSON.parse(objetos);
 
@@ -99,15 +88,15 @@ subscribePOSTEvent("eliminarObjeto", (data) => {
   fs.writeFileSync("objetos.json", objetoFinal);
 
   return { ok: true, msg: "Objeto eliminado"};
-});
+}
 
-subscribeGETEvent("listarObjetos", () => {
+function listarObjetos() {
   let objetos = fs.readFileSync("objetos.json", "utf-8");
   return JSON.parse(objetos);
-});
+}
 
-// --- TAREAS ---
-subscribePOSTEvent("agregarTarea", (data) => {
+
+function agregarTarea(data) {
   let tareas = fs.readFileSync("tareas.json", "utf-8");
   let tareasjson = JSON.parse(tareas);
 
@@ -117,9 +106,9 @@ subscribePOSTEvent("agregarTarea", (data) => {
   fs.writeFileSync("tareas.json", tareaFinal);
 
   return { ok: true, msg: "Tarea agregada"};
-});
+}
 
-subscribePOSTEvent("marcarTareaRealizada", (data) => {
+function marcarTareaRealizada(data) {
   let tareas = fs.readFileSync("tareas.json", "utf-8");
   let tareasjson = JSON.parse(tareas);
 
@@ -133,9 +122,9 @@ subscribePOSTEvent("marcarTareaRealizada", (data) => {
   fs.writeFileSync("tareas.json", tareaFinal);
 
   return { ok: true, msg: "Tarea marcada como realizada"};
-});
+}
 
-subscribePOSTEvent("eliminarTarea", (data) => {
+function eliminarTarea(data) {
   let tareas = fs.readFileSync("tareas.json", "utf-8");
   let tareasjson = JSON.parse(tareas);
 
@@ -150,12 +139,9 @@ subscribePOSTEvent("eliminarTarea", (data) => {
   fs.writeFileSync("tareas.json", tareaFinal);
 
   return { ok: true, msg: "Tarea eliminada" };
-});
+}
 
-subscribeGETEvent("listarTareas", () => {
+function listarTareas() {
   let tareas = fs.readFileSync("tareas.json", "utf-8");
   return JSON.parse(tareas);
-});
-
-// --- INICIAR SERVIDOR ---
-startServer(3000, true);
+}
