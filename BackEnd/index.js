@@ -9,15 +9,6 @@ import {
 
 convertirTextoAVoz();
 
-function leerArchivo(nombreArchivo) {
-  try {
-    const data = fs.readFileSync(nombreArchivo, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return [];
-  }
-}
-
 subscribePOSTEvent("signup", (data) => {
   let usuarios = leerArchivo("usuarios.json");
 
