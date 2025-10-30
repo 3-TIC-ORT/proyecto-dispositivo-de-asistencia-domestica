@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Casa.css">
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+          <div class="icono"></div>
+          <div class="icono"></div>
+          <div class="icono"></div>
+        </div>
+    
+        <div class="contenido">
+          <div class="header">
+            <h1>Recordatorios diarios</h1>
+          </div>
+    
+          <div class="contenedor">
+            <button class="botonagregar" onclick="abrirModal()">+</button>
+          </div>
+        </div>
+      </div>
+    
+      <div class="modal" id="modal">
+        <div class="modal-contenido">
+          <h2>Nuevo Recordatorio</h2>
+          
+          <label>Mensaje:</label>
+          <textarea placeholder="Escribe tu recordatorio..."></textarea>
+          
+          <label>Fecha y Hora:</label>
+          <div class="fecha-hora">
+            <div>
+              <input type="date">
+            </div>
+            <div>
+              <input type="time">
+            </div>
+          </div>
+          
+          <label>Frecuencia:</label>
+          <input type="text" placeholder="Ej: Todos los días">
+          
+          <div class="avisar">
+            <span>Avisar antes:</span>
+            <div class="toggle" onclick="toggleSwitch(this)">
+              <div class="toggle-circulo"></div>
+            </div>
+          </div>
+          
+          <div class="botones">
+            <button class="btn btn-agregar">Agregar recordatorio</button>
+            <button class="btn btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
