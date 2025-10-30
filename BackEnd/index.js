@@ -1,5 +1,11 @@
 import fs from "fs";
 import { convertirTextoAVoz } from "./API.js";
+import {
+  subscribePOSTEvent,
+  subscribeGETEvent,
+  realTimeEvent,
+  startServer,
+} from "soquetic";
 
 convertirTextoAVoz();
 
@@ -12,139 +18,117 @@ function leerArchivo(nombreArchivo) {
   }
 }
 
-function signup(data){
-  let usuarios = fs.readFileSync("usuarios.json", "utf-8");
-  let usuariosjson = JSON.parse(usuarios);
+subscribePOSTEvent("signup", (data) => {
+  let usuarios = leerArchivo("usuarios.json");
 
-  usuariosjson.push({"username": data.nombre, "password": data.contraseña});
+  usuarios.push({ username: data.nombre, password: data.contraseña });
 
-  let usuariosFinal = JSON.stringify(usuariosjson, null, 2);
+  fs.writeFileSync("usuarios.json", JSON.stringify(usuarios, null, 2));
 
-  fs.writeFileSync("usuarios.json", usuariosFinal);
+  return { ok: true, msg: "Usuario registrado con éxito" };
+});
 
-  return { ok: true, msg: "Usuario registrado con éxito" }
-}
+subscribePOSTEvent("login", (data) => {
+  let usuarios = leerArchivo("usuarios.json");
 
-function login (data) {
-  let usuarios = fs.readFileSync("usuarios.json", "utf-8");
-  let usuariosjson = JSON.parse(usuarios);
+  const user = usuarios.find(
+    (u) => u.username === data.username && u.password === data.password
+  );
 
-  for (let  i = 0; i < usuariosjson.length; i++){
-    if (usuariosjson[i].username == data.username){
-      return { ok: true, msg: "Iniciado con éxito" }
-    }
-    else {
-      return { ok: false, msg: "Verificar los datos" }
-    }
+  if (user) {
+    return { ok: true, msg: "Inicio de sesión exitoso" };
+  } else {
+    return { ok: false, msg: "Verificar los datos" };
   }
-}
+});
 
 
-function agregarRecordatorio(data) {
-  let recordatorios = fs.readFileSync("recordatorios.json", "utf-8");
-  let recordatoriosjson = JSON.parse(recordatorios);
+subscribePOSTEvent("agregarRecordatorio", (data) => {
+  let recordatorios = leerArchivo("recordatorios.json");
 
-  recordatoriosjson.push({
+  recordatorios.push({
     titulo: data.titulo,
     fecha: data.fecha,
     hora: data.hora,
-    Avisar: data.Avisar
+    Avisar: data.Avisar,
   });
 
-  let recordatorioFinal = JSON.stringify(recordatoriosjson, null, 2);
-  fs.writeFileSync("recordatorios.json", recordatorioFinal);
+  fs.writeFileSync(
+    "recordatorios.json",
+    JSON.stringify(recordatorios, null, 2)
+  );
+
+  realTimeEvent("nuevoRecordatorio", data);
 
   return { ok: true, msg: "Recordatorio agregado con éxito" };
-}
+});
+
+subscribeGETEvent("listarRecordatorios", () => {
+  return leerArchivo("recordatorios.json");
+});
 
 
-function listarRecordatorios() {
-  let recordatorios = fs.readFileSync("recordatorios.json", "utf-8");
-  return JSON.parse(recordatorios);
-}
+subscribePOSTEvent("agregarObjeto", (data) => {
+  let objetos = leerArchivo("objetos.json");
+
+  objetos.push({ objeto: data.objeto });
+
+  fs.writeFileSync("objetos.json", JSON.stringify(objetos, null, 2));
+
+  return { ok: true, msg: "Objeto agregado" };
+});
+
+subscribePOSTEvent("eliminarObjeto", (data) => {
+  let objetos = leerArchivo("objetos.json");
+
+  objetos = objetos.filter((o) => o.objeto !== data.objeto);
+
+  fs.writeFileSync("objetos.json", JSON.stringify(objetos, null, 2));
+
+  return { ok: true, msg: "Objeto eliminado" };
+});
+
+subscribeGETEvent("listarObjetos", () => {
+  return leerArchivo("objetos.json");
+});
 
 
-function agregarObjeto(data) {
-  let objetos = fs.readFileSync("objetos.json", "utf-8");
-  let objetosjson = JSON.parse(objetos);
+subscribePOSTEvent("agregarTarea", (data) => {
+  let tareas = leerArchivo("tareas.json");
 
-  objetosjson.push({ objeto: data.objeto });
+  tareas.push({ tarea: data.tarea, realizada: false });
 
-  let objetoFinal = JSON.stringify(objetosjson, null, 2);
-  fs.writeFileSync("objetos.json", objetoFinal);
+  fs.writeFileSync("tareas.json", JSON.stringify(tareas, null, 2));
 
-  return { ok: true, msg: "Objeto agregado"};
-}
+  return { ok: true, msg: "Tarea agregada" };
+});
 
-function eliminarObjeto(data) {
-  let objetos = fs.readFileSync("objetos.json", "utf-8");
-  let objetosjson = JSON.parse(objetos);
+subscribePOSTEvent("marcarTareaRealizada", (data) => {
+  let tareas = leerArchivo("tareas.json");
 
-  let objetosFinales = [];
-  for (let i = 0; i < objetosjson.length; i++) {
-    if (objetosjson[i].objeto != data.objeto) {
-      objetosFinales.push(objetosjson[i]);
+  for (let i = 0; i < tareas.length; i++) {
+    if (tareas[i].tarea === data.tarea) {
+      tareas[i].realizada = true;
     }
   }
 
-  let objetoFinal = JSON.stringify(objetosFinales, null, 2);
-  fs.writeFileSync("objetos.json", objetoFinal);
+  fs.writeFileSync("tareas.json", JSON.stringify(tareas, null, 2));
 
-  return { ok: true, msg: "Objeto eliminado"};
-}
+  return { ok: true, msg: "Tarea marcada como realizada" };
+});
 
-function listarObjetos() {
-  let objetos = fs.readFileSync("objetos.json", "utf-8");
-  return JSON.parse(objetos);
-}
+subscribePOSTEvent("eliminarTarea", (data) => {
+  let tareas = leerArchivo("tareas.json");
 
+  tareas = tareas.filter((t) => t.tarea !== data.tarea);
 
-function agregarTarea(data) {
-  let tareas = fs.readFileSync("tareas.json", "utf-8");
-  let tareasjson = JSON.parse(tareas);
-
-  tareasjson.push({ tarea: data.tarea, realizada: false });
-
-  let tareaFinal = JSON.stringify(tareasjson, null, 2);
-  fs.writeFileSync("tareas.json", tareaFinal);
-
-  return { ok: true, msg: "Tarea agregada"};
-}
-
-function marcarTareaRealizada(data) {
-  let tareas = fs.readFileSync("tareas.json", "utf-8");
-  let tareasjson = JSON.parse(tareas);
-
-  for (let i = 0; i < tareasjson.length; i++) {
-    if (tareasjson[i].tarea == data.tarea) {
-      tareasjson[i].realizada = true;
-    }
-  }
-
-  let tareaFinal = JSON.stringify(tareasjson, null, 2);
-  fs.writeFileSync("tareas.json", tareaFinal);
-
-  return { ok: true, msg: "Tarea marcada como realizada"};
-}
-
-function eliminarTarea(data) {
-  let tareas = fs.readFileSync("tareas.json", "utf-8");
-  let tareasjson = JSON.parse(tareas);
-
-  let tareasFinales = [];
-  for (let i = 0; i < tareasjson.length; i++) {
-    if (tareasjson[i].tarea != data.tarea) {
-      tareasFinales.push(tareasjson[i]);
-    }
-  }
-
-  let tareaFinal = JSON.stringify(tareasFinales, null, 2);
-  fs.writeFileSync("tareas.json", tareaFinal);
+  fs.writeFileSync("tareas.json", JSON.stringify(tareas, null, 2));
 
   return { ok: true, msg: "Tarea eliminada" };
-}
+});
 
-function listarTareas() {
-  let tareas = fs.readFileSync("tareas.json", "utf-8");
-  return JSON.parse(tareas);
-}
+subscribeGETEvent("listarTareas", () => {
+  return leerArchivo("tareas.json");
+});
+
+startServer(3000, true);
