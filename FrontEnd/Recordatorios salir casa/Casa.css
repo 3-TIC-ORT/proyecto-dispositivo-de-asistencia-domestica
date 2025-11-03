@@ -1,348 +1,149 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  body {
-    background-color: #ff8566;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-  }
+body {
+  background-color: #ff8566; /* Color de fondo similar al de Diarios.css */
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
 
-  .layout {
-    display: flex;
-    height: 100vh;
-    flex-direction: row;
-  }
+.layout {
+  display: flex;
+  height: 100vh;
+  flex-direction: row;
+}
 
-  .sidebar {
-    width: 5rem;
-    background-color: #f76222;
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
+.sidebar {
+  width: 5rem; /* Ancho similar al de Diarios.css */
+  background-color: #333; /* Color oscuro para el sidebar */
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
 
-  .icono {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-color: white;
-    border-radius: 50%;
-    cursor: pointer;
-  }
+.sidebar-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: white; /* Iconos blancos */
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; /* Para centrar contenido si le agregamos algo */
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #333;
+}
 
-  .contenido {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
-    overflow-y: auto;
-  }
+/* Estilo específico para el icono de engranaje */
+.sidebar-icon.gear {
+  background-color: transparent; /* Icono de engranaje con fondo transparente */
+  color: white; /* Color blanco */
+  font-size: 2.5rem; /* Tamaño más grande para el engranaje */
+}
 
-  .header {
-    margin-bottom: 2rem;
-  }
+/* Estilo para el icono de flecha hacia atrás */
+.sidebar-icon.back {
+  background-color: transparent;
+  color: white;
+  font-size: 2.5rem;
+}
 
-  .header h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #000000;
-    margin: 0;
-  }
+/* Icono de sol/estrella en la parte inferior */
+.sidebar-bottom-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: transparent;
+  color: #ff8566; /* Color naranja de tu tema */
+  font-size: 2.5rem;
+  margin-top: auto; /* Empuja el icono hacia abajo */
+}
 
-  .contenedor {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
+.contenido {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  overflow-y: auto;
+  background: linear-gradient(135deg, rgba(255, 121, 64, 0.6), rgba(255, 140, 90, 0.8)); /* Degradado similar al de la imagen */
+}
 
-  .botonagregar {
-    background-color: rgba(255, 121, 64, 0.6);
-    width: 14rem;
-    height: 18rem;
-    border-radius: 1rem;
-    font-size: 4rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    border: 0.15rem solid black;
-  }
+.header {
+  margin-bottom: 2rem;
+}
 
-  .botonagregar:hover {
-    background-color: rgba(255, 140, 90, 0.8);
-  }
+.header h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #000000;
+  margin: 0;
+}
 
-  .tarjeta {
-    background-color: #ffffff;
-    width: 14rem;
-    border-radius: 1rem;
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    height: 18rem;
-    position: relative;
-  }
+.contenedor-objetos {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
 
-  .tarjeta-header {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
+.botonagregar-objeto {
+  background-color: rgba(255, 255, 255, 0.3); /* Fondo semitransparente blanco */
+  width: 14rem;
+  height: 6rem; /* Altura más baja que las tarjetas de recordatorios */
+  border-radius: 1rem;
+  font-size: 4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black; /* Color del signo + */
+  border: 0.15rem solid rgba(0, 0, 0, 0.2); /* Borde sutil */
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
 
-  .mensaje-label {
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #2d2d2d;
-  }
+.botonagregar-objeto:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
 
-  .mensaje-texto {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #1a1a1a;
-    line-height: 1.2;
-  }
+.tarjeta-objeto {
+  background-color: rgba(255, 255, 255, 0.3); /* Fondo semitransparente blanco */
+  width: 14rem;
+  height: 6rem; /* Misma altura que el botón de agregar */
+  border-radius: 1rem;
+  padding: 0.8rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Espacio entre el texto y el botón */
+  align-items: flex-start; /* Alinear texto a la izquierda */
+  border: 0.15rem solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: black;
+  font-weight: bold;
+  font-size: 1.5rem; /* Tamaño del texto del objeto */
+  text-transform: uppercase; /* Mayúsculas como en la imagen */
+}
 
-  .tarjeta-info {
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 0.8rem;
-    border-radius: 0.5rem;
-  }
+.tarjeta-objeto .nombre-objeto {
+  margin-bottom: 0.5rem; /* Espacio entre el nombre y el botón de eliminar */
+}
 
-  .info-titulo {
-    font-size: 0.7rem;
-    font-weight: bold;
-    color: #2d2d2d;
-    margin-bottom: 0.5rem;
-  }
+.tarjeta-objeto .btn-eliminar-objeto {
+  background-color: #ff5722; /* Rojo similar a tu tema */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
 
-  .info-detalles {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    margin-bottom: 0.6rem;
-  }
-
-  .info-item {
-    display: flex;
-    gap: 0.3rem;
-  }
-
-  .info-label {
-    font-size: 0.65rem;
-    font-weight: bold;
-    color: #2d2d2d;
-  }
-
-  .info-valor {
-    font-size: 0.65rem;
-    color: #1a1a1a;
-  }
-
-  .avisar-antes {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.65rem;
-    color: #2d2d2d;
-  }
-
-  .switch {
-    width: 2rem;
-    height: 1rem;
-    background-color: #ff5722;
-    border-radius: 0.5rem;
-    position: relative;
-    cursor: pointer;
-  }
-
-  .switch-circulo {
-    width: 0.8rem;
-    height: 0.8rem;
-    background-color: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 0.1rem;
-    right: 0.1rem;
-    transition: right 0.3s;
-  }
-
-  .switch.activo {
-    background-color: #4caf50;
-  }
-
-  .switch.activo .switch-circulo {
-    right: 1.1rem;
-  }
-
-  .tarjeta-botones {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: auto;
-  }
-
-  .btn-tarjeta {
-    width: 100%;
-    padding: 0.7rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: opacity 0.3s;
-  }
-
-  .btn-tarjeta:hover {
-    opacity: 0.9;
-  }
-
-  .btn-realizada {
-    background-color: #66bb6a;
-    color: white;
-  }
-
-  .btn-eliminar {
-    background-color: #ff5722;
-    color: white;
-  }
-
-  .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-  }
-
-  .modal.activo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .modal-contenido {
-    background-color: #ff9d7a;
-    width: 25rem;
-    padding: 2rem;
-    border-radius: 1rem;
-  }
-
-  .modal h2 {
-    margin-bottom: 1.5rem;
-    color: #2d2d2d;
-    font-size: 1.5rem;
-  }
-
-  label {
-    display: block;
-    margin-top: 1rem;
-    margin-bottom: 0.4rem;
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: #2d2d2d;
-  }
-
-  textarea {
-    width: 100%;
-    padding: 0.7rem;
-    border-radius: 0.5rem;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.5);
-    font-family: Arial, sans-serif;
-    resize: vertical;
-    min-height: 4rem;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.7rem;
-    border-radius: 0.5rem;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.5);
-  }
-
-  .fecha-hora {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .fecha-hora > div {
-    flex: 1;
-  }
-
-  .avisar {
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .toggle {
-    width: 3rem;
-    height: 1.5rem;
-    background-color: #ff5722;
-    border-radius: 1rem;
-    cursor: pointer;
-    position: relative;
-    transition: background-color 0.3s;
-  }
-
-  .toggle.activo {
-    background-color: #66bb6a;
-  }
-
-  .toggle-circulo {
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 0.15rem;
-    left: 0.15rem;
-    transition: left 0.3s;
-  }
-
-  .toggle.activo .toggle-circulo {
-    left: 1.65rem;
-  }
-
-  .botones {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  .btn {
-    width: 100%;
-    padding: 0.9rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: opacity 0.3s;
-  }
-
-  .btn:hover {
-    opacity: 0.9;
-  }
-
-  .btn-agregar {
-    background-color: #ff5722;
-    color: white;
-  }
-
-  .btn-cancelar {
-    background-color: rgba(255, 255, 255, 0.7);
-    color: #2d2d2d;
-  }
+.tarjeta-objeto .btn-eliminar-objeto:hover {
+  opacity: 0.9;
+}

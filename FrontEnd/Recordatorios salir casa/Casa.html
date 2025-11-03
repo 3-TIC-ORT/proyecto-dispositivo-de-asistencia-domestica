@@ -1,63 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Objetos para salir de casa</title>
     <link rel="stylesheet" href="Casa.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="layout">
         <div class="sidebar">
-          <div class="icono"></div>
-          <div class="icono"></div>
-          <div class="icono"></div>
+            <div class="sidebar-icon back"><i class="fas fa-chevron-left"></i></div>
+            <div class="sidebar-icon gear"><i class="fas fa-cog"></i></div>
+            <div class="sidebar-bottom-icon"><i class="fas fa-asterisk"></i></div>
         </div>
-    
+
         <div class="contenido">
-          <div class="header">
-            <h1>Recordatorios diarios</h1>
-          </div>
-    
-          <div class="contenedor">
-            <button class="botonagregar" onclick="abrirModal()">+</button>
-          </div>
+            <div class="header">
+                <h1>Objetos para salir de casa</h1>
+            </div>
+
+            <div class="contenedor-objetos" id="contenedorObjetos">
+                <button class="botonagregar-objeto" onclick="abrirModalObjeto()">+</button>
+
+                <div class="tarjeta-objeto">
+                    <span class="nombre-objeto">ANTFOJOS</span>
+                    <button class="btn-eliminar-objeto" onclick="eliminarObjeto(this)">
+                        <i class="fas fa-trash-alt"></i> Eliminar objeto
+                    </button>
+                </div>
+                <div class="tarjeta-objeto">
+                    <span class="nombre-objeto">LLAVES</span>
+                    <button class="btn-eliminar-objeto" onclick="eliminarObjeto(this)">
+                        <i class="fas fa-trash-alt"></i> Eliminar objeto
+                    </button>
+                </div>
+                <div class="tarjeta-objeto">
+                    <span class="nombre-objeto">BILLETERA</span>
+                    <button class="btn-eliminar-objeto" onclick="eliminarObjeto(this)">
+                        <i class="fas fa-trash-alt"></i> Eliminar objeto
+                    </button>
+                </div>
+                <div class="tarjeta-objeto">
+                    <span class="nombre-objeto">CELULAR</span>
+                    <button class="btn-eliminar-objeto" onclick="eliminarObjeto(this)">
+                        <i class="fas fa-trash-alt"></i> Eliminar objeto
+                    </button>
+                </div>
+                <div class="tarjeta-objeto">
+                    <span class="nombre-objeto">RELOJ</span>
+                    <button class="btn-eliminar-objeto" onclick="eliminarObjeto(this)">
+                        <i class="fas fa-trash-alt"></i> Eliminar objeto
+                    </button>
+                </div>
+                <div class="tarjeta-objeto">
+                    <span class="nombre-objeto">DOCUMENTOS</span>
+                    <button class="btn-eliminar-objeto" onclick="eliminarObjeto(this)">
+                        <i class="fas fa-trash-alt"></i> Eliminar objeto
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-    
-      <div class="modal" id="modal">
+    </div>
+
+    <div class="modal" id="modalObjeto" style="display: none;">
         <div class="modal-contenido">
-          <h2>Nuevo Recordatorio</h2>
-          
-          <label>Mensaje:</label>
-          <textarea placeholder="Escribe tu recordatorio..."></textarea>
-          
-          <label>Fecha y Hora:</label>
-          <div class="fecha-hora">
-            <div>
-              <input type="date">
+            <h2>Agregar nuevo objeto</h2>
+            <label for="nombreObjeto">Nombre del objeto:</label>
+            <input type="text" id="nombreObjeto" placeholder="Ej: Paraguas">
+            <div class="botones">
+                <button class="btn btn-agregar" onclick="agregarObjeto()">AGREGAR</button>
+                <button class="btn btn-cancelar" onclick="cerrarModalObjeto()">CANCELAR</button>
             </div>
-            <div>
-              <input type="time">
-            </div>
-          </div>
-          
-          <label>Frecuencia:</label>
-          <input type="text" placeholder="Ej: Todos los días">
-          
-          <div class="avisar">
-            <span>Avisar antes:</span>
-            <div class="toggle" onclick="toggleSwitch(this)">
-              <div class="toggle-circulo"></div>
-            </div>
-          </div>
-          
-          <div class="botones">
-            <button class="btn btn-agregar">Agregar recordatorio</button>
-            <button class="btn btn-cancelar" onclick="cerrarModal()">Cancelar</button>
-          </div>
         </div>
-      </div>
+    </div>
+
+    <script src="objetos.js"></script>
 </body>
-<script src="Diarios.js"></script>
 </html>
