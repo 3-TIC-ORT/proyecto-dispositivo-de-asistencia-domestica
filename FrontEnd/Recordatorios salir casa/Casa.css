@@ -194,3 +194,36 @@ body {
   padding: 0.7rem;
   border;
 }
+
+/* --- Botones del modal --- */
+.botones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+/* Estilo base para todos los botones del modal */
+.btn {
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Botón "Agregar" */
+.btn-agregar {
+  background-color: #333; /* gris oscuro del sidebar */
+  color: white;
+  margin-right: 1rem;
+}
+
+/* Botón "Cancelar" */
+.btn-cancelar {
+  background-color: white;
+  color: #333;
+  border: 2px solid #333;
+}

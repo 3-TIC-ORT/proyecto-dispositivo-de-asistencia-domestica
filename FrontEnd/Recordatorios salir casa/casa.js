@@ -90,6 +90,9 @@ function eliminarObjeto(boton) {
     }
 }
 
+// --- 4. Event Listener para cerrar el modal ---
+// (Cierra el modal si el usuario hace clic en el fondo oscuro)
+
 if (modal) {
     modal.addEventListener('click', function(e) {
         // Si el clic fue sobre el fondo (el modal) y no sobre el contenido
