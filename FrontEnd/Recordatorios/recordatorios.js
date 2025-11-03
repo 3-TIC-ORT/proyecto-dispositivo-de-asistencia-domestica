@@ -1,18 +1,18 @@
-// Variable para el estado del toggle
+
 var toggleActivo = true;
 
-// Función para abrir el modal
+
 function abrirModal() {
     document.getElementById('modal').style.display = 'flex';
 }
 
-// Función para cerrar el modal
+
 function cerrarModal() {
     document.getElementById('modal').style.display = 'none';
     document.getElementById('mensaje').value = '';
     document.getElementById('fecha').value = '';
     document.getElementById('horario').value = '';
-    // Resetear toggle
+    
     toggleActivo = true;
     var circulo = document.getElementById('circulo');
     var toggle = document.getElementById('toggle');
@@ -20,7 +20,7 @@ function cerrarModal() {
     toggle.style.backgroundColor = '#ff5722';
 }
 
-// Función para cambiar el toggle
+
 function cambiarToggle() {
     var circulo = document.getElementById('circulo');
     var toggle = document.getElementById('toggle');
@@ -59,14 +59,14 @@ function formatearFecha(fechaInput) {
     }
 }
 
-// Función para agregar recordatorio
+
 function agregarRecordatorio() {
     var mensaje = document.getElementById('mensaje').value;
     var fecha = document.getElementById('fecha').value;
     var horario = document.getElementById('horario').value;
 
     if (mensaje != '' && fecha != '' && horario != '') {
-        // Crear nueva tarjeta
+        
         crearTarjeta(mensaje, fecha, horario, toggleActivo);
         cerrarModal();
     } else {
@@ -74,7 +74,7 @@ function agregarRecordatorio() {
     }
 }
 
-// Función para crear una nueva tarjeta
+
 function crearTarjeta(mensaje, fecha, horario, avisar) {
     var contenedor = document.querySelector('.contenedor');
     var nuevaTarjeta = document.createElement('div');
@@ -120,13 +120,13 @@ function crearTarjeta(mensaje, fecha, horario, avisar) {
     contenedor.appendChild(nuevaTarjeta);
 }
 
-// Función para marcar tarea como realizada (ahora elimina la tarjeta)
+
 function marcarRealizada(boton) {
     var tarjeta = boton.closest('.tarjeta');
     tarjeta.remove();
 }
 
-// Función para eliminar tarea (elimina inmediatamente)
+
 function eliminarTarea(boton) {
     var tarjeta = boton.closest('.tarjeta');
     tarjeta.remove();
