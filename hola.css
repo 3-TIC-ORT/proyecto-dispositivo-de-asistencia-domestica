@@ -1,0 +1,295 @@
+body {
+    background-color: rgb(168, 166, 166);
+    margin: 0;
+    padding: 0;
+}
+
+.layout {
+    display: flex;
+    height: 100vh;
+    flex-direction: row;
+}
+
+.sidebar {
+    width: 110px;
+    background-color: rgba(63, 63, 69, 0.89);
+    padding: 20px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 38px;
+    justify-content: flex-start;
+    padding-top: 20px;
+    backdrop-filter: blur(50.0px) brightness(81.6%) saturate(105.0%);
+    -webkit-backdrop-filter: blur(50.0px) brightness(81.6%) saturate(105.0%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.17),
+        inset 1px 0 0 rgba(255, 255, 255, 0.14),
+        inset 0 -1px 33px rgba(0, 0, 0, 0.05),
+        inset -1px 0 33px rgba(0, 0, 0, 0.04);
+}
+
+.circulos {
+    width: 53px;
+    height: 57px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.botoninferior {
+    margin-top: auto;
+    width: 86px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.contenido {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #ffd4b3 0%, #ffb38a 50%, #ff9966 100%);
+}
+
+.contenedor {
+    display: flex;
+    justify-content: center;
+    gap: 52px;
+    flex: 1;
+    padding: 76px 56px 26px;
+    max-width: 1170px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.cajarecor {
+    background-color: rgba(217, 217, 217, 0.2);
+    padding: 24px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 50px;
+    flex: 1;
+    min-width: 0;
+    max-width: 315px;
+    height: 537px;
+    backdrop-filter: blur(50.0px) brightness(81.6%) saturate(105.0%);
+    -webkit-backdrop-filter: blur(50.0px) brightness(81.6%) saturate(105.0%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.17),
+        inset 1px 0 0 rgba(255, 255, 255, 0.14),
+        inset 0 -1px 33px rgba(0, 0, 0, 0.05),
+        inset -1px 0 33px rgba(0, 0, 0, 0.04);
+    overflow-y: auto;
+}
+
+.cajarecor h2 {
+    margin-top: 0;
+    margin-bottom: 13px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: -1.6px;
+    width: 100%;
+    text-align: left;
+    padding: 0 21px;
+    font-family: "Helvetica-Bold", Helvetica;
+}
+
+.fila-recordatorio {
+    display: flex;
+    gap: 16px;
+    width: 278px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    margin-bottom: 13px;
+    background-color: rgba(254, 80, 0, 0.2);
+    border-radius: 12px;
+    backdrop-filter: blur(50.0px) brightness(100.0%) saturate(100.0%);
+    -webkit-backdrop-filter: blur(50.0px) brightness(100.0%) saturate(100.0%);
+}
+
+.texto-recordatorio {
+    position: relative;
+    width: 138px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    font-family: "Helvetica-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 20px;
+    letter-spacing: -1.00px;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.dato-recordatorio {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: "Helvetica-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 20px;
+    letter-spacing: -1.00px;
+    line-height: normal;
+    white-space: nowrap;
+    padding: 0;
+}
+
+.texto-recordatorio:hover,
+.dato-recordatorio:hover {
+    text-decoration: underline;
+}
+
+.Botoncitos {
+    display: flex;
+    flex-direction: column;
+    gap: 27px;
+    width: 100%;
+    padding: 0 54px;
+}
+
+.caji {
+    background-color: rgba(254, 80, 0, 0.2);
+    color: #000000;
+    padding: 10px;
+    border-radius: 12px;
+    text-align: center;
+    width: 199px;
+    height: 36px;
+    line-height: 1rem;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -1.00px;
+    font-family: "Helvetica-Regular", Helvetica;
+    backdrop-filter: blur(2.0px) brightness(100.0%) saturate(100.0%);
+    -webkit-backdrop-filter: blur(2.0px) brightness(100.0%) saturate(100.0%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 1px 0 0 rgba(255, 255, 255, 0.32),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.13),
+        inset -1px 0 1px rgba(0, 0, 0, 0.11);
+}
+
+.caji:hover {
+    background-color: rgba(254, 80, 0, 0.3);
+}
+
+.cajalarga {
+    width: calc(100% - 112px);
+    max-width: 1055px;
+    height: 172px;
+    background-color: rgba(217, 217, 217, 0.2);
+    padding: 6px 27px 0px;
+    margin: 0 56px 26px;
+    display: flex;
+    border-radius: 37px;
+    gap: 10px;
+    flex-direction: column;
+    backdrop-filter: blur(50.0px) brightness(81.6%) saturate(105.0%);
+    -webkit-backdrop-filter: blur(50.0px) brightness(81.6%) saturate(105.0%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.17),
+        inset 1px 0 0 rgba(255, 255, 255, 0.14),
+        inset 0 -1px 33px rgba(0, 0, 0, 0.05),
+        inset -1px 0 33px rgba(0, 0, 0, 0.04);
+    align-self: center;
+}
+
+.cajalarga h2 {
+    margin: 10px 0;
+    font-size: 40px;
+    font-weight: 700;
+    align-self: flex-start;
+    color: #000000;
+    letter-spacing: -2.00px;
+    font-family: "Helvetica-Bold", Helvetica;
+}
+
+.grupo-botones-tareas {
+    display: flex;
+    gap: 21px;
+    align-self: flex-start;
+}
+
+.contenedor-tarea {
+    display: flex;
+    gap: 16px;
+    background-color: rgba(45, 128, 0, 0.39);
+    padding: 16px;
+    border-radius: 12px;
+    align-items: center;
+    width: 278px;
+    height: 52px;
+    backdrop-filter: blur(50.0px) brightness(100.0%) saturate(100.0%);
+    -webkit-backdrop-filter: blur(50.0px) brightness(100.0%) saturate(100.0%);
+}
+
+.texto-tarea {
+    position: relative;
+    width: 138px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 400;
+    color: #000000;
+    letter-spacing: -1.00px;
+    padding: 0;
+    text-align: left;
+    white-space: nowrap;
+    font-family: "Helvetica-Regular", Helvetica;
+}
+
+.circulo-mini {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 400;
+    color: #000000;
+    letter-spacing: -1.00px;
+    padding: 0;
+    white-space: nowrap;
+    font-family: "Helvetica-Regular", Helvetica;
+}
+
+.texto-tarea:hover,
+.circulo-mini:hover {
+    text-decoration: underline;
+}
+
+.dato-recordatorio a {
+    color: black;
+    text-decoration: none;
+}
+
+.texto-recordatorio a{
+    color: black;
+    text-decoration: none;
+}
+
+.caji a {
+    color: black;
+    text-decoration: none;
+}
