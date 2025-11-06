@@ -5,24 +5,62 @@
 }
 
 body {
-  background-color: rgb(168, 166, 166);
+  background-color: rgba(255, 81, 0,  0.4);
   font-family: Arial, sans-serif;
 }
 
-.layout {
+.distribucion {
   display: flex;
   height: 100vh;
   flex-direction: row;
 }
 
-.sidebar {
-  width: 7rem;
-  background-color: rgb(180, 180, 180);
-  padding: 20px;
+
+.barra-lateral { /* Antes: .sidebar */
+  width: 5rem;
+  background-color: #333;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 1.5rem;
+}
+
+.icono-lateral { /* Antes: .sidebar-icon */
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Estilo específico para el icono de engranaje */
+.icono-lateral.engranaje { /* Antes: .gear */
+  background-color: transparent;
+  color: white;
+  font-size: 2.5rem;
+}
+
+/* Estilo para el icono de flecha hacia atrás */
+.icono-lateral.atras { /* Antes: .back */
+  background-color: transparent;
+  color: white;
+  font-size: 2.5rem;
+}
+
+/* Icono de sol/estrella en la parte inferior */
+.icono-lateral-inferior { /* Antes: .sidebar-bottom-icon */
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: transparent;
+  color: #ff8566;
+  font-size: 2.5rem;
+  margin-top: auto;
 }
 
 .circulos {
@@ -64,7 +102,7 @@ body {
   width: 14rem;
   height: 18rem;
   border-radius: 8px;
-  font-size: 2rem;
+  font-size: 24rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -98,13 +136,13 @@ body {
 .mensaje-label {
   font-size: .8rem;
   font-weight: bold;
-  color: #333;
+  color: white;
 }
 
 .mensaje-texto {
   font-size: 1.3rem;
   font-weight: bold;
-  color: #000;
+  color: white;
 }
 
 .tarjeta-info {
@@ -152,6 +190,7 @@ body {
 }
 
 .btn-tarjeta {
+  background-color: rgba(217, 217, 217, 0.2);
   width: 100%;
   padding: 12px;
   border: none;
@@ -159,18 +198,34 @@ body {
   font-size: 0.95rem;
   font-weight: bold;
   cursor: pointer;
+  color: #000;
 }
 
 .btn-realizada {
-  background-color: #7bc96f;
-  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #62DF1F;
+  color: #000;
+  height: 2rem;
+  font-size: 10px;
+  gap:30px
 }
 
 .btn-eliminar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #ff5722;
-  color: white;
+  color: black;
+  height: 2rem;
+  font-size: small;
+  gap:30px
 }
-
+.btn-realizada img, .btn-eliminar img{
+  width: 1rem;
+  height: 1rem;
+}
 /* Modal */
 .modal {
   display: none;

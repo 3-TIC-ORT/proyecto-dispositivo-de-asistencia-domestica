@@ -110,9 +110,11 @@ function crearTarjeta(mensaje, fecha, horario, avisar) {
         <div class="tarjeta-botones">
             <button class="btn-tarjeta btn-realizada" onclick="marcarRealizada(this)">
                 Marcar como realizada 
+             <img class="Iconoboton"src="Iconotick.png">
             </button>
             <button class="btn-tarjeta btn-eliminar" onclick="eliminarTarea(this)">
                 Eliminar tarea 
+                <img class="Iconoboton"src="Iconobasura.png">
             </button>
         </div>
     `;
