@@ -76,7 +76,7 @@ function agregarRecordatorio() {
 
 
 function crearTarjeta(mensaje, fecha, horario, avisar) {
-    var contenedor = document.querySelector('.contenedor');
+    var contenedor = document.querySelector('.contenedor-objetos');
     var nuevaTarjeta = document.createElement('div');
     nuevaTarjeta.className = 'tarjeta';
     
