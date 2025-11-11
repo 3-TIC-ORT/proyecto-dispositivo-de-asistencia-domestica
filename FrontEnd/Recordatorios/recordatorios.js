@@ -1,4 +1,3 @@
-
 var toggleActivo = true;
 
 
@@ -133,4 +132,3 @@ function eliminarTarea(boton) {
     var tarjeta = boton.closest('.tarjeta');
     tarjeta.remove();
 }
-    

@@ -9,24 +9,26 @@
 <body>
   <div class="distribucion">
     <div class="barra-lateral">
-      <div class="icono-lateral atras"><i class="fas fa-chevron-left"></i></div>
+      <div class="icono-lateral atras">
+        <img src="flechaHeader.png" class="flechita">
+        <i class="fas fa-chevron-left"></i></div>
+        <img src="Configuración.png" alt="configuracion">
       <div class="icono-lateral engranaje"><i class="fas fa-cog"></i></div>
       <div class="icono-lateral-inferior"><i class="fas fa-asterisk"></i></div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL (usar solo este .contenido dentro de .distribucion) -->
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="contenido">
       <div class="header">
         <h1>RECORDATORIOS</h1>
       </div>
 
-      <div class="contenedor">
+      <div class="contenedor-objetos">
         <button class="botonagregar" onclick="abrirModal()">+</button>
-
         <!-- aquí van las tarjetas / elementos -->
       </div>
-    </div> <!-- /.contenido -->
-  </div> <!-- /.distribucion -->
+    </div>
+  </div>
 
   <!-- Modal -->
   <div class="modal" id="modal">
