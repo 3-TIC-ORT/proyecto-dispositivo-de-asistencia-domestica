@@ -47,19 +47,8 @@ function verificarRecordatorios() {
 }
 
 // Función que envía el mensaje al Arduino
-function send(data) {
-  if (!data.mensaje) return { ok: false, msg: "Falta el mensaje" };
-  port.write(data.mensaje + "\n");
-  parser.on("data", (status) => {
-    let mensaje = status.trim();
-    console.log("Mensaje desde Arduino:", mensaje);
-    if (mensaje) {
-      realTimeEvent("mensajeArduino", { ok: true, mensaje: "Mensaje enviado al Arduino" });
-    }
-    realTimeEvent("mensajeArduino", { ok: false, mensaje: "error de conexion" });
-  });
-  return;
-}
+
+
 
 // =======================
 // CONEXIÓN CON HARDWARE (Arduino)
@@ -75,7 +64,15 @@ port.on("open", () => {
   console.log("Puerto serial abierto correctamente");
 });
 
-startServer(3000, true);
+function send(data) {
+  port.write(data + "\n");
+}
+
+parser.on("data", (msjHardware) => {
+  // Lo que sea que tengas que hacer
+});
+
+
 
 // Verificar los recordatorios cada minuto (o el intervalo que prefieras)
 setInterval(verificarRecordatorios, 60000); // 60000ms = 1 minuto
@@ -160,3 +157,5 @@ subscribePOSTEvent("eliminarTarea", (data) => {
 });
 
 subscribeGETEvent("listarTareas", () => leerArchivo("tareas.json"));
+
+startServer(3000, true);
