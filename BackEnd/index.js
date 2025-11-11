@@ -8,9 +8,84 @@ import {
 } from "soquetic";
 import { ReadlineParser, SerialPort } from "serialport";
 
-convertirTextoAVoz()
+// Función para obtener la fecha y hora actuales en formato 'dd-MM-yyyy HH:mm'
+function obtenerFechaYHoraActual() {
+  const ahora = new Date();
+  const dia = ahora.getDate().toString().padStart(2, '0');   // Día con 2 dígitos
+  const mes = (ahora.getMonth() + 1).toString().padStart(2, '0');  // Mes con 2 dígitos (los meses empiezan desde 0)
+  const año = ahora.getFullYear();
+  const horas = ahora.getHours().toString().padStart(2, '0');
+  const minutos = ahora.getMinutes().toString().padStart(2, '0');
+  return `${dia}-${mes}-${año} ${horas}:${minutos}`;
+}
 
+// Función para leer el archivo JSON
+function leerArchivo(nombreArchivo) {
+  try {
+    const data = fs.readFileSync(nombreArchivo);
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Error al leer el archivo:", error);
+    return [];
+  }
+}
 
+// Función que verifica los recordatorios y ejecuta send si hay coincidencias de fecha y hora
+function verificarRecordatorios() {
+  const recordatorios = leerArchivo("recordatorios.json");
+  const fechaYHoraActual = obtenerFechaYHoraActual(); // Correcta referencia aquí
+  
+  // Buscar recordatorios cuya fecha y hora coincidan con la fecha y hora actuales
+  const recordatorioCoincidente = recordatorios.find(
+    (r) => `${r.fecha} ${r.hora}` === fechaYHoraActual
+  );
+
+  if (recordatorioCoincidente) {
+    console.log("Se encontró un recordatorio para la fecha y hora actual:", recordatorioCoincidente);
+    send({ mensaje: `Recordatorio: ${recordatorioCoincidente.titulo}` });  // 'titulo' en lugar de 'mensaje'
+  }
+}
+
+// Función que envía el mensaje al Arduino
+function send(data) {
+  if (!data.mensaje) return { ok: false, msg: "Falta el mensaje" };
+  port.write(data.mensaje + "\n");
+  parser.on("data", (status) => {
+    let mensaje = status.trim();
+    console.log("Mensaje desde Arduino:", mensaje);
+    if (mensaje) {
+      realTimeEvent("mensajeArduino", { ok: true, mensaje: "Mensaje enviado al Arduino" });
+    }
+    realTimeEvent("mensajeArduino", { ok: false, mensaje: "error de conexion" });
+  });
+  return;
+}
+
+// =======================
+// CONEXIÓN CON HARDWARE (Arduino)
+// =======================
+const port = new SerialPort({
+  path: "COM3",
+  baudRate: 9600,
+});
+const parser = new ReadlineParser();
+port.pipe(parser);
+
+port.on("open", () => {
+  console.log("Puerto serial abierto correctamente");
+});
+
+startServer(3000, true);
+
+// Verificar los recordatorios cada minuto (o el intervalo que prefieras)
+setInterval(verificarRecordatorios, 60000); // 60000ms = 1 minuto
+
+// También podrías llamarlo manualmente en alguna otra parte del código, dependiendo de cuándo lo necesites.
+verificarRecordatorios();  // Esto se ejecuta inmediatamente al inicio
+
+// =======================
+// Lógica para manejar eventos POST y GET
+// =======================
 subscribePOSTEvent("signup", (data) => {
   let usuarios = leerArchivo("usuarios.json");
   usuarios.push({ username: data.nombre, password: data.contraseña });
@@ -27,14 +102,13 @@ subscribePOSTEvent("login", (data) => {
   else return { ok: false, msg: "Verificar los datos" };
 });
 
-
 subscribePOSTEvent("agregarRecordatorio", (data) => {
   let recordatorios = leerArchivo("recordatorios.json");
   recordatorios.push({
     titulo: data.titulo,
     fecha: data.fecha,
     hora: data.hora,
-    Avisar: data.Avisar,
+    AvisarAntes: data.AvisarAntes,
   });
   fs.writeFileSync(
     "recordatorios.json",
@@ -86,43 +160,3 @@ subscribePOSTEvent("eliminarTarea", (data) => {
 });
 
 subscribeGETEvent("listarTareas", () => leerArchivo("tareas.json"));
-
-// =======================
-// CONEXIÓN CON HARDWARE (Arduino)
-// =======================
-const port = new SerialPort({
-  path: "COM3",
-  baudRate: 9600,
-});
-
-const parser = new ReadlineParser();
-port.pipe(parser);
-
-port.on("open", () => {
-  console.log("Puerto serial abierto correctamente");
-});
-
-parser.on("data", (status) => {
-  let mensaje = status.trim();
-  console.log("Mensaje desde Arduino:", mensaje);
-  realTimeEvent("mensajeArduino", { data: mensaje });
-});
-
-// Enviar color RGB al Arduino
-subscribePOSTEvent("colorSeleccionado", (color) => {
-  const red = parseInt(color.slice(1, 3), 16);
-  const green = parseInt(color.slice(3, 5), 16);
-  const blue = parseInt(color.slice(5, 7), 16);
-  port.write(`${red},${green},${blue}\n`);
-  return { ok: true, msg: "Color enviado al Arduino" };
-});
-
-// Enviar mensajes personalizados al Arduino
-subscribePOSTEvent("enviarMensaje", (data) => {
-  if (!data.mensaje) return { ok: false, msg: "Falta el mensaje" };
-  port.write(data.mensaje + "\n");
-  return { ok: true, msg: "Mensaje enviado al Arduino" };
-});
-
-
-startServer(3000, true);
