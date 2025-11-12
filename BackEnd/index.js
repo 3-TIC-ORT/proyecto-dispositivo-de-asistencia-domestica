@@ -53,6 +53,9 @@ function verificarRecordatorios() {
 // =======================
 // CONEXIÓN CON HARDWARE (Arduino)
 // =======================
+/*
+
+
 const port = new SerialPort({
   path: "COM3",
   baudRate: 9600,
@@ -79,6 +82,8 @@ setInterval(verificarRecordatorios, 60000); // 60000ms = 1 minuto
 
 // También podrías llamarlo manualmente en alguna otra parte del código, dependiendo de cuándo lo necesites.
 verificarRecordatorios();  // Esto se ejecuta inmediatamente al inicio
+
+*/
 
 // =======================
 // Lógica para manejar eventos POST y GET

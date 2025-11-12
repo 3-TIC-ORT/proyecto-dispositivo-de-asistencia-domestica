@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/3-TIC-ORT/proyecto-dispositivo-de-asistencia-domestica#readme",
   "dependencies": {
-    "openai": "^6.6.0"
+    "openai": "^6.8.1",
+    "play-sound": "^1.1.6",
+    "serialport": "^13.0.0",
+    "soquetic": "^1.4.2"
   }
 }
