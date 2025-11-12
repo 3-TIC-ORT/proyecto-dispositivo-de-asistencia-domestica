@@ -5,7 +5,7 @@
   }
 
   body {
-    background-color: #ff8566;
+  background-color: rgba(255, 81, 0,  0.4);
     font-family: Arial, sans-serif;
     min-height: 100vh;
   }
@@ -15,16 +15,31 @@
     height: 100vh;
     flex-direction: row;
   }
-
   .sidebar {
     width: 5rem;
-    background-color: #f76222;
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+  background-color: #333;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
   }
+  
+  .icono {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: white;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+
+  /* Este empuja el último icono hacia abajo */
+  .espaciador {
+    flex-grow: 1;
+  }
+  
+  
 
   .icono {
     width: 2.5rem;
