@@ -15,40 +15,55 @@
     height: 100vh;
     flex-direction: row;
   }
-  .sidebar {
+  .distribucion {
+    display: flex;
+    height: 100vh;
+    flex-direction: row;
+  }
+  
+  .barra-lateral {
     width: 5rem;
-  background-color: #333;
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+    background-color: #333;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
   }
   
-  .icono {
+  .icono-lateral {
     width: 2.5rem;
     height: 2.5rem;
     background-color: white;
     border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #333;
   }
   
-
-  /* Este empuja el último icono hacia abajo */
-  .espaciador {
-    flex-grow: 1;
+  .icono-lateral.engranaje {
+    background-color: transparent;
+    color: white;
+    font-size: 2.5rem;
   }
   
+  .icono-lateral.atras {
+    background-color: transparent;
+    color: white;
+    font-size: 2.5rem;
+  }
   
-
-  .icono {
+  .icono-lateral-inferior {
     width: 2.5rem;
     height: 2.5rem;
-    background-color: white;
-    border-radius: 50%;
-    cursor: pointer;
+    background-color: transparent;
+    color: #ff8566;
+    font-size: 2.5rem;
+    margin-top: auto;
   }
-
   .contenido {
     flex: 1;
     display: flex;

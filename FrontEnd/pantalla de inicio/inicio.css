@@ -79,7 +79,7 @@ body {
     align-items: center;
     border-radius: 2rem;
     flex: 1 1 calc(33.33% - 3rem); /* tres por fila */
-    max-width: 30rem;
+    max-width: 35rem;
     min-width: 20rem;
     min-height: 20rem;
     overflow: hidden;
@@ -230,8 +230,8 @@ margin-bottom: 4rem;
     padding: 1rem 1.5rem;
     border-radius: 12px;
     flex: 1 1 30%; /* se adapta a varias por fila */
-    min-width: 15rem;
-    max-width: 32rem;
+    min-width: fit-content;
+    max-width: 25rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
