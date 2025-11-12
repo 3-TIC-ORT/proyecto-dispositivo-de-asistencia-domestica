@@ -42,22 +42,10 @@ body {
         inset -1px 0 33px rgba(0, 0, 0, 0.04);
 }
 
-.circulos, .botoninferior {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-}
-
-.circulos {
-    width: 3.3rem;
-    height: 3.5rem;
-}
-
-.botoninferior {
-    width: 5rem;
-    height: 3rem;
-    background-color: rgba(255, 255, 255, 0.15);
+/* 🔹 Ajuste: achicar el logo inferior */
+.logo-sidebar {
+    width: 3rem;
+    height: auto;
 }
 
 /* ====== CONTENIDO PRINCIPAL ====== */
@@ -105,7 +93,7 @@ body {
 
 .cajarecor h2 {
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
     font-size: 2rem;
     font-weight: 700;
     color: #000;
@@ -163,7 +151,7 @@ margin-bottom: 4rem;
 .Botoncitos {
     display: flex;
     flex-direction: column;
-    gap: 2.1rem;
+    gap: 1.5rem;
     width: 100%;
     padding: 0 2rem;
 }
@@ -200,7 +188,6 @@ margin-bottom: 4rem;
 }
 
 /* ====== FOOTER: TAREAS REALIZADAS ====== */
-/* ====== FOOTER: TAREAS REALIZADAS ====== */
 .cajalarga {
     background-color: rgba(217, 217, 217, 0.2);
     padding: 2rem;
@@ -227,7 +214,6 @@ margin-bottom: 4rem;
     color: #000;
 }
 
-/* ====== CONTENIDO INTERNO DEL FOOTER ====== */
 .grupo-botones-tareas {
     display: flex;
     flex-wrap: wrap;
@@ -236,7 +222,6 @@ margin-bottom: 4rem;
     width: 100%;
 }
 
-/* ✅ Caja flexible para que entre texto largo */
 .contenedor-tarea {
     display: flex;
     align-items: center;
@@ -253,7 +238,6 @@ margin-bottom: 4rem;
     backdrop-filter: blur(50px) brightness(100%) saturate(100%);
 }
 
-/* ✅ El texto ahora puede ocupar más de una línea */
 .texto-tarea,
 .circulo-mini {
     background-color: transparent;
@@ -273,7 +257,7 @@ margin-bottom: 4rem;
     text-decoration: underline;
 }
 
-.Logo{
-    width: 1rem;
-    height: 1rem;
+.logo-sidebar { 
+ width: 6rem;
+ height: auto; 
 }
