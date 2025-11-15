@@ -5,64 +5,86 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Recordatorios</title>
   <link rel="stylesheet" href="recordatorios.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
+
 <body>
+
   <div class="distribucion">
+
+    <!-- ========== SIDEBAR ========== -->
     <div class="barra-lateral">
       <div class="icono-lateral atras">
         <img src="flechaHeader.png" class="flechita">
-        <i class="fas fa-chevron-left"></i></div>
-        <img src="/Imagenes/Ajustes.png" alt="configuracion">
-      <div class="icono-lateral engranaje"><i class="fas fa-cog"></i></div>
-      <div class="icono-lateral-inferior"><i class="fas fa-asterisk"></i></div>
+      </div>
+
+      <img src="/Imagenes/Ajustes.png" alt="configuracion">
+
+      <div class="icono-lateral engranaje">
+        <i class="fas fa-cog"></i>
+      </div>
+
+      <div class="icono-lateral-inferior">
+        <i class="fas fa-asterisk"></i>
+      </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- ========== CONTENIDO PRINCIPAL ========== -->
     <div class="contenido">
       <div class="header">
         <h1>RECORDATORIOS</h1>
       </div>
 
       <div class="contenedor-objetos">
-        <button class="botonagregar" onclick="abrirModal()">+</button>
-        <!-- aquí van las tarjetas / elementos -->
+        <button class="botonagregar" onclick="abrirModal()"><img src="/Imagenes/+.png" alt="más"></button>
+        <!-- AQUI SE AGREGAN LAS TARJETAS DESDE JS -->
       </div>
     </div>
+
   </div>
 
-  <!-- Modal -->
+  <!-- ========== MODAL (POPUP) ========== -->
   <div class="modal" id="modal">
-    <div class="modal-contenido">
-      <h2>Nuevo recordatorio</h2>
 
-      <label>Mensaje...</label>
-      <textarea id="mensaje" rows="3"></textarea>
+    <div class="modal-caja">
 
-      <div class="fecha-hora">
-        <div>
-          <label>Fecha:</label>
-          <input type="date" id="fecha" placeholder="DD/MM/AAAA">
+        <h2>Nuevo recordatorio</h2>
+
+        <label class="label-texto">Mensaje...</label>
+        <textarea id="mensaje" rows="3"></textarea>
+
+        <div class="fila-doble">
+
+            <div>
+                <label class="label-campos">Fecha:</label>
+                <input type="date" id="fecha" class="input-fecha">
+            </div>
+
+            <div>
+                <label class="label-campos">Horario:</label>
+                <input type="time" id="horario" class="input-hora-real">
+            </div>
+
         </div>
-        <div>
-          <label>Horario:</label>
-          <input type="time" id="horario" placeholder="HH:MM">
-        </div>
-      </div>
 
-      <div class="avisar">
-        <label>Avisar antes:</label>
-        <div class="toggle" id="toggle" onclick="cambiarToggle()">
-          <div class="toggle-circulo" id="circulo"></div>
-        </div>
-      </div>
+        <div class="toggle-row">
+            <span class="toggle-text">Avisar antes:</span>
 
-      <div class="botones">
-        <button class="btn btn-agregar" onclick="agregarRecordatorio()">AGREGAR</button>
-        <button class="btn btn-cancelar" onclick="cerrarModal()">CANCELAR</button>
-      </div>
+            <div class="toggle" id="toggle" onclick="cambiarToggle()">
+                <div class="toggle-circulo" id="circulo"></div>
+            </div>
+        </div>
+
+        <button class="btn-agregar" onclick="agregarRecordatorio()">AGREGAR</button>
+        <button class="btn-cancelar" onclick="cerrarModal()">CANCELAR</button>
+
     </div>
+
   </div>
 
   <script src="recordatorios.js"></script>
+
 </body>
 </html>

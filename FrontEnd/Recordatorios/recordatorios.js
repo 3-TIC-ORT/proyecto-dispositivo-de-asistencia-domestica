@@ -73,62 +73,63 @@ function agregarRecordatorio() {
     }
 }
 
-
 function crearTarjeta(mensaje, fecha, horario, avisar) {
     var contenedor = document.querySelector('.contenedor-objetos');
     var nuevaTarjeta = document.createElement('div');
     nuevaTarjeta.className = 'tarjeta';
     
     var fechaFormateada = formatearFecha(fecha);
-    var toggleColor = avisar ? '#ff5722' : '#ccc';
-    var togglePosicion = avisar ? '25px' : '5px';
-    
+
     nuevaTarjeta.innerHTML = `
-        <div class="tarjeta-header">
-            <span class="mensaje-label">MENSAJE:</span>
-            <span class="mensaje-texto">${mensaje}</span>
-        </div>
-        <div class="tarjeta-info">
-            <div class="info-detalles">
-                <div class="info-item">
-                    <span class="info-label">FECHA:</span>
-                    <span class="info-valor">${fechaFormateada}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">HORARIO:</span>
-                    <span class="info-valor">${horario}</span>
-                </div>
-            </div>
-            <div class="avisar-antes">
-                <span>AVISAR ANTES:</span>
-                <div class="toggle" style="background-color: ${toggleColor}">
-                    <div class="toggle-circulo" style="left: ${togglePosicion}"></div>
-                </div>
-            </div>
-        </div>
-        <div class="tarjeta-botones">
-            <button class="btn-tarjeta btn-realizada" onclick="marcarRealizada(this)">
-                Marcar como realizada 
-             <img class="Iconoboton"src="Iconotick.png">
-            </button>
-            <button class="btn-tarjeta btn-eliminar" onclick="eliminarTarea(this)">
-                Eliminar tarea 
-                <img class="Iconoboton"src="Iconobasura.png">
-            </button>
-        </div>
+      <div class="tarjeta-header">
+          <span class="mensaje-label">MENSAJE:</span>
+          <span class="mensaje-texto">${mensaje}</span>
+      </div>
+
+      <div class="tarjeta-info">
+          <div class="tarjeta-info-titulo">INFORMACIÓN ADICIONAL</div>
+
+          <div class="info-fila-doble">
+              <div class="info-group">
+                  <span class="info-label">FECHA:</span>
+                  <span class="info-valor">${fechaFormateada}</span>
+              </div>
+              <div class="info-group">
+                  <span class="info-label">HORARIO:</span>
+                  <span class="info-valor">${horario}</span>
+              </div>
+          </div>
+
+          <div class="avisar-antes">
+              <span class="info-label">AVISAR ANTES:</span>
+              <div class="toggle-small ${avisar ? 'on' : 'off'}">
+                  <div class="toggle-small-circle"></div>
+              </div>
+          </div>
+      </div>
+
+      <div class="tarjeta-botones">
+          <button class="btn-tarjeta btn-realizada" onclick="marcarRealizada(this)">
+              Marcar como realizada
+              <img src="Iconotick.png">
+          </button>
+
+          <button class="btn-tarjeta btn-eliminar" onclick="eliminarTarea(this)">
+              Eliminar tarea
+              <img src="Iconobasura.png">
+          </button>
+      </div>
     `;
     
     contenedor.appendChild(nuevaTarjeta);
 }
 
-
 function marcarRealizada(boton) {
-    var tarjeta = boton.closest('.tarjeta');
+    const tarjeta = boton.closest('.tarjeta');
     tarjeta.remove();
 }
 
-
 function eliminarTarea(boton) {
-    var tarjeta = boton.closest('.tarjeta');
+    const tarjeta = boton.closest('.tarjeta');
     tarjeta.remove();
 }

@@ -21,13 +21,18 @@ body {
 
 /* ====== LAYOUT PRINCIPAL ====== */
 .layout {
-    display: flex;
-    flex-direction: row;
+ display: flex;
     min-height: 100vh;
+    width: 100%;
 }
 
+
 .sidebar {
-    flex: 0 0 7rem;
+    position: fixed;      
+    top: 0;
+    left: 0;
+    height: 100vh;        /* ocupa toda la altura */
+    width: 7rem;          /* respeta tu tamaño */
     background-color: rgba(63, 63, 69, 0.89);
     display: flex;
     flex-direction: column;
@@ -35,55 +40,48 @@ body {
     justify-content: space-between;
     padding: 2rem 0;
     backdrop-filter: blur(50px) brightness(81.6%) saturate(105%);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.17),
-        inset 1px 0 0 rgba(255, 255, 255, 0.14),
-        inset 0 -1px 33px rgba(0, 0, 0, 0.05),
-        inset -1px 0 33px rgba(0, 0, 0, 0.04);
+    z-index: 1000;        /* siempre arriba */
 }
 
-/* 🔹 Ajuste: achicar el logo inferior */
 .logo-sidebar {
-    width: 3rem;
+    width: 4rem;
     height: auto;
 }
 
-/* ====== CONTENIDO PRINCIPAL ====== */
+/* ====== CONTENIDO ====== */
 .contenido {
     flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 3rem 3vw;
     background: linear-gradient(135deg, #ffd4b3 0%, #ffb38a 50%, #ff9966 100%);
-    min-height: 100vh;
-}
-
-/* ====== CONTENEDOR DE CAJAS ====== */
-.contenedor {
+    margin-left: 7rem;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 3rem;
-    padding: 3rem 4rem;
-    max-width: 120rem;
-    margin: 0 auto;
-    margin-top: -2rem;
+    flex-direction: column;
 }
 
-/* ====== CAJAS DE RECORDATORIOS ====== */
+.contenedor {
+    width: 85%;              /* 🔥 mismo ancho que cajalarga */
+    margin: 0 auto;          /* centrar */
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* ====== CAJAS ====== */
 .cajarecor {
+    flex: 1;                          /* 🔥 tres cajas iguales */
+    max-width: none;                  /* permite que crezcan para ocupar el ancho */
     background-color: rgba(217, 217, 217, 0.2);
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
+    border-radius: 2rem;
+    backdrop-filter: blur(50px) brightness(0.9);
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 2rem;
-    flex: 1 1 calc(33.33% - 3rem); /* tres por fila */
-    max-width: 35rem;
-    min-width: 20rem;
-    min-height: 20rem;
-    overflow: hidden;
-    backdrop-filter: blur(50px) brightness(0.9);
+    min-height: 28rem;
+    height: auto;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.17),
         inset 1px 0 0 rgba(255, 255, 255, 0.14),
@@ -91,173 +89,131 @@ body {
         inset -1px 0 33px rgba(0, 0, 0, 0.04);
 }
 
+
+/* Título de caja */
 .cajarecor h2 {
-    margin-top: 0;
-    margin-bottom: 3rem;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #000;
     width: 100%;
-    text-align: left;
-    padding: 0 1rem;
-    letter-spacing: -0.1rem;
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    letter-spacing: -0.05rem;
 }
 
-.contenedor .cajarecor:first-child h2 {
-    margin-bottom: 3.4rem; /* o el valor que prefieras */
-}
-.contenedor .cajarecor:nth-child(3) {
-margin-bottom: 4rem;
-}
-/* ====== RECORDATORIOS ====== */
+/* ====== ITEMS DE RECORDATORIOS ====== */
 .fila-recordatorio {
-    display: flex;
-    gap: 1rem;
-    width: 17rem;
-    height: 3.2rem;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    margin-bottom: 0.8rem;
+    width: 90%;
+    min-height: 3rem;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
     background-color: rgba(254, 80, 0, 0.2);
-    border-radius: 12px;
-    backdrop-filter: blur(50px) brightness(100%) saturate(100%);
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
 }
 
+/* Botones internos */
 .texto-recordatorio,
 .dato-recordatorio {
-    background-color: transparent;
+    background: none;
     border: none;
     cursor: pointer;
+    font-size: 1.3rem;
     color: #000;
-    font-size: 1.25rem;
-    font-weight: 400;
-    letter-spacing: -0.05rem;
-    white-space: nowrap;
 }
 
-.texto-recordatorio:hover,
-.dato-recordatorio:hover {
-    text-decoration: underline;
-}
-
+/* Links adentro de los botones */
 .texto-recordatorio a,
 .dato-recordatorio a {
-    color: black;
+    color: #000;
     text-decoration: none;
 }
 
-/* ====== BOTONES OBJETOS ====== */
+/* ====== OBJETOS ====== */
 .Botoncitos {
+  width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-    padding: 0 2rem;
+    gap: 1rem;
+    align-items: center;   /* 🔥 CENTRA horizontalmente */
+    justify-content: center; /* (opcional) centra vertical */
+    max-width: 70%;
 }
 
 .caji {
+    width: 70%;
+    min-height: 2.4rem;
+    padding: 0.5rem;
     background-color: rgba(254, 80, 0, 0.2);
-    color: #000;
-    padding: 0.6rem;
-    border-radius: 12px;
-    text-align: center;
-    width: 12rem;
-    height: 2.2rem;
-    line-height: 1rem;
+    border-radius: 1rem;
     border: none;
     cursor: pointer;
-    font-size: 1.25rem;
-    font-weight: 400;
-    letter-spacing: -0.05rem;
-    backdrop-filter: blur(2px) brightness(100%) saturate(100%);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 1px 0 0 rgba(255, 255, 255, 0.32),
-        inset 0 -1px 1px rgba(0, 0, 0, 0.13),
-        inset -1px 0 1px rgba(0, 0, 0, 0.11);
-}
-
-.caji:hover {
-    background-color: rgba(254, 80, 0, 0.3);
+    font-size: 1.3rem;
+    backdrop-filter: blur(10px);
 }
 
 .caji a {
-    color: black;
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.caji a:visited {
+    color: #000;
+}
+
+.caji a:hover {
+    color: #000;
     text-decoration: none;
 }
 
-/* ====== FOOTER: TAREAS REALIZADAS ====== */
+/* ====== TAREAS REALIZADAS ====== */
 .cajalarga {
-    background-color: rgba(217, 217, 217, 0.2);
+    width: 85%;
+    margin: 0 auto;
     padding: 2rem;
     border-radius: 2rem;
-    margin: 2rem auto 1rem;
-    margin-top: -3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    background-color: rgba(217,217,217,0.2);
     backdrop-filter: blur(50px) brightness(0.9);
-    width: 90%;
-    max-width: 110rem;
+    min-height: 10rem;
+
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.17),
         inset 1px 0 0 rgba(255, 255, 255, 0.14),
         inset 0 -1px 33px rgba(0, 0, 0, 0.05),
         inset -1px 0 33px rgba(0, 0, 0, 0.04);
+
+    margin-top: auto;   /* 🔥 convierte a cajalarga en footer */
 }
 
 .cajalarga h2 {
-    margin: 0 0 1rem 0;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #000;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    font-size: 2.3rem;
 }
 
+/* Items tareas */
 .grupo-botones-tareas {
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
-    justify-content: flex-start;
-    width: 100%;
 }
 
 .contenedor-tarea {
+    background-color: rgba(45, 128, 0, 0.39);
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
     display: flex;
     align-items: center;
     gap: 1rem;
-    background-color: rgba(45, 128, 0, 0.39);
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    flex: 1 1 30%; /* se adapta a varias por fila */
-    min-width: fit-content;
-    max-width: 25rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    backdrop-filter: blur(50px) brightness(100%) saturate(100%);
 }
 
+/* Botones dentro */
 .texto-tarea,
 .circulo-mini {
-    background-color: transparent;
+    font-size: 1.3rem;
+    background: none;
     border: none;
     cursor: pointer;
-    color: #000;
-    font-size: 1.25rem;
-    font-weight: 400;
-    letter-spacing: -0.05rem;
-    text-align: left;
-    white-space: normal;
-    line-height: 1.4;
-}
-
-.texto-tarea:hover,
-.circulo-mini:hover {
-    text-decoration: underline;
-}
-
-.logo-sidebar { 
- width: 6rem;
- height: auto; 
 }
