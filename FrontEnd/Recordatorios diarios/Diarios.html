@@ -1,69 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="Diarios.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recordatorios diarios</title>
+
+  <link rel="stylesheet" href="Diarios.css">
+
+  <!-- Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <div class="layout">
-      
+
   <div class="distribucion">
+
+    <!-- ====== SIDEBAR (igual que recordatorios) ====== -->
     <div class="barra-lateral">
-      <div class="icono-lateral atras">
-        <img src="/Imagenes/flechita hacia atras.png" class="flechita">
-        <i class="fas fa-chevron-left"></i></div>
-        <img src="/Imagenes/Ajustes.png" alt="configuracion">
-      <div class="icono-lateral engranaje"><i class="fas fa-cog"></i></div>
-      <div class="icono-lateral-inferior"><i class="fas fa-asterisk"></i></div>
+
+      <!-- Flecha atrás -->
+      <a href="/FrontEnd/pantalla de inicio/inicio.html" class="sidebar-btn">
+        <img src="/Imagenes/flechita hacia atras.png" class="icono-sidebar" alt="volver">
+      </a>
+
+      <!-- Ajustes -->
+      <a href="/FrontEnd/Ajusstes/ajustess.html" class="sidebar-btn">
+        <img src="/Imagenes/Ajustes.png" class="icono-sidebar" alt="ajustes">
+      </a>
+
+      <!-- separador flexible -->
+      <div class="sidebar-spacer"></div>
+
+      <!-- Logo DAD (no botón) -->
+      <img src="/Imagenes/LogoDAD.png" class="sidebar-logo" alt="logo DAD">
+
     </div>
 
-    
-        <div class="contenido">
-          <div class="header">
-            <h1>Recordatorios diarios</h1>
-          </div>
-    
-          <div class="contenedor">
-            <button class="botonagregar" onclick="abrirModal()">+</button>
-          </div>
+    <!-- ====== CONTENIDO ====== -->
+    <div class="contenido">
+      <div class="header">
+        <h1>RECORDATORIOS DIARIOS</h1>
+      </div>
+
+      <div class="contenedor-objetos">
+        <!-- botón + -->
+        <button class="botonagregar" onclick="abrirModal()">
+          <img src="/Imagenes/+.png" alt="más">
+        </button>
+        <!-- aquí se agregan las tarjetas desde JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ====== MODAL ====== -->
+  <div class="modal" id="modal">
+
+    <div class="modal-caja">
+
+      <h2>Nuevo recordatorio diario</h2>
+
+      <!-- MENSAJE -->
+      <label class="label-texto" for="mensaje">Mensaje...</label>
+      <textarea id="mensaje" rows="3"></textarea>
+
+      <!-- AVISAR ANTES -->
+      <div class="toggle-row">
+        <span class="toggle-text">Avisar antes:</span>
+
+        <div class="toggle" id="toggle" onclick="cambiarToggle()">
+          <div class="toggle-circulo" id="circulo"></div>
         </div>
       </div>
-    
-      <div class="modal" id="modal">
-        <div class="modal-contenido">
-          <h2>Nuevo Recordatorio</h2>
-          
-          <label>Mensaje:</label>
-          <textarea placeholder="Escribe tu recordatorio..."></textarea>
-          
-          <label>Fecha y Hora:</label>
-          <div class="fecha-hora">
-            <div>
-              <input type="date">
-            </div>
-            <div>
-              <input type="time">
-            </div>
-          </div>
-          
-          <label>Frecuencia:</label>
-          <input type="text" placeholder="Ej: Todos los días">
-          
-          <div class="avisar">
-            <span>Avisar antes:</span>
-            <div class="toggle" onclick="toggleSwitch(this)">
-              <div class="toggle-circulo"></div>
-            </div>
-          </div>
-          
-          <div class="botones">
-            <button class="btn btn-agregar">Agregar recordatorio</button>
-            <button class="btn btn-cancelar" onclick="cerrarModal()">Cancelar</button>
-          </div>
+
+      <!-- FRECUENCIA (select) -->
+      <div class="fila-simple">
+        <label class="label-campos" for="frecuencia">Frecuencia:</label>
+        <select id="frecuencia" class="input-select">
+          <option value="">Seleccioná una opción</option>
+          <option value="Todos los días">Todos los días</option>
+          <option value="Día de por medio">Día de por medio</option>
+          <option value="Cada 2 días">Cada 2 días</option>
+          <option value="Cada 3 días">Cada 3 días</option>
+          <option value="Cada 4 días">Cada 4 días</option>
+          <option value="Cada 5 días">Cada 5 días</option>
+          <option value="Cada 6 días">Cada 6 días</option>
+          <option value="Una vez por semana">Una vez por semana</option>
+        </select>
+      </div>
+
+      <!-- VECES AL DÍA + MIN ENTRE REPETICIONES -->
+      <div class="fila-doble">
+        <div>
+          <label class="label-campos" for="veces">Veces al día:</label>
+          <input type="number" id="veces" class="input-num" min="1" placeholder="Ej: 3">
+        </div>
+
+        <div>
+          <label class="label-campos" for="minutos">Tiempo entre repeticiones (min):</label>
+          <input type="number" id="minutos" class="input-num" min="1" placeholder="Ej: 30">
         </div>
       </div>
+
+      <!-- HORARIO INICIO / FIN (opcionales) -->
+      <div class="fila-doble">
+        <div>
+          <label class="label-campos" for="horaInicio">Desde (hora inicio):</label>
+          <input type="time" id="horaInicio" class="input-hora-real">
+        </div>
+
+        <div>
+          <label class="label-campos" for="horaFin">Hasta (hora fin):</label>
+          <input type="time" id="horaFin" class="input-hora-real">
+        </div>
+      </div>
+
+      <button class="btn-agregar" onclick="agregarRecordatorio()">AGREGAR</button>
+      <button class="btn-cancelar" onclick="cerrarModal()">CANCELAR</button>
+
+    </div>
+
+  </div>
+
+  <script src="Diarios.js"></script>
 </body>
-<script src="Diarios.js"></script>
 </html>
