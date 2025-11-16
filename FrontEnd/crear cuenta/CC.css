@@ -1,43 +1,71 @@
-body {
-    
-    font-family: Arial, sans-serif;
-} 
-
-h1{
-    text-align: center;
-        font-size: 2.5em;
-        color: #333;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-h2 {
-    font-size: 1.2em;
-    color: #000000;     
-   
+
+body {
+    font-family: "Inter", sans-serif;
+    background: white;
+}
+
+.contenedor {
     text-align: center;
+    width: 100%;
+    padding-top: 40px;
 }
 
 #Logo {
+    width: 190px;
     display: block;
-    margin-left: auto;
-    margin-right: auto; 
-    width: 10rem; 
+    margin: 0 auto;
 }
-.boton{
-    display: flex;
-    justify-content: center; 
-    align-items: center;    
-    height: 25vh;   
-    flex-direction: column;   
- }
 
- .Is {
-    font-size: 1rem;
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    flex-direction: column;
-    background-color: peru;
-    border-radius: 8px;
-    width: 16rem;
-    height: 3rem;
-    margin-top: 1rem;
+.titulo {
+    font-size: 4.2rem;
+    font-weight: 900;
+    color: #0E0E17;
+    margin-top: 5px;
+}
+
+.subtitulo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0E0E17;
+    margin-top: 2px;
+}
+
+.campo {
+    width: 370px;
+    height: 70px;
+    margin: 22px auto 0 auto;
+    display: block;
+
+    border-radius: 14px;
+    border: 3px solid #4A4A4A;
+
+    font-size: 1.6rem;
+    padding-left: 22px;
+    color: #0E0E17;
+
+    outline: none;
+}
+
+.campo::placeholder {
+    color: #C7C7C7;
+}
+
+.boton-confirmar {
+    width: 370px;
+    height: 80px;
+    background: #FF5400;
+    border: none;
+    border-radius: 14px;
+
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+
+    margin-top: 40px;
+    cursor: pointer;
 }
