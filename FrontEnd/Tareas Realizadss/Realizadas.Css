@@ -1,0 +1,168 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+}
+
+/* ============== LAYOUT GENERAL ================= */
+
+.distribucion {
+    display: flex;
+    height: 100vh;
+}
+
+.barra-lateral {
+    width: 7rem;
+    background-color: #333;
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.7rem;
+}
+
+.sidebar-spacer { flex: 1; }
+
+.icono-sidebar {
+    width: 2.5rem;
+}
+
+.sidebar-logo {
+    width: 3rem;
+}
+
+/* ============ FONDO IGUAL AL FIGMA ============ */
+
+.contenido {
+    flex: 1;
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(255,121,64,0.6), rgba(255,140,90,0.8));
+    overflow-y: auto;
+}
+
+/* TITULO */
+
+.titulo {
+    font-size: 4.2rem;
+    font-weight: 900;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+/* GRID */
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+}
+
+/* =============== TARJETA ================= */
+
+.tarjeta {
+    width: 18rem;
+    padding: 18px;
+    border-radius: 22px;
+    min-height: 23rem;
+    background: #96A34D;
+}
+
+/* MENSAJE */
+
+.mensaje {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 5rem;
+}
+
+.label {
+    font-weight: 900;
+}
+
+/* INFORMACION */
+
+.info-titulo {
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+/* TOGGLE (decorativo) */
+
+.toggle-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: white;
+    margin-bottom: 5rem;
+}
+
+.toggle {
+    width: 34px;
+    height: 18px;
+    background: #ccc;
+    border-radius: 20px;
+    position: relative;
+}
+
+.toggle.on {
+    background: #FF7A42;
+}
+
+.circle {
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+/* BOTÓN MARCAR COMO NO REALIZADA */
+
+.btn-no-realizada {
+    width: 100%;
+    padding: 10px;
+
+    background: #FF3B2F;
+    border-radius: 12px;
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    color: black;
+    font-weight: 800;
+    font-size: 0.8rem;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-no-realizada img {
+    width: 1rem;
+}
+
+.btn-no-realizada:hover {
+    opacity: 0.85;
+}
