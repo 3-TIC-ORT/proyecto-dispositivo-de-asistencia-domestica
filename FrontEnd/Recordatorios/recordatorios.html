@@ -14,22 +14,23 @@
 
   <div class="distribucion">
 
-    <!-- ========== SIDEBAR ========== -->
     <div class="barra-lateral">
-      <div class="icono-lateral atras">
-        <img src="flechaHeader.png" class="flechita">
-      </div>
 
-      <img src="/Imagenes/Ajustes.png" alt="configuracion">
+    <!-- BOTÓN: Flecha atrás -->
+    <a href="/FrontEnd/pantalla de inicio/inicio.html" class="sidebar-btn">
+        <img src="flechaHeader.png" class="icono-sidebar">
+    </a>
 
-      <div class="icono-lateral engranaje">
-        <i class="fas fa-cog"></i>
-      </div>
+    <!-- BOTÓN: Ajustes -->
+    <a href="/FrontEnd/Ajusstes/ajustess.html" class="sidebar-btn">
+        <img src="/Imagenes/Ajustes.png" class="icono-sidebar">
+    </a>
 
-      <div class="icono-lateral-inferior">
-        <i class="fas fa-asterisk"></i>
-      </div>
-    </div>
+    <!-- LOGO FINAL (NO botón) -->
+    <img src="/Imagenes/LogoDAD.png" class="sidebar-logo" alt="logo">
+
+</div>
+
 
     <!-- ========== CONTENIDO PRINCIPAL ========== -->
     <div class="contenido">
@@ -39,7 +40,6 @@
 
       <div class="contenedor-objetos">
         <button class="botonagregar" onclick="abrirModal()"><img src="/Imagenes/+.png" alt="más"></button>
-        <!-- AQUI SE AGREGAN LAS TARJETAS DESDE JS -->
       </div>
     </div>
 

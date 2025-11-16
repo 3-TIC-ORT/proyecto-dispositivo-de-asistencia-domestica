@@ -9,14 +9,25 @@
 </head>
 <body>
     <div class="distribucion">
+        
         <div class="barra-lateral">
-            <div class="icono-lateral atras">
-              <img src="flechaHeader.png" class="flechita">
-              <i class="fas fa-chevron-left"></i></div>
-              <img src="/Imagenes/Ajustes.png" alt="configuracion">
-            <div class="icono-lateral engranaje"><i class="fas fa-cog"></i></div>
-            <div class="icono-lateral-inferior"><i class="fas fa-asterisk"></i></div>
-          </div>
+
+    <!-- BOTÓN: Flecha atrás -->
+    <a href="/FrontEnd/pantalla de inicio/inicio.html" class="sidebar-btn">
+        <img src="/Imagenes/flechita hacia atras.png" class="icono-sidebar">
+    </a>
+
+    <!-- BOTÓN: Ajustes -->
+    <a href="/FrontEnd/Ajustes/ajustess.html" class="sidebar-btn">
+        <img src="/Imagenes/Ajustes.png" class="icono-sidebar">
+    </a>
+
+    <div class="sidebar-spacer"></div>
+
+    <!-- LOGO FINAL -->
+    <img src="/Imagenes/LogoDAD.png" class="sidebar-logo">
+
+</div>
 
         <div class="contenido">
             <div class="encabezado"> <h1>Objetos para salir de casa</h1>
@@ -24,7 +35,7 @@
 
             <div class="contenedor-objetos" id="contenedorObjetos">
                 
-                <button class="boton-agregar-objeto" onclick="abrirModalObjeto()">+</button> <div class="tarjeta-objeto">
+                <button class="boton-agregar-objeto" onclick="abrirModalObjeto()"><img src="/Imagenes/+.png" alt=""></button> <div class="tarjeta-objeto">
                     <span class="nombre-objeto">ANTEOJOS</span> <button class="btn-eliminar-objeto" onclick="eliminarObjeto(this)">
                         <i class="fas fa-trash-alt"></i> Eliminar objeto
                     </button>

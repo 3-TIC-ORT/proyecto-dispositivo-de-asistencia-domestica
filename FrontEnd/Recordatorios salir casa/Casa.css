@@ -1,3 +1,7 @@
+/* =============================== */
+/* RESET */
+/* =============================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -5,224 +9,230 @@
 }
 
 body {
-  background-color: #ff8566;
-  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,
+    rgba(255, 121, 64, 0.60),
+    rgba(255, 140, 90, 0.80)
+  );
   min-height: 100vh;
+  font-family: 'Inter', sans-serif;
 }
 
-.distribucion { /* Antes: .layout */
+/* =============================== */
+/* LAYOUT GENERAL */
+/* =============================== */
+
+.distribucion {
   display: flex;
   height: 100vh;
   flex-direction: row;
 }
 
-.barra-lateral { /* Antes: .sidebar */
-  width: 5rem;
+/* =============================== */
+/* SIDEBAR — IGUAL AL DE RECORDATORIOS */
+/* =============================== */
+
+.barra-lateral {
+  width: 7rem;
   background-color: #333;
-  padding: 1.25rem;
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
-.icono-lateral { /* Antes: .sidebar-icon */
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: white;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: #333;
+
+.sidebar-spacer {
+  flex-grow: 1;
 }
 
-/* Estilo específico para el icono de engranaje */
-.icono-lateral.engranaje { /* Antes: .gear */
-  background-color: transparent;
-  color: white;
-  font-size: 2.5rem;
-}
 
-/* Estilo para el icono de flecha hacia atrás */
-.icono-lateral.atras { /* Antes: .back */
-  background-color: transparent;
-  color: white;
-  font-size: 2.5rem;
-}
-
-/* Icono de sol/estrella en la parte inferior */
-.icono-lateral-inferior { /* Antes: .sidebar-bottom-icon */
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: transparent;
-  color: #ff8566;
-  font-size: 2.5rem;
-  margin-top: auto;
-}
+/* =============================== */
+/* CONTENIDO */
+/* =============================== */
 
 .contenido {
   flex: 1;
-  display: flex;
-  flex-direction: column;
   padding: 2rem;
   overflow-y: auto;
-  background: linear-gradient(135deg, rgba(255, 121, 64, 0.6), rgba(255, 140, 90, 0.8));
-}
-
-.encabezado { /* Antes: .header */
-  margin-bottom: 2rem;
 }
 
 .encabezado h1 {
   font-size: 3rem;
-  font-weight: bold;
-  color: #000000;
-  margin: 0;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 2rem;
 }
 
 .contenedor-objetos {
   display: flex;
-  gap: 1.5rem;
   flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
-.boton-agregar-objeto { /* Antes: .botonagregar-objeto */
-  background-color: rgba(255, 255, 255, 0.3);
-  width: 14rem;
-  height: 6rem;
-  border-radius: 1rem;
-  font-size: 4rem;
-  cursor: pointer;
+/* =============================== */
+/* BOTÓN + */
+/* =============================== */
+
+.boton-agregar-objeto {
+  background: rgba(255, 255, 255, 0.28);
+  width: 15rem;
+  height: 7rem;
+  border-radius: 1.4rem;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
+
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: black;
-  border: 0.15rem solid rgba(0, 0, 0, 0.2);
-  flex-shrink: 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  align-items: center;
+
+  box-shadow:
+    inset 0 3px 10px rgba(255,255,255,0.6),
+    inset 0 -4px 10px rgba(0,0,0,0.10),
+    0 8px 20px rgba(0,0,0,0.22);
+
+  cursor: pointer;
 }
 
-.boton-agregar-objeto:hover {
-  background-color: rgba(255, 255, 255, 0.4);
+.boton-agregar-objeto img {
+  width: 5rem;
 }
+
+/* =============================== */
+/* TARJETAS — IGUAL AL FIGMA */
+/* =============================== */
 
 .tarjeta-objeto {
-  background-color: rgba(255, 255, 255, 0.3);
-  width: 14rem;
-  height: 6rem;
-  border-radius: 1rem;
-  padding: 0.8rem 1.25rem;
+  width: 15rem;
+  height: 7rem;
+  padding: 0.9rem 1rem;
+
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 1.4rem;
+  border: 2px solid rgba(255,255,255,0.25);
+
+  backdrop-filter: blur(45px) brightness(1.1);
+  -webkit-backdrop-filter: blur(45px) brightness(1.1);
+
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  border: 0.15rem solid rgba(0, 0, 0, 0.2);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: black;
-  font-weight: bold;
-  font-size: 1.5rem;
-  text-transform: uppercase;
-}
-
-.tarjeta-objeto .nombre-objeto {
-  margin-bottom: 0.5rem;
-}
-
-.tarjeta-objeto .btn-eliminar-objeto {
-  background-color: #ff5722;
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.75rem;
-  cursor: pointer;
-  display: flex;
   align-items: center;
-  gap: 0.3rem;
+  justify-content: space-between;
+
+  box-shadow:
+    inset 0 4px 12px rgba(255,255,255,0.6),
+    inset 0 -6px 12px rgba(0,0,0,0.10),
+    0 8px 20px rgba(0,0,0,0.22);
 }
 
-.tarjeta-objeto .btn-eliminar-objeto:hover {
-  opacity: 0.9;
+.nombre-objeto {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
-/* --- Estilos del Modal (ya estaban en español o son estándar) --- */
+/* BOTÓN ELIMINAR OBJETO */
+
+.btn-eliminar-objeto {
+  width: 90%;
+  background: #FF3B2F;
+  color: black;
+  border: none;
+  border-radius: 0.9rem;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.btn-eliminar-objeto:hover {
+  opacity: 0.85;
+}
+
+/* =============================== */
+/* MODAL — IGUAL AL FIGMA */
+/* =============================== */
+
 .modal {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   align-items: center;
   justify-content: center;
+  z-index: 1200;
 }
 
-/* Clase para activar el modal con JS */
 .modal.activo {
   display: flex;
 }
 
 .modal-contenido {
-  background-color: #ff9d7a; /* Color de tu tema */
-  width: 25rem;
-  padding: 2rem;
-  border-radius: 1rem;
+  width: 95%;
+  max-width: 900px;
+
+  background: rgba(255, 200, 185, 0.32);
+  border-radius: 28px;
+  padding: 45px;
+
+  border: 2px solid rgba(255,255,255,0.3);
+
+  backdrop-filter: blur(30px) saturate(140%);
+  -webkit-backdrop-filter: blur(30px) saturate(140%);
+
+  box-shadow:
+    inset 0 4px 15px rgba(255,255,255,0.5),
+    inset 0 -6px 20px rgba(0,0,0,0.18),
+    0 10px 30px rgba(0,0,0,0.35);
 }
 
 .modal-contenido h2 {
-  margin-bottom: 1.5rem;
-  color: #2d2d2d;
-  font-size: 1.5rem;
-}
-
-.modal-contenido label {
-  display: block;
-  margin-top: 1rem;
-  margin-bottom: 0.4rem;
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: #2d2d2d;
+  font-size: 2.7rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: black;
 }
 
 .modal-contenido input {
   width: 100%;
-  padding: 0.7rem;
-}
-
-/* --- Botones del modal --- */
-.botones {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-}
-
-/* Estilo base para todos los botones del modal */
-.btn {
-  flex: 1;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  font-weight: bold;
+  padding: 22px;
+  border-radius: 18px;
   border: none;
-  border-radius: 0.8rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-/* Botón "Agregar" */
-.btn-agregar {
-  background-color: #333; /* gris oscuro del sidebar */
+  background: rgba(255,255,255,0.25);
   color: white;
-  margin-right: 1rem;
+  font-size: 1.4rem;
+  margin-bottom: 30px;
 }
 
-/* Botón "Cancelar" */
+.btn-agregar {
+  width: 100%;
+  padding: 22px;
+  background: #FF4500;
+  color: black;
+  font-size: 1.9rem;
+  border-radius: 16px;
+  border: none;
+  font-weight: 800;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
 .btn-cancelar {
-  background-color: white;
-  color: #333;
-  border: 2px solid #333;
+  width: 100%;
+  padding: 22px;
+  background: rgba(255,255,255,0.35);
+  border: 3px solid #FF4500;
+  color: black;
+  font-size: 1.9rem;
+  border-radius: 16px;
+  font-weight: 800;
+  cursor: pointer;
 }
