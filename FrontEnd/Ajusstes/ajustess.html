@@ -1,14 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Configuración</title>
     <link rel="stylesheet" href="ajustes.css">
 </head>
 <body>
-    
+
+<div class="distribucion">
+
+    <!-- SIDEBAR -->
+    <div class="barra-lateral">
+
+        <a href="/FrontEnd/pantalla de inicio/inicio.html">
+            <img src="/Imagenes/flechita hacia atras.png" class="icono-sidebar">
+        </a>
+        <div class="sidebar-spacer"></div>
+
+        <img src="/Imagenes/LogoDAD.png" class="sidebar-logo">
+    </div>
+
+
+    <!-- CONTENIDO -->
+    <div class="contenido">
+
+        <h1 class="titulo">Configuración</h1>
+        <h2 class="subtitulo">Nombre del usuario del dispositivo:</h2>
+
+        <div class="campo-nombre">
+            <input type="text" id="inputNombre" disabled>
+            <img src="/Imagenes/lapicito.png" id="editarBtn" class="lapiz">
+        </div>
+
+    </div>
+</div>
+
+<script src="ajustes.js"></script>
+
 </body>
-<source src="ajustes.js">
 </html>
