@@ -1,9 +1,7 @@
 const inputNombre = document.getElementById("inputNombre");
 const editarBtn = document.getElementById("editarBtn");
 
-// Cargar nombre guardado o poner uno por defecto
-let nombreGuardado = localStorage.getItem("nombreUsuario") || "Ernesto";
-inputNombre.value = nombreGuardado;
+
 
 // Ajustar ancho automáticamente
 function autoResize() {
