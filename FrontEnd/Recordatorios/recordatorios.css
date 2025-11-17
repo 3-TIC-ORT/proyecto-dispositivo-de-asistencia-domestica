@@ -9,7 +9,7 @@
 
 
 body {
- background-color: rgb(168, 166, 166);  /* igual que inicio */
+ background-color: rgb(168, 166, 166);  
   font-family: "Helvetica-Regular", Helvetica, sans-serif;
 }
 
@@ -20,7 +20,6 @@ body {
 }
 
 
-/* SIDEBAR */
 .barra-lateral {
   width: 7rem;
   background-color: #333;
@@ -38,7 +37,6 @@ body {
   margin-top: auto;
 }
 
-/* -------- CONTENIDO -------- */
 .contenido {
   flex: 1;
   display: flex;
@@ -49,7 +47,7 @@ body {
 
 .header h1 {
   font-size: 64px;
-  font-weight: 700; /* Bold */
+  font-weight: 700;
   color: #000000;
   margin-bottom: 20px;
 }
@@ -58,14 +56,14 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
   gap: 2rem;
-  width: 100%;              /* ← AGREGADO */
-  max-width: 100%;          /* ← AGREGADO */
+  width: 100%;              
+  max-width: 100%;          
   margin-top: 2rem;
   padding-left: 0;
 }
 .botonagregar {
-  width: 16.25rem;   /* 260px */
-  height: 21.25rem;  /* 340px */
+  width: 16.25rem;   
+  height: 21.25rem;  
   border-radius: 2.2rem;
 
   background: rgba(234, 217, 205, 0.45);
@@ -95,11 +93,9 @@ body {
   background-color: rgba(217, 217, 217, 0.3);
 }
 
-/* =============================== */
-/*   POPUP (MODAL) — FIGMA        */
-/* =============================== */
 
-.modal {
+
+.modal { 
   display: none;
   position: fixed;
   inset: 0;
@@ -112,7 +108,6 @@ body {
   justify-content: center;
 }
 
-/* Caja principal glassmorphism */
 .modal-caja {
   width: 90%;
   max-width: 800px;
@@ -137,7 +132,6 @@ body {
   margin-bottom: 25px;
 }
 
-/* ===== Textarea ===== */
 .label-texto {
   font-size: 1.4rem;
   font-weight: 600;
@@ -156,7 +150,6 @@ textarea {
   margin-bottom: 30px;
 }
 
-/* ===== Fecha y hora ===== */
 .fila-doble {
   display: flex;
   gap: 40px;
@@ -180,7 +173,6 @@ textarea {
   color: white;
 }
 
-/* ===== Toggle ===== */
 .toggle-row {
   display: flex;
   align-items: center;
@@ -213,7 +205,6 @@ textarea {
   transition: left .25s;
 }
 
-/* ===== Botones ===== */
 .btn-agregar {
   width: 100%;
   padding: 22px;
@@ -237,15 +228,11 @@ textarea {
   font-weight: 800;
   cursor: pointer;
 }
-/* =============================== */
-/*   TARJETAS FIGMA – OVERRIDE    */
-/* =============================== */
 
-/* Botón + y tarjeta mismo tamaño y estilo base */
 .botonagregar,
 .tarjeta {
-  width: 16.25rem;          /* 260px */
-  height: 21.25rem;         /* 340px */
+  width: 16.25rem;         
+  height: 21.25rem;        
   border-radius: 2.2rem;
 
   background: rgba(234, 217, 205, 0.45);
@@ -260,7 +247,7 @@ textarea {
     0 8px 20px rgba(0,0,0,0.25);
 }
 
-/* Botón + específico */
+
 .botonagregar {
   display: flex;
   align-items: center;
@@ -271,7 +258,6 @@ textarea {
   cursor: pointer;
 }
 
-/* Tarjeta contenedora */
 .tarjeta {
   display: flex;
   flex-direction: column;
@@ -279,7 +265,6 @@ textarea {
   gap: 0.8rem;
 }
 
-/* ----- MENSAJE ----- */
 .tarjeta-header {
   display: flex;
   gap: 0.35rem;
@@ -290,7 +275,7 @@ textarea {
 
 .mensaje-label {
     font-size: 12px;
-    font-weight: 600; /* SemiBold */
+    font-weight: 600; 
     color: #ffffff;
 }
 
@@ -301,13 +286,10 @@ textarea {
   overflow: hidden;
   text-overflow: ellipsis;
     font-size: 12px;
-    font-weight: 500; /* Medium */
+    font-weight: 500; 
     color: #ffffff;
 }
 
-
-
-/* ----- BLOQUE BLANCO INFORMACIÓN ----- */
 .tarjeta-info {
   background: transparent;
   padding: 0 ;
@@ -320,16 +302,15 @@ textarea {
 
 .tarjeta-info-titulo {
     font-size: 12px;
-    font-weight: 600; /* SemiBold */
+    font-weight: 600; 
     color: #000000;
 }
 
-/* FECHA: Hoy      HORARIO: 18:35 en una sola línea */
 .info-fila-doble {
   display: flex;
   justify-content: space-between;
   font-size: 0.82rem;
-  gap: 1.2rem;   /* ← separación entre grupos */
+  gap: 1.2rem;   
 }
 
 .info-group {
@@ -339,17 +320,16 @@ textarea {
 
 .info-label {
     font-size: 10px;
-    font-weight: 700; /* Bold */
+    font-weight: 700; 
     color: #000000;
 }
 
 .info-valor {
     font-size: 10px;
-    font-weight: 600; /* SemiBold */
+    font-weight: 600; 
     color: #ffffff;
 }
 
-/* ----- AVISAR ANTES + SWITCH ----- */
 .avisar-antes {
   display: flex;
   justify-content: space-between;
@@ -374,19 +354,16 @@ textarea {
   top: 2px;
 }
 
-/* estado ON */
 .toggle-small.on .toggle-small-circle {
   right: 2px;
   background: #ff7a2f;
 }
 
-/* estado OFF */
 .toggle-small.off .toggle-small-circle {
   left: 2px;
   background: #ccc;
 }
 
-/* ----- BOTONES DE ABAJO ----- */
 .tarjeta-botones {
   margin-top: auto;
   display: flex;

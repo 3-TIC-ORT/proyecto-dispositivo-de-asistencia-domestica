@@ -7,12 +7,9 @@
 }
 
 body {
-  background-color: rgb(168, 166, 166);  /* igual que inicio / recordatorios */
+  background-color: rgb(168, 166, 166);  
 }
 
-/* =============================== */
-/*   LAYOUT GENERAL                */
-/* =============================== */
 
 .distribucion {
   display: flex;
@@ -20,7 +17,6 @@ body {
   flex-direction: row;
 }
 
-/* -------- SIDEBAR (igual) -------- */
 .barra-lateral {
   width: 7rem;
   background-color: #333;
@@ -37,7 +33,6 @@ body {
 }
 
 
-/* -------- CONTENIDO -------- */
 .contenido {
   flex: 1;
   display: flex;
@@ -53,7 +48,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* grid de tarjetas */
 .contenedor-objetos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
@@ -63,9 +57,6 @@ body {
   margin-top: 2rem;
 }
 
-/* =============================== */
-/*   BOTÓN +                      */
-/* =============================== */
 
 .botonagregar {
   width: 16.25rem;
@@ -102,9 +93,6 @@ body {
   background-color: rgba(217, 217, 217, 0.3);
 }
 
-/* =============================== */
-/*   MODAL                        */
-/* =============================== */
 
 .modal {
   display: none;
@@ -119,7 +107,6 @@ body {
   justify-content: center;
 }
 
-/* Caja principal */
 .modal-caja {
   width: 90%;
   max-width: 800px;
@@ -144,7 +131,6 @@ body {
   margin-bottom: 25px;
 }
 
-/* ===== Textos e inputs ===== */
 .label-texto {
   font-size: 1.4rem;
   font-weight: 600;
@@ -194,7 +180,6 @@ textarea {
   width: 100%;
 }
 
-/* ===== Toggle grande (modal) ===== */
 .toggle-row {
   display: flex;
   align-items: center;
@@ -252,15 +237,10 @@ textarea {
   cursor: pointer;
 }
 
-/* =============================== */
-/*   TARJETAS DIARIAS             */
-/* =============================== */
-
-/* mismo estilo base que recordatorios, pero alto flexible */
 .botonagregar,
 .tarjeta {
   width: 16.25rem;
-  min-height: 22.5rem;   /* un poco más alta para más info */
+  min-height: 22.5rem;   
   border-radius: 2.2rem;
 
   background: rgba(234, 217, 205, 0.45);
@@ -275,7 +255,7 @@ textarea {
     0 8px 20px rgba(0,0,0,0.25);
 }
 
-/* contenedor tarjeta */
+
 .tarjeta {
   display: flex;
   flex-direction: column;
@@ -283,7 +263,7 @@ textarea {
   gap: 0.8rem;
 }
 
-/* MENSAJE */
+
 .tarjeta-header {
   display: flex;
   gap: 0.35rem;
@@ -308,7 +288,7 @@ textarea {
   color: #ffffff;
 }
 
-/* BLOQUE INFO */
+
 .tarjeta-info {
   background: transparent;
   padding: 0;
@@ -325,7 +305,7 @@ textarea {
   color: #000000;
 }
 
-/* filas */
+
 .info-fila {
   display: flex;
   justify-content: space-between;
@@ -345,7 +325,6 @@ textarea {
   color: #ffffff;
 }
 
-/* AVISAR / MAS DE UNA VEZ toggles pequeños */
 .avisar-antes,
 .mas-veces-dia {
   display: flex;
@@ -371,19 +350,16 @@ textarea {
   top: 2px;
 }
 
-/* ON */
 .toggle-small.on .toggle-small-circle {
   right: 2px;
   background: #ff7a2f;
 }
 
-/* OFF */
 .toggle-small.off .toggle-small-circle {
   left: 2px;
   background: #ccc;
 }
 
-/* BOTONES abajo */
 .tarjeta-botones {
   margin-top: auto;
   display: flex;

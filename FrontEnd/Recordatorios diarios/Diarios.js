@@ -1,11 +1,6 @@
-// ===============================
-//   VARIABLES
-// ===============================
+
 var toggleActivo = true; // Avisar antes
 
-// ===============================
-//   MODAL
-// ===============================
 function abrirModal() {
     document.getElementById('modal').style.display = 'flex';
 }
@@ -42,9 +37,9 @@ function cambiarToggle() {
     }
 }
 
-// ===============================
+
 //   AGREGAR TARJETA
-// ===============================
+
 function agregarRecordatorio() {
     var mensaje = document.getElementById('mensaje').value.trim();
     var frecuencia = document.getElementById('frecuencia').value;
@@ -61,9 +56,9 @@ function agregarRecordatorio() {
     }
 }
 
-// ===============================
+
 //   CREAR TARJETA
-// ===============================
+
 function crearTarjeta(mensaje, avisar, frecuencia, veces, minutos, horaInicio, horaFin) {
     var cont = document.querySelector('.contenedor-objetos');
     var card = document.createElement('div');
@@ -71,7 +66,7 @@ function crearTarjeta(mensaje, avisar, frecuencia, veces, minutos, horaInicio, h
 
     var masDeUna = parseInt(veces, 10) > 1;
 
-    // filas opcionales
+
     var horariosExtra = '';
 
     if (horaInicio) {
@@ -149,9 +144,8 @@ function crearTarjeta(mensaje, avisar, frecuencia, veces, minutos, horaInicio, h
     cont.appendChild(card);
 }
 
-// ===============================
+
 //   ACCIONES DE BOTONES
-// ===============================
 function marcarRealizada(btn) {
     const tarjeta = btn.closest('.tarjeta');
     tarjeta.remove();
