@@ -8,86 +8,76 @@ import {
 } from "soquetic";
 import { ReadlineParser, SerialPort } from "serialport";
 
-// Función para obtener la fecha y hora actuales en formato 'dd-MM-yyyy HH:mm'
-function obtenerFechaYHoraActual() {
-  const ahora = new Date();
-  const dia = ahora.getDate().toString().padStart(2, '0');   // Día con 2 dígitos
-  const mes = (ahora.getMonth() + 1).toString().padStart(2, '0');  // Mes con 2 dígitos (los meses empiezan desde 0)
-  const año = ahora.getFullYear();
-  const horas = ahora.getHours().toString().padStart(2, '0');
-  const minutos = ahora.getMinutes().toString().padStart(2, '0');
-  return `${dia}-${mes}-${año} ${horas}:${minutos}`;
-}
+//---------------------------------------------------
+//  BACKEND PARA CONECTAR CON TU HARDWARE
+//---------------------------------------------------
+const { SerialPort, ReadlineParser } = require("serialport");
 
-// Función para leer el archivo JSON
-function leerArchivo(nombreArchivo) {
-  try {
-    const data = fs.readFileSync(nombreArchivo);
-    return JSON.parse(data);
-  } catch (error) {
-    console.error("Error al leer el archivo:", error);
-    return [];
-  }
-}
-
-// Función que verifica los recordatorios y ejecuta send si hay coincidencias de fecha y hora
-function verificarRecordatorios() {
-  const recordatorios = leerArchivo("recordatorios.json");
-  const fechaYHoraActual = obtenerFechaYHoraActual(); // Correcta referencia aquí
-  
-  // Buscar recordatorios cuya fecha y hora coincidan con la fecha y hora actuales
-  const recordatorioCoincidente = recordatorios.find(
-    (r) => `${r.fecha} ${r.hora}` === fechaYHoraActual
-  );
-
-  if (recordatorioCoincidente) {
-    console.log("Se encontró un recordatorio para la fecha y hora actual:", recordatorioCoincidente);
-    send({ mensaje: `Recordatorio: ${recordatorioCoincidente.titulo}` });  // 'titulo' en lugar de 'mensaje'
-  }
-}
-
-// Función que envía el mensaje al Arduino
-
-
-
-// =======================
-// CONEXIÓN CON HARDWARE (Arduino)
-// =======================
-/*
-
-
+// Cambia el path por tu puerto COM/tty
 const port = new SerialPort({
-  path: "COM3",
+  path: "COM3",  
   baudRate: 9600,
 });
-const parser = new ReadlineParser();
-port.pipe(parser);
 
-port.on("open", () => {
-  console.log("Puerto serial abierto correctamente");
+const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
+
+console.log("Esperando mensajes del dispositivo...");
+
+parser.on("data", (msg) => {
+  const data = msg.trim();
+  console.log("Arduino →", data);
+
+  //---------------------------------------------------
+  // 🔹 Evento: se detecta movimiento
+  //---------------------------------------------------
+  if (data.includes("Movimiento detectado")) {
+    console.log("[EVENTO] Movimiento detectado. Arduino pidió verificación.");
+    // Aquí tu backend NO debe hacer nada: Arduino reproduce solo
+  }
+
+  //---------------------------------------------------
+  // 🔹 Evento: usuario NO está (apretó botón durante verificación)
+  //---------------------------------------------------
+  if (data === "USUARIO_NO_PRESENTE") {
+    console.log("[EVENTO] Usuario NO presente. Backend desactiva recordatorios.");
+
+    // Aquí haces lo que necesites en tu backend:
+    // guardar en BD, pausar recordatorios, etc.
+  }
+
+  //---------------------------------------------------
+  // 🔹 Evento: usuario completó el recordatorio
+  //---------------------------------------------------
+  if (data === "RECORDATORIO_COMPLETADO") {
+    console.log("[EVENTO] Recordatorio completado.");
+
+    // Lógica backend → registrar tarea completada en base de datos
+  }
+
+  //---------------------------------------------------
+  // 🔹 Estado del Arduino devuelto por "STATUS"
+  //---------------------------------------------------
+  if (data.startsWith("Usuario")) {
+    console.log("[INFO ARDUINO]", data);
+  }
 });
 
-function send(data) {
-  port.write(data + "\n");
+//--------------------------------------------
+// Función backend → enviar comando al Arduino
+//--------------------------------------------
+function enviarComando(cmd) {
+  port.write(cmd + "\n");
+  console.log("Backend → Arduino:", cmd);
 }
 
-parser.on("data", (msjHardware) => {
-  // Lo que sea que tengas que hacer
-});
+//--------------------------------------------
+// Ejemplo: pedir el estado cada 30 segundos
+//--------------------------------------------
+setInterval(() => {
+  enviarComando("STATUS");
+}, 30000);
 
 
-
-// Verificar los recordatorios cada minuto (o el intervalo que prefieras)
-setInterval(verificarRecordatorios, 60000); // 60000ms = 1 minuto
-
-// También podrías llamarlo manualmente en alguna otra parte del código, dependiendo de cuándo lo necesites.
-verificarRecordatorios();  // Esto se ejecuta inmediatamente al inicio
-
-*/
-
-// =======================
-// Lógica para manejar eventos POST y GET
-// =======================
 subscribePOSTEvent("signup", (data) => {
   let usuarios = leerArchivo("usuarios.json");
 
