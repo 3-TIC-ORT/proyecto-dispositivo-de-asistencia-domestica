@@ -7,7 +7,6 @@
 
   <link rel="stylesheet" href="Diarios.css">
 
-  <!-- Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -17,56 +16,46 @@
 
   <div class="distribucion">
 
-    <!-- ====== SIDEBAR (igual que recordatorios) ====== -->
     <div class="barra-lateral">
 
-      <!-- Flecha atrás -->
       <a href="/FrontEnd/pantalla de inicio/inicio.html" class="sidebar-btn">
         <img src="/Imagenes/flechita hacia atras.png" class="icono-sidebar" alt="volver">
       </a>
 
-      <!-- Ajustes -->
       <a href="/FrontEnd/Ajusstes/ajustess.html" class="sidebar-btn">
         <img src="/Imagenes/Ajustes.png" class="icono-sidebar" alt="ajustes">
       </a>
 
-      <!-- separador flexible -->
       <div class="sidebar-spacer"></div>
 
-      <!-- Logo DAD (no botón) -->
       <img src="/Imagenes/LogoDAD.png" class="sidebar-logo" alt="logo DAD">
 
     </div>
 
-    <!-- ====== CONTENIDO ====== -->
     <div class="contenido">
       <div class="header">
         <h1>RECORDATORIOS DIARIOS</h1>
       </div>
 
       <div class="contenedor-objetos">
-        <!-- botón + -->
+       
         <button class="botonagregar" onclick="abrirModal()">
           <img src="/Imagenes/+.png" alt="más">
         </button>
-        <!-- aquí se agregan las tarjetas desde JS -->
       </div>
     </div>
 
   </div>
 
-  <!-- ====== MODAL ====== -->
   <div class="modal" id="modal">
 
     <div class="modal-caja">
 
       <h2>Nuevo recordatorio diario</h2>
 
-      <!-- MENSAJE -->
       <label class="label-texto" for="mensaje">Mensaje...</label>
       <textarea id="mensaje" rows="3"></textarea>
 
-      <!-- AVISAR ANTES -->
       <div class="toggle-row">
         <span class="toggle-text">Avisar antes:</span>
 
@@ -75,7 +64,6 @@
         </div>
       </div>
 
-      <!-- FRECUENCIA (select) -->
       <div class="fila-simple">
         <label class="label-campos" for="frecuencia">Frecuencia:</label>
         <select id="frecuencia" class="input-select">
@@ -91,7 +79,6 @@
         </select>
       </div>
 
-      <!-- VECES AL DÍA + MIN ENTRE REPETICIONES -->
       <div class="fila-doble">
         <div>
           <label class="label-campos" for="veces">Veces al día:</label>
@@ -104,7 +91,6 @@
         </div>
       </div>
 
-      <!-- HORARIO INICIO / FIN (opcionales) -->
       <div class="fila-doble">
         <div>
           <label class="label-campos" for="horaInicio">Desde (hora inicio):</label>

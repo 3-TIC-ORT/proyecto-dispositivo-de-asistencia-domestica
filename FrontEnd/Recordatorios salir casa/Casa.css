@@ -1,6 +1,4 @@
-/* =============================== */
-/* RESET */
-/* =============================== */
+
 
 * {
   margin: 0;
@@ -17,19 +15,12 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* =============================== */
-/* LAYOUT GENERAL */
-/* =============================== */
 
 .distribucion {
   display: flex;
   height: 100vh;
   flex-direction: row;
 }
-
-/* =============================== */
-/* SIDEBAR — IGUAL AL DE RECORDATORIOS */
-/* =============================== */
 
 .barra-lateral {
   width: 7rem;
@@ -45,11 +36,6 @@ body {
 .sidebar-spacer {
   flex-grow: 1;
 }
-
-
-/* =============================== */
-/* CONTENIDO */
-/* =============================== */
 
 .contenido {
   flex: 1;
@@ -70,9 +56,6 @@ body {
   gap: 1.5rem;
 }
 
-/* =============================== */
-/* BOTÓN + */
-/* =============================== */
 
 .boton-agregar-objeto {
   background: rgba(255, 255, 255, 0.28);
@@ -99,10 +82,6 @@ body {
 .boton-agregar-objeto img {
   width: 5rem;
 }
-
-/* =============================== */
-/* TARJETAS — IGUAL AL FIGMA */
-/* =============================== */
 
 .tarjeta-objeto {
   width: 15rem;
@@ -133,8 +112,6 @@ body {
   font-weight: 700;
 }
 
-/* BOTÓN ELIMINAR OBJETO */
-
 .btn-eliminar-objeto {
   width: 90%;
   background: #FF3B2F;
@@ -154,10 +131,6 @@ body {
 .btn-eliminar-objeto:hover {
   opacity: 0.85;
 }
-
-/* =============================== */
-/* MODAL — IGUAL AL FIGMA */
-/* =============================== */
 
 .modal {
   display: none;
