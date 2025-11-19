@@ -64,27 +64,12 @@ function agregarRecordatorio() {
     var fecha = document.getElementById('fecha').value;
     var horario = document.getElementById('horario').value;
 
-    if (mensaje  && fecha  && horario) {
-        
-        
-        postEvent(
-            "newtask",
-            { mensaje, fecha, horario },
-            (data) => {
-              // data viene de subscribePOSTEvent("login", ...) del backend
-              if (data.ok) {
-                crearTarjeta(mensaje, fecha, horario, toggleActivo);
-              } else {
-                // Login incorrecto: mostrar mensaje
-                mensajeError.textContent = data.msg || "ERROR";
-              }
-            }
-          );
+    if (mensaje && fecha && horario) {
+        crearTarjeta(mensaje, fecha, horario, toggleActivo);
         cerrarModal();
     } else {
         alert('Completa todos los campos');
     }
-    
 }
 
 function crearTarjeta(mensaje, fecha, horario, avisar) {
