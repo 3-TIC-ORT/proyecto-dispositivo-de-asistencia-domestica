@@ -28,7 +28,7 @@ function leerArchivo(path) {
 // ---------------------------
 
 // CAMBIÁ ESTE PATH POR EL COM REAL DE TU DAD (ej: "COM3", "COM4", etc.)
-const SERIAL_PATH = "COM3";
+const SERIAL_PATH = "COM6";
 const BAUD_RATE = 9600;
 
 let port = null;
