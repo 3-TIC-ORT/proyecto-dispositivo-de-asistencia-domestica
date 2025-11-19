@@ -8,75 +8,94 @@ import {
 } from "soquetic";
 import { ReadlineParser, SerialPort } from "serialport";
 
-//---------------------------------------------------
-//  BACKEND PARA CONECTAR CON TU HARDWARE
-//---------------------------------------------------
-const { SerialPort, ReadlineParser } = require("serialport");
+let usuarioAusente = false;
+let reconocimientoEnProgreso = false;
+let temporizadorReconocimiento = null;
 
-// Cambia el path por tu puerto COM/tty
+// Cambiar puerto
 const port = new SerialPort({
-  path: "COM3",  
+  path: "COM5",
   baudRate: 9600,
 });
 
+// *** ESTA LÍNEA DEBE EXISTIR ANTES DE USAR parser ***
 const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
 
-console.log("Esperando mensajes del dispositivo...");
+port.on("open", () => {
+  console.log("✔ Arduino conectado correctamente.");
+});
 
-parser.on("data", (msg) => {
+//-----------------------------------------------------
+//  LECTURA DE DATOS DEL ARDUINO  (PEGAR DESPUÉS DE DEFINIR parser)
+//-----------------------------------------------------
+parser.on("data", async (msg) => {
   const data = msg.trim();
   console.log("Arduino →", data);
 
-  //---------------------------------------------------
-  // 🔹 Evento: se detecta movimiento
-  //---------------------------------------------------
+  //----------------------------------------------------
+  // 1) Arduino detecta movimiento
+  //----------------------------------------------------
   if (data.includes("Movimiento detectado")) {
-    console.log("[EVENTO] Movimiento detectado. Arduino pidió verificación.");
-    // Aquí tu backend NO debe hacer nada: Arduino reproduce solo
+    console.log("[EVENTO] Movimiento detectado, Arduino verifica usuario (15s)");
+
+    usuarioAusente = false;
+    reconocimientoEnProgreso = true;
+
+    clearTimeout(temporizadorReconocimiento);
+
+    temporizadorReconocimiento = setTimeout(async () => {
+      if (!usuarioAusente) {
+        console.log("[BACKEND] Usuario presente. Reproduciendo recordatorio.");
+
+        const texto = "Recordatorio pendiente.";
+        const nombreArchivo = await convertirTextoAVoz(texto);
+
+        console.log("[AUDIO] Archivo generado:", nombreArchivo);
+
+        enviarComando("PLAY:2");
+      }
+
+      reconocimientoEnProgreso = false;
+    }, 15000);
   }
 
-  //---------------------------------------------------
-  // 🔹 Evento: usuario NO está (apretó botón durante verificación)
-  //---------------------------------------------------
-  if (data === "USUARIO_NO_PRESENTE") {
-    console.log("[EVENTO] Usuario NO presente. Backend desactiva recordatorios.");
+  //----------------------------------------------------
+  // 2) Botón presionado durante reconocimiento
+  //----------------------------------------------------
+  if (data === "1") {
+    console.log("[EVENTO] Usuario ausente → NO reproducir recordatorios.");
+    usuarioAusente = true;
+    reconocimientoEnProgreso = false;
 
-    // Aquí haces lo que necesites en tu backend:
-    // guardar en BD, pausar recordatorios, etc.
+    clearTimeout(temporizadorReconocimiento);
+    return;
   }
 
-  //---------------------------------------------------
-  // 🔹 Evento: usuario completó el recordatorio
-  //---------------------------------------------------
+  //----------------------------------------------------
+  // 3) Botón presionado durante recordatorio
+  //----------------------------------------------------
   if (data === "RECORDATORIO_COMPLETADO") {
-    console.log("[EVENTO] Recordatorio completado.");
-
-    // Lógica backend → registrar tarea completada en base de datos
+    console.log("[EVENTO] Recordatorio completado por el usuario.");
+    return;
   }
 
-  //---------------------------------------------------
-  // 🔹 Estado del Arduino devuelto por "STATUS"
-  //---------------------------------------------------
-  if (data.startsWith("Usuario")) {
-    console.log("[INFO ARDUINO]", data);
+  //----------------------------------------------------
+  // 4) Otros textos informativos
+  //----------------------------------------------------
+  if (data.includes("Recordatorio") || data.includes("Usuario")) {
+    console.log("[INFO] Arduino:", data);
   }
 });
 
-//--------------------------------------------
-// Función backend → enviar comando al Arduino
-//--------------------------------------------
+//-----------------------------------------------------
+//  FUNCIÓN PARA ENVIAR COMANDOS AL ARDUINO
+//-----------------------------------------------------
 function enviarComando(cmd) {
   port.write(cmd + "\n");
   console.log("Backend → Arduino:", cmd);
 }
 
-//--------------------------------------------
-// Ejemplo: pedir el estado cada 30 segundos
-//--------------------------------------------
-setInterval(() => {
-  enviarComando("STATUS");
-}, 30000);
-
+export { enviarComando };
 
 subscribePOSTEvent("signup", (data) => {
   let usuarios = leerArchivo("usuarios.json");
