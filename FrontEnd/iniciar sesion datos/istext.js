@@ -1,42 +1,52 @@
-// Conexión con el servidor SoqueTIC (por defecto puerto 3000)
-connect2Server(); // porque en el backend hiciste startServer(3000, true);
+// Conectamos con el backend usando SoqueTIC
+connect2Server();
 
-// Referencias a los elementos del DOM
-const inputUsuario = document.getElementById("usuario");
-const inputContrasena = document.getElementById("contrasena");
-const btnLogin = document.getElementById("btnLogin");
-const mensajeError = document.getElementById("mensajeError");
+// Tomamos los elementos del DOM
+const inputUsuario   = document.getElementById("usuario");
+const inputPassword  = document.getElementById("contrasena");
+const mensajeError   = document.getElementById("mensajeError");
+const botonLogin     = document.getElementById("btnLogin");
 
-// Escuchar click en el botón "Confirmar"
-btnLogin.addEventListener("click", (e) => {
-  e.preventDefault(); // evitamos recargar la página
+// Escuchamos el click en el botón "Confirmar"
+if (botonLogin) {
+  botonLogin.addEventListener("click", iniciarSesion);
+}
+
+// (Opcional) Enter para iniciar sesión
+[ inputUsuario, inputPassword ].forEach((input) => {
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      iniciarSesion();
+    }
+  });
+});
+
+function iniciarSesion() {
+  const username = inputUsuario.value.trim();
+  const password = inputPassword.value.trim();
 
   // Limpiar mensaje previo
   mensajeError.textContent = "";
 
-  const username = inputUsuario.value.trim();
-  const password = inputContrasena.value;
-
-  // Validación básica
   if (!username || !password) {
     mensajeError.textContent = "Completá usuario y contraseña.";
     return;
   }
 
-  // Enviar al backend usando SoqueTIC
+  // Llamamos al backend: evento "login"
+  // El backend espera { username, password }
   postEvent(
     "login",
     { username: username, password: password },
-    (data) => {
-      // data viene de subscribePOSTEvent("login", ...) del backend
-      if (data.ok) {
-        // Login correcto: ir a inicio.html
-        // Uso la misma ruta que tenías en el onclick original:
-        window.location.href = "/FrontEnd/pantalla de inicio/inicio.html";
+    (resp) => {
+      if (resp && resp.ok) {
+        // Opcional: alert de éxito
+        // alert(resp.msg || "Inicio de sesión exitoso.");
+        // Redirigir a la pantalla de inicio
+        location.href = "/FrontEnd/pantalla de inicio/inicio.html";
       } else {
-        // Login incorrecto: mostrar mensaje
-        mensajeError.textContent = data.msg || "Usuario o contraseña incorrectos.";
+        mensajeError.textContent = resp?.msg || "Usuario o contraseña incorrectos.";
       }
     }
   );
-});
+}

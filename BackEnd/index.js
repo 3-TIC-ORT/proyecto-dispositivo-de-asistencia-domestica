@@ -1,82 +1,97 @@
 import fs from "fs";
-import { convertirTextoAVoz } from "./API.js";
 import {
   subscribePOSTEvent,
   subscribeGETEvent,
   realTimeEvent,
   startServer,
 } from "soquetic";
-import { ReadlineParser, SerialPort } from "serialport";
+import { SerialPort, ReadlineParser } from "serialport";
 
-//---------------------------------------------------
-//  BACKEND PARA CONECTAR CON TU HARDWARE
-//---------------------------------------------------
-const { SerialPort, ReadlineParser } = require("serialport");
+// ⚠️ Voz desactivada para que no rompa por falta de API key
+// import { convertirTextoAVoz } from "./API.js";
 
-// Cambia el path por tu puerto COM/tty
-const port = new SerialPort({
-  path: "COM3",  
-  baudRate: 9600,
-});
-
-const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
-
-console.log("Esperando mensajes del dispositivo...");
-
-parser.on("data", (msg) => {
-  const data = msg.trim();
-  console.log("Arduino →", data);
-
-  //---------------------------------------------------
-  // 🔹 Evento: se detecta movimiento
-  //---------------------------------------------------
-  if (data.includes("Movimiento detectado")) {
-    console.log("[EVENTO] Movimiento detectado. Arduino pidió verificación.");
-    // Aquí tu backend NO debe hacer nada: Arduino reproduce solo
+// ---------------------------
+// Función para leer archivos JSON
+// ---------------------------
+function leerArchivo(path) {
+  if (!fs.existsSync(path)) return [];
+  try {
+    return JSON.parse(fs.readFileSync(path));
+  } catch (err) {
+    console.error("Error leyendo archivo", path, err);
+    return [];
   }
+}
 
-  //---------------------------------------------------
-  // 🔹 Evento: usuario NO está (apretó botón durante verificación)
-  //---------------------------------------------------
-  if (data === "USUARIO_NO_PRESENTE") {
-    console.log("[EVENTO] Usuario NO presente. Backend desactiva recordatorios.");
+// ---------------------------
+// HARDWARE DAD (SERIALPORT)
+// ---------------------------
 
-    // Aquí haces lo que necesites en tu backend:
-    // guardar en BD, pausar recordatorios, etc.
-  }
+// CAMBIÁ ESTE PATH POR EL COM REAL DE TU DAD (ej: "COM3", "COM4", etc.)
+const SERIAL_PATH = "COM3";
+const BAUD_RATE = 9600;
 
-  //---------------------------------------------------
-  // 🔹 Evento: usuario completó el recordatorio
-  //---------------------------------------------------
-  if (data === "RECORDATORIO_COMPLETADO") {
-    console.log("[EVENTO] Recordatorio completado.");
+let port = null;
+let parser = null;
 
-    // Lógica backend → registrar tarea completada en base de datos
-  }
+try {
+  port = new SerialPort({
+    path: SERIAL_PATH,
+    baudRate: BAUD_RATE,
+  });
 
-  //---------------------------------------------------
-  // 🔹 Estado del Arduino devuelto por "STATUS"
-  //---------------------------------------------------
-  if (data.startsWith("Usuario")) {
-    console.log("[INFO ARDUINO]", data);
-  }
-});
+  parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
 
-//--------------------------------------------
-// Función backend → enviar comando al Arduino
-//--------------------------------------------
+  console.log(`✅ Puerto serie abierto en ${SERIAL_PATH} a ${BAUD_RATE} baudios`);
+
+  parser.on("data", (msg) => {
+    const data = msg.trim();
+    console.log("Arduino →", data);
+
+    if (data.includes("Movimiento detectado")) {
+      console.log("[EVENTO] Movimiento detectado. Arduino pidió verificación.");
+    }
+
+    if (data === "USUARIO_NO_PRESENTE") {
+      console.log("[EVENTO] Usuario NO presente. Backend desactiva recordatorios.");
+      // Acá podrías marcar cosas en JSON, etc.
+    }
+
+    if (data === "RECORDATORIO_COMPLETADO") {
+      console.log("[EVENTO] Recordatorio completado.");
+      // Registrar en tareas/recordatorios si querés
+    }
+
+    if (data.startsWith("Usuario")) {
+      console.log("[INFO ARDUINO]", data);
+    }
+  });
+
+  port.on("error", (err) => {
+    console.error("⚠️ Error en el puerto serie:", err.message);
+  });
+} catch (err) {
+  console.error("⚠️ No se pudo abrir el puerto serie:", err.message);
+}
+
+// Función para enviar comandos al Arduino (solo si el puerto existe)
 function enviarComando(cmd) {
+  if (!port) {
+    console.warn("⚠️ No hay puerto serie abierto, no se puede enviar comando:", cmd);
+    return;
+  }
   port.write(cmd + "\n");
   console.log("Backend → Arduino:", cmd);
 }
 
-//--------------------------------------------
-// Ejemplo: pedir el estado cada 30 segundos
-//--------------------------------------------
+// Ejemplo: pedir STATUS cada 30 segundos
 setInterval(() => {
   enviarComando("STATUS");
 }, 30000);
 
+// ---------------------------
+// EVENTOS USUARIOS: SIGNUP / LOGIN
+// ---------------------------
 
 subscribePOSTEvent("signup", (data) => {
   let usuarios = leerArchivo("usuarios.json");
@@ -87,7 +102,6 @@ subscribePOSTEvent("signup", (data) => {
 
   return { ok: true, msg: "Usuario registrado con éxito" };
 });
-
 
 subscribePOSTEvent("login", (data) => {
   let usuarios = leerArchivo("usuarios.json");
@@ -103,6 +117,10 @@ subscribePOSTEvent("login", (data) => {
   }
 });
 
+// ---------------------------
+// EVENTOS RECORDATORIOS
+// ---------------------------
+
 subscribePOSTEvent("agregarRecordatorio", (data) => {
   let recordatorios = leerArchivo("recordatorios.json");
 
@@ -110,7 +128,7 @@ subscribePOSTEvent("agregarRecordatorio", (data) => {
     titulo: data.titulo,
     fecha: data.fecha,
     hora: data.hora,
-    AvisarAntes: data.AvisarAntes,
+    avisarAntesMinutos: data.avisarAntesMinutos,
   });
 
   fs.writeFileSync(
@@ -127,6 +145,9 @@ subscribeGETEvent("listarRecordatorios", () => {
   return leerArchivo("recordatorios.json");
 });
 
+// ---------------------------
+// EVENTOS OBJETOS
+// ---------------------------
 
 subscribePOSTEvent("agregarObjeto", (data) => {
   let objetos = leerArchivo("objetos.json");
@@ -152,6 +173,9 @@ subscribeGETEvent("listarObjetos", () => {
   return leerArchivo("objetos.json");
 });
 
+// ---------------------------
+// EVENTOS TAREAS
+// ---------------------------
 
 subscribePOSTEvent("agregarTarea", (data) => {
   let tareas = leerArchivo("tareas.json");
@@ -189,4 +213,9 @@ subscribePOSTEvent("eliminarTarea", (data) => {
 
 subscribeGETEvent("listarTareas", () => leerArchivo("tareas.json"));
 
+// ---------------------------
+// INICIAR SERVIDOR
+// ---------------------------
+
 startServer(3000, true);
+console.log("✅ Backend DAD iniciado en puerto 3000");
