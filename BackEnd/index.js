@@ -8,6 +8,10 @@ import {
 import { SerialPort, ReadlineParser } from "serialport";
 import { convertirTextoAVoz } from "./API.js";
 
+let usuarioAusente = false;
+let reconocimientoEnProgreso = false;
+let temporizadorReconocimiento = null;
+
 // ---------------------------
 // Función para leer archivos JSON
 // ---------------------------
@@ -20,144 +24,76 @@ function leerArchivo(path) {
     return [];
   }
 }
+const port = new SerialPort({
+  path: "COM5",   // <-- cambiar si tu Arduino usa otro puerto
+  baudRate: 9600,
+});
 
-// ---------------------------
-// HARDWARE DAD (SERIALPORT) + LÓGICA DE GEL
-// ---------------------------
+const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
 
-// CAMBIÁ ESTE PATH SI TU DAD CAMBIA DE PUERTO (ahora está en COM6)
-const SERIAL_PATH = "COM6";
-const BAUD_RATE = 9600;
+port.on("open", () => {
+  console.log("✔ Arduino conectado correctamente.");
+});
 
-// Estado para la lógica del DAD
-let usuarioAusente = false;
-let reconocimientoEnProgreso = false;
-let temporizadorReconocimiento = null;
+//-----------------------------------------------------
+// ESCUCHA DE DATOS DEL ARDUINO
+//-----------------------------------------------------
+parser.on("data", async (msg) => {
+  const data = msg.trim();
+  console.log("Arduino →", data);
 
-let port = null;
-let parser = null;
+  //----------------------------------------------------
+  // 1) Movimiento detectado → Arduino está esperando botón
+  //----------------------------------------------------
+  if (data.includes("Movimiento detectado")) {
+    console.log("[EVENTO] Inicia reconocimiento (15s)");
 
-try {
-  port = new SerialPort({
-    path: SERIAL_PATH,
-    baudRate: BAUD_RATE,
-  });
+    usuarioAusente = false;
+    reconocimientoEnProgreso = true;
 
-  parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
+    clearTimeout(temporizadorReconocimiento);
 
-  console.log(`✅ Puerto serie abierto en ${SERIAL_PATH} a ${BAUD_RATE} baudios`);
+    temporizadorReconocimiento = setTimeout(async () => {
+      if (!usuarioAusente) {
+        console.log("[BACKEND] Usuario presente → Emitiendo recordatorio...");
 
-  port.on("open", () => {
-    console.log("✔ Arduino conectado correctamente.");
-  });
+        const texto = "Tienes un recordatorio pendiente.";
+        await convertirTextoAVoz(texto);
 
-  // LECTURA DE DATOS DEL ARDUINO (GEL + TUS LOGS)
-  parser.on("data", async (msg) => {
-    const data = msg.trim();
-    console.log("Arduino →", data);
+        console.log("🎵 Recordatorio reproducido en la computadora ✅");
+      }
 
-    //----------------------------------------------------
-    // 1) Arduino detecta movimiento
-    //----------------------------------------------------
-    if (data.includes("Movimiento detectado")) {
-      console.log(
-        "[EVENTO] Movimiento detectado, Arduino verifica usuario (15s)"
-      );
-
-      usuarioAusente = false;
-      reconocimientoEnProgreso = true;
-
-      clearTimeout(temporizadorReconocimiento);
-
-      temporizadorReconocimiento = setTimeout(async () => {
-        if (!usuarioAusente) {
-          console.log(
-            "[BACKEND] Usuario presente. Reproduciendo recordatorio."
-          );
-
-          const texto = "Recordatorio pendiente.";
-
-          try {
-            const nombreArchivo = await convertirTextoAVoz(texto);
-            console.log("[AUDIO] Archivo generado:", nombreArchivo);
-          } catch (err) {
-            console.error(
-              "❌ Error al generar audio:",
-              err?.message || err
-            );
-          }
-
-          // Igual mandamos PLAY al Arduino
-          enviarComando("PLAY:2");
-        }
-
-        reconocimientoEnProgreso = false;
-      }, 15000);
-
-      return;
-    }
-
-    //----------------------------------------------------
-    // 2) Botón presionado durante reconocimiento → usuario ausente
-    //----------------------------------------------------
-    if (data === "1") {
-      console.log(
-        "[EVENTO] Usuario ausente → NO reproducir recordatorios."
-      );
-      usuarioAusente = true;
       reconocimientoEnProgreso = false;
-
-      clearTimeout(temporizadorReconocimiento);
-      return;
-    }
-
-    //----------------------------------------------------
-    // 3) Botón presionado durante recordatorio completado
-    //----------------------------------------------------
-    if (data === "RECORDATORIO_COMPLETADO") {
-      console.log("[EVENTO] Recordatorio completado por el usuario.");
-      // Acá podrían marcar en JSON que se completó una tarea/recordatorio
-      return;
-    }
-
-    //----------------------------------------------------
-    // 4) Caso original tuyo: USUARIO_NO_PRESENTE
-    //----------------------------------------------------
-    if (data === "USUARIO_NO_PRESENTE") {
-      console.log(
-        "[EVENTO] Usuario NO presente. Backend desactiva recordatorios."
-      );
-      // Si querés, acá podés guardar algo en tus JSON
-      return;
-    }
-
-    //----------------------------------------------------
-    // 5) Otros textos informativos
-    //----------------------------------------------------
-    if (data.includes("Recordatorio") || data.includes("Usuario")) {
-      console.log("[INFO ARDUINO]", data);
-    }
-  });
-
-  port.on("error", (err) => {
-    console.error("⚠️ Error en el puerto serie:", err.message);
-  });
-} catch (err) {
-  console.error("⚠️ No se pudo abrir el puerto serie:", err.message);
-}
-
-// Función para enviar comandos al Arduino (solo si el puerto existe)
-function enviarComando(cmd) {
-  if (!port) {
-    console.warn(
-      "⚠️ No hay puerto serie abierto, no se puede enviar comando:",
-      cmd
-    );
-    return;
+    }, 15000); // 15 segundos
   }
+
+  //----------------------------------------------------
+  // 2) Usuario presionó botón → AUSENTE
+  //----------------------------------------------------
+  if (data === "1") {
+    console.log("[EVENTO] Usuario AUSENTE → NO reproducir recordatorios.");
+
+    usuarioAusente = true;
+
+    clearTimeout(temporizadorReconocimiento);
+  }
+
+  //----------------------------------------------------
+  // 3) Arduino confirma que completó recordatorio
+  //----------------------------------------------------
+  if (data === "RECORDATORIO_COMPLETADO") {
+    console.log("[EVENTO] Usuario completó el recordatorio ✅");
+  }
+});
+
+//-----------------------------------------------------
+// FUNCIÓN PARA ENVIAR COMANDOS AL ARDUINO (SI NECESITÁS FUTURO USO)
+//-----------------------------------------------------
+function enviarComando(cmd) {
   port.write(cmd + "\n");
   console.log("Backend → Arduino:", cmd);
 }
+
 
 // Ejemplo: pedir STATUS cada 30 segundos
 setInterval(() => {
