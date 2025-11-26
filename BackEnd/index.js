@@ -12,23 +12,13 @@ let usuarioAusente = false;
 let reconocimientoEnProgreso = false;
 let temporizadorReconocimiento = null;
 
-// ---------------------------
-// Función para leer archivos JSON
-// ---------------------------
-function leerArchivo(path) {
-  if (!fs.existsSync(path)) return [];
-  try {
-    return JSON.parse(fs.readFileSync(path));
-  } catch (err) {
-    console.error("Error leyendo archivo", path, err);
-    return [];
-  }
-}
+// ✅ Cambiá COM5 si tu puerto es otro
 const port = new SerialPort({
-  path: "COM3",   // <-- cambiar si tu Arduino usa otro puerto
+  path: "COM5",
   baudRate: 9600,
 });
 
+// ✅ EL PARSER DEBE IR INMEDIATAMENTE DESPUÉS
 const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
 
 port.on("open", () => {
@@ -36,17 +26,15 @@ port.on("open", () => {
 });
 
 //-----------------------------------------------------
-// ESCUCHA DE DATOS DEL ARDUINO
+// ✅ LECTURA DE DATOS DEL ARDUINO (BOTÓN + PIR + RECORDATORIOS)
 //-----------------------------------------------------
 parser.on("data", async (msg) => {
   const data = msg.trim();
   console.log("Arduino →", data);
 
-  //----------------------------------------------------
-  // 1) Movimiento detectado → Arduino está esperando botón
-  //----------------------------------------------------
-  if (data.includes("Movimiento detectado")) {
-    console.log("[EVENTO] Inicia reconocimiento (15s)");
+  // 🔹 1 = movimiento detectado
+  if (data === "1") {
+    console.log("[EVENTO] Movimiento detectado → iniciando reconocimiento (15s)");
 
     usuarioAusente = false;
     reconocimientoEnProgreso = true;
@@ -55,54 +43,41 @@ parser.on("data", async (msg) => {
 
     temporizadorReconocimiento = setTimeout(async () => {
       if (!usuarioAusente) {
-        console.log("[BACKEND] Usuario presente → Emitiendo recordatorio...");
+        console.log("[BACKEND] Usuario presente → emitir recordatorio");
 
-        const texto = "Tienes un recordatorio pendiente.";
-        await convertirTextoAVoz(texto);
+        const texto = "Recordatorio pendiente.";
+        const nombreArchivo = await convertirTextoAVoz(texto);
 
-        console.log("🎵 Recordatorio reproducido en la computadora ✅");
+        console.log("[AUDIO] Archivo generado:", nombreArchivo);
       }
 
       reconocimientoEnProgreso = false;
-    }, 15000); // 15 segundos
+    }, 15000);
   }
 
-  //----------------------------------------------------
-  // 2) Usuario presionó botón → AUSENTE
-  //----------------------------------------------------
-  if (data === "1") {
-    console.log("[EVENTO] Usuario AUSENTE → NO reproducir recordatorios.");
+  // 🔹 3 = usuario presionó botón DURANTE reconocimiento
+  if (data === "3") {
+    console.log("[EVENTO] Botón presionado → usuario AUSENTE");
 
     usuarioAusente = true;
-
     clearTimeout(temporizadorReconocimiento);
   }
 
-  //----------------------------------------------------
-  // 3) Arduino confirma que completó recordatorio
-  //----------------------------------------------------
+  // 🔹 RECORDATORIO COMPLETADO
   if (data === "RECORDATORIO_COMPLETADO") {
-    console.log("[EVENTO] Usuario completó el recordatorio ✅");
+    console.log("[EVENTO] Usuario completó el recordatorio");
   }
 });
 
 //-----------------------------------------------------
-// FUNCIÓN PARA ENVIAR COMANDOS AL ARDUINO (SI NECESITÁS FUTURO USO)
+// ✅ FUNCIÓN PARA ENVIAR COMANDOS AL ARDUINO
 //-----------------------------------------------------
 function enviarComando(cmd) {
   port.write(cmd + "\n");
   console.log("Backend → Arduino:", cmd);
 }
 
-
-// Ejemplo: pedir STATUS cada 30 segundos
-setInterval(() => {
-  enviarComando("STATUS");
-}, 30000);
-
-// Si en algún otro archivo quieren usar enviarComando
 export { enviarComando };
-
 // ---------------------------
 // EVENTOS USUARIOS: SIGNUP / LOGIN
 // ---------------------------
