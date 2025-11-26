@@ -25,7 +25,7 @@ function leerArchivo(path) {
   }
 }
 const port = new SerialPort({
-  path: "COM5",   // <-- cambiar si tu Arduino usa otro puerto
+  path: "COM3",   // <-- cambiar si tu Arduino usa otro puerto
   baudRate: 9600,
 });
 

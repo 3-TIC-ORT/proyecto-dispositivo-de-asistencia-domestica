@@ -21,25 +21,20 @@
         <h1 class="titulo">DAD</h1>
         <h2 class="subtitulo">Dispositivo de Asistencia Domestica</h2>
 
-        <!-- Agrego id a los campos para poder leerlos desde JS -->
         <input class="campo" id="usuario" type="text" placeholder="Usuario">
         <input class="campo" id="contrasena" type="password" placeholder="Contraseña">
 
-        <!-- Mensaje de error / info -->
         <p id="mensajeError" class="mensaje-error"></p>
 
-        <!-- El botón ya no redirige solo, lo maneja login.js -->
         <button class="btn-confirmar" id="btnLogin">
             Confirmar
         </button>
 
     </div>
 
-    <!-- SoqueTIC: primero Socket.IO y cliente SoqueTIC -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/JZylber/SoqueTIC-Client@v1.4.2/soquetic-client.js"></script>
 
-    <!-- Tu JS para el inicio de sesión -->
     <script src="istext.js"></script>
 </body>
 </html>

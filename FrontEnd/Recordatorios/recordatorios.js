@@ -1,10 +1,11 @@
-var toggleActivo = true;
+// Conecto con el backend SoqueTIC (puerto 3000 por defecto)
+connect2Server();
 
+var toggleActivo = true;
 
 function abrirModal() {
     document.getElementById('modal').style.display = 'flex';
 }
-
 
 function cerrarModal() {
     document.getElementById('modal').style.display = 'none';
@@ -18,7 +19,6 @@ function cerrarModal() {
     circulo.style.left = '25px';
     toggle.style.backgroundColor = '#ff5722';
 }
-
 
 function cambiarToggle() {
     var circulo = document.getElementById('circulo');
@@ -58,20 +58,44 @@ function formatearFecha(fechaInput) {
     }
 }
 
-
 function agregarRecordatorio() {
     var mensaje = document.getElementById('mensaje').value;
     var fecha = document.getElementById('fecha').value;
     var horario = document.getElementById('horario').value;
 
     if (mensaje && fecha && horario) {
+
+        console.log("→ Voy a crear tarjeta con:", mensaje, fecha, horario);
+
+        // 1) PRIMERO creo la tarjeta en el front
         crearTarjeta(mensaje, fecha, horario, toggleActivo);
+
+        // 2) Después calculo los minutos para el backend
+        var avisarAntesMinutos = toggleActivo ? 10 : 0;
+
+        // 3) Intento mandar al backend, pero si falla NO quiero romper el front
+        try {
+            postEvent(
+                "agregarRecordatorio",
+                {
+                    titulo: mensaje,
+                    fecha: fecha,
+                    hora: horario,
+                    avisarAntesMinutos: avisarAntesMinutos
+                },
+                function(respuesta) {
+                    console.log("Respuesta del backend:", respuesta);
+                }
+            );
+        } catch (err) {
+            console.error("Error al llamar a postEvent:", err);
+        }
+
         cerrarModal();
     } else {
         alert('Completa todos los campos');
     }
 }
-
 function crearTarjeta(mensaje, fecha, horario, avisar) {
     var contenedor = document.querySelector('.contenedor-objetos');
     var nuevaTarjeta = document.createElement('div');
@@ -125,7 +149,11 @@ function crearTarjeta(mensaje, fecha, horario, avisar) {
 
 function marcarRealizada(boton) {
     const tarjeta = boton.closest('.tarjeta');
-    tarjeta.remove();
+
+    tarjeta.classList.add('tarjeta-realizada');
+
+    boton.textContent = 'Realizada';
+    boton.disabled = true;
 }
 
 function eliminarTarea(boton) {
@@ -133,4 +161,3 @@ function eliminarTarea(boton) {
     tarjeta.remove();
 }
 
-connect2server()
