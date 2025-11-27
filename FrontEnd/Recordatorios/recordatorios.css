@@ -15,9 +15,10 @@ body {
 
 .distribucion {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: row;
 }
+
 
 
 .barra-lateral {
@@ -93,9 +94,7 @@ body {
   background-color: rgba(217, 217, 217, 0.3);
 }
 
-
-
-.modal { 
+.modal {
   display: none;
   position: fixed;
   inset: 0;
@@ -104,13 +103,19 @@ body {
   -webkit-backdrop-filter: blur(20px);
   z-index: 5000;
 
-  align-items: center;
+  display: flex;
   justify-content: center;
+  align-items: flex-start;
+
+  overflow-y: auto;
+  padding: 2rem 0;
 }
 
 .modal-caja {
   width: 90%;
   max-width: 800px;
+  max-height: 90vh;
+
   background: rgba(255, 200, 185, 0.32);
   backdrop-filter: blur(30px) saturate(140%);
   -webkit-backdrop-filter: blur(30px) saturate(140%);
@@ -124,7 +129,10 @@ body {
     inset 0 4px 15px rgba(255,255,255,0.5),
     inset 0 -6px 20px rgba(0,0,0,0.18),
     0 10px 30px rgba(0,0,0,0.35);
+
+  overflow-y: auto;
 }
+
 
 .modal-caja h2 {
   font-size: 2.6rem;

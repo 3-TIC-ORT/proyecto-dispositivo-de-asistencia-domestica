@@ -1,18 +1,10 @@
-// Conectamos con el backend por SoqueTIC
 connect2Server();
 
-// ---------------
-// REFERENCIAS A LA UI
-// ---------------
-
-// Todas las cajas con recordatorios (usamos el orden, NO cambiamos clases)
 const cajas = document.querySelectorAll(".cajarecor");
+const cajaRecordatorios = cajas[0];
 
-// Primera cajita: "Recordatorios" (no diarios)
-const cajaRecordatorios = cajas[0]; // h2 = "Recordatorios"
+// =================== RECORDATORIOS ===================
 
-// Dentro de esa caja vamos a poner las filas dinámicas
-// (no cambiamos clases, solo borramos las que venían de ejemplo)
 function limpiarFilasRecordatorios() {
   if (!cajaRecordatorios) return;
 
@@ -25,14 +17,10 @@ function limpiarFilasRecordatorios() {
   }
 }
 
-// Crea una fila con 3 botones usando TUS clases
 function crearFilaRecordatorio(rec) {
-  // rec: { titulo, fecha, hora, avisarAntesMinutos }
-
   const fila = document.createElement("div");
   fila.classList.add("fila-recordatorio");
 
-  // Botón texto (titulo)
   const btnTexto = document.createElement("button");
   btnTexto.classList.add("texto-recordatorio");
   const linkTexto = document.createElement("a");
@@ -40,17 +28,13 @@ function crearFilaRecordatorio(rec) {
   linkTexto.textContent = rec.titulo || "Recordatorio";
   btnTexto.appendChild(linkTexto);
 
-  // Botón fecha
   const btnFecha = document.createElement("button");
   btnFecha.classList.add("dato-recordatorio");
   const linkFecha = document.createElement("a");
   linkFecha.href = "/FrontEnd/Recordatorios/recordatorios.html";
-
-  // Si querés ser más pro, acá podrías transformar fecha a "Hoy"
   linkFecha.textContent = rec.fecha || "-";
   btnFecha.appendChild(linkFecha);
 
-  // Botón hora
   const btnHora = document.createElement("button");
   btnHora.classList.add("dato-recordatorio");
   const linkHora = document.createElement("a");
@@ -65,7 +49,6 @@ function crearFilaRecordatorio(rec) {
   return fila;
 }
 
-// RENDER: limpia la caja y pone todas las filas
 function renderizarRecordatorios(lista) {
   if (!cajaRecordatorios) return;
   limpiarFilasRecordatorios();
@@ -76,11 +59,7 @@ function renderizarRecordatorios(lista) {
   });
 }
 
-// ---------------
-// CARGA INICIAL
-// ---------------
-
-// Apenas carga la página, pedimos todos los recordatorios al backend
+// Pedir al back todos los recordatorios guardados
 getEvent("listarRecordatorios", (lista) => {
   if (!Array.isArray(lista)) {
     console.warn("listarRecordatorios devolvió algo raro:", lista);
@@ -89,15 +68,74 @@ getEvent("listarRecordatorios", (lista) => {
   renderizarRecordatorios(lista);
 });
 
-// ---------------
-// ACTUALIZACIÓN EN TIEMPO REAL
-// ---------------
-
-// Cuando desde otra página se hace agregarRecordatorio y el backend hace
-// realTimeEvent("nuevoRecordatorio", data)
-// esto se dispara y agregamos UNA fila nueva al final
+// Cuando desde la pantalla de Recordatorios se agrega uno nuevo,
+// el back emite "nuevoRecordatorio" y lo agregamos a la columna.
 subscribeRealTimeEvent("nuevoRecordatorio", (rec) => {
   if (!cajaRecordatorios) return;
   const fila = crearFilaRecordatorio(rec);
   cajaRecordatorios.appendChild(fila);
+});
+
+// =================== TAREAS REALIZADAS (caja de abajo) ===================
+
+const contenedorTareas = document.querySelector(".grupo-botones-tareas");
+
+function limpiarTareasInicio() {
+  if (!contenedorTareas) return;
+  contenedorTareas.innerHTML = "";
+}
+
+function parsearTextoTarea(tareaStr) {
+  const partes = (tareaStr || "").split(" · ");
+  return {
+    mensaje: partes[0] || "",
+    fecha: partes[1] || "",
+    hora: partes[2] || "",
+  };
+}
+
+function crearChipTarea(tarea) {
+  const datos = parsearTextoTarea(tarea.tarea);
+  const cont = document.createElement("div");
+  cont.classList.add("contenedor-tarea");
+
+  const linkMensaje = document.createElement("a");
+  linkMensaje.href = "/FrontEnd/Tareas Realizadss/Realizadas.html";
+  linkMensaje.classList.add("texto-tarea");
+  linkMensaje.textContent = datos.mensaje || "Tarea";
+
+  const linkFecha = document.createElement("a");
+  linkFecha.href = "/FrontEnd/Tareas Realizadss/Realizadas.html";
+  linkFecha.classList.add("circulo-mini");
+  linkFecha.textContent = datos.fecha || "-";
+
+  const linkHora = document.createElement("a");
+  linkHora.href = "/FrontEnd/Tareas Realizadss/Realizadas.html";
+  linkHora.classList.add("circulo-mini");
+  linkHora.textContent = datos.hora || "-";
+
+  cont.appendChild(linkMensaje);
+  cont.appendChild(linkFecha);
+  cont.appendChild(linkHora);
+
+  return cont;
+}
+
+function renderizarTareasInicio(lista) {
+  if (!contenedorTareas) return;
+  limpiarTareasInicio();
+
+  lista.forEach((tarea) => {
+    const chip = crearChipTarea(tarea);
+    contenedorTareas.appendChild(chip);
+  });
+}
+
+// Pedimos las tareas realizadas al back y las mostramos en el footer
+getEvent("listarTareas", (lista) => {
+  if (!Array.isArray(lista)) {
+    console.warn("listarTareas devolvió algo raro:", lista);
+    return;
+  }
+  renderizarTareasInicio(lista);
 });
