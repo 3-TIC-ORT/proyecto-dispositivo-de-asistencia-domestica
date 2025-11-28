@@ -135,6 +135,8 @@ subscribeGETEvent("listarRecordatorios", () => {
   return leerArchivo("recordatorios.json");
 });
 
+// poner para que cada x cantidad de tiempo se pueda buscar la fecha y la hora. y que si coincide con los recordatorios se active la api y cambie el texto a vos
+
 // ---------------------------
 // EVENTOS OBJETOS
 // ---------------------------
