@@ -115,9 +115,9 @@ subscribePOSTEvent("agregarRecordatorio", (data) => {
     titulo: data.titulo,
     fecha: data.fecha,
     hora: data.hora,
-    avisarAntesMinutos: data.avisarAntesMinutos,
-    avisoPrevioEmitido: false,   // ⭐ NUEVO
-    recordatorioEmitido: false,  // ⭐ NUEVO
+    avisarAntesMinutos: 10,     // ⭐ FIJADO A 10 MINUTOS
+    avisoPrevioEmitido: false,
+    recordatorioEmitido: false,
   });
 
   fs.writeFileSync(
@@ -199,27 +199,26 @@ subscribePOSTEvent("eliminarTarea", (data) => {
 subscribeGETEvent("listarTareas", () => leerArchivo("tareas.json"));
 
 // ============================================================
-// ⭐ NUEVO — SISTEMA QUE REVISA RECORDATORIOS AUTOMÁTICAMENTE
+//  SISTEMA DE RECORDATORIOS (10 MINUTOS ANTES FIJO)
 // ============================================================
 
 setInterval(async () => {
   const recordatorios = leerArchivo("recordatorios.json");
-
   const ahora = new Date();
   const fechaHoy = ahora.toISOString().slice(0, 10);
   const horaActual = ahora.toTimeString().slice(0, 5);
 
   for (let rec of recordatorios) {
+    const fechaHoraRec = new Date(`${rec.fecha}T${rec.hora}:00`);
+    const fechaHoraAviso = new Date(fechaHoraRec - 10 * 60000); // ⭐ SIEMPRE 10 MINUTOS
+
     // --------------------------
     // AVISO PREVIO
     // --------------------------
     if (!rec.avisoPrevioEmitido) {
-      const fechaHoraRec = new Date(`${rec.fecha}T${rec.hora}:00`);
-      const fechaHoraAviso = new Date(fechaHoraRec - rec.avisarAntesMinutos * 60000);
-
       if (ahora >= fechaHoraAviso && ahora < fechaHoraRec) {
         if (!usuarioAusente) {
-          const texto = `Acordate que en ${rec.avisarAntesMinutos} minutos tenés que ${rec.titulo}`;
+          const texto = `Acordate que en 10 minutos tenés que ${rec.titulo}`;
           const nombreArchivo = await convertirTextoAVoz(texto);
           console.log("[AVISO PREVIO] Generado:", nombreArchivo);
         }
@@ -243,11 +242,10 @@ setInterval(async () => {
   }
 
   fs.writeFileSync("recordatorios.json", JSON.stringify(recordatorios, null, 2));
-}, 1000); // se revisa cada segundo
+}, 1000);
 
 // ------------------------------------------------------------
 // INICIAR SERVIDOR
 // ------------------------------------------------------------
-
 startServer(3000, true);
 console.log("✅ Backend DAD iniciado en puerto 3000");
