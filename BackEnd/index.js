@@ -12,27 +12,26 @@ let usuarioAusente = false;
 let reconocimientoEnProgreso = false;
 let temporizadorReconocimiento = null;
 
-// ✅ Cambiá COM5 si tu puerto es otro
+// ============================
+//  SERIAL
+// ============================
 const port = new SerialPort({
   path: "COM5",
   baudRate: 9600,
 });
-
-// ✅ EL PARSER DEBE IR INMEDIATAMENTE DESPUÉS
 const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
 
 port.on("open", () => {
   console.log("✔ Arduino conectado correctamente.");
 });
 
-//-----------------------------------------------------
-// ✅ LECTURA DE DATOS DEL ARDUINO (BOTÓN + PIR + RECORDATORIOS)
-//-----------------------------------------------------
+// ============================
+//  LECTURA ARDUINO
+// ============================
 parser.on("data", async (msg) => {
   const data = msg.trim();
   console.log("Arduino →", data);
 
-  // 🔹 1 = movimiento detectado
   if (data === "1") {
     console.log("[EVENTO] Movimiento detectado → iniciando reconocimiento (15s)");
 
@@ -55,32 +54,32 @@ parser.on("data", async (msg) => {
     }, 15000);
   }
 
-  // 🔹 3 = usuario presionó botón DURANTE reconocimiento
   if (data === "3") {
     console.log("[EVENTO] Botón presionado → usuario AUSENTE");
-
     usuarioAusente = true;
     clearTimeout(temporizadorReconocimiento);
   }
 
-  // 🔹 RECORDATORIO COMPLETADO
   if (data === "RECORDATORIO_COMPLETADO") {
     console.log("[EVENTO] Usuario completó el recordatorio");
   }
 });
 
-//-----------------------------------------------------
-// ✅ FUNCIÓN PARA ENVIAR COMANDOS AL ARDUINO
-//-----------------------------------------------------
+// ---------------------------
+// FUNCIÓN PARA ENVIAR COMANDOS AL ARDUINO
+// ---------------------------
 function enviarComando(cmd) {
   port.write(cmd + "\n");
   console.log("Backend → Arduino:", cmd);
 }
 
-export { enviarComando };
 // ---------------------------
-// EVENTOS USUARIOS: SIGNUP / LOGIN
+// RUTAS USUARIOS
 // ---------------------------
+function leerArchivo(ruta) {
+  if (!fs.existsSync(ruta)) return [];
+  return JSON.parse(fs.readFileSync(ruta));
+}
 
 subscribePOSTEvent("signup", (data) => {
   let usuarios = leerArchivo("usuarios.json");
@@ -107,9 +106,8 @@ subscribePOSTEvent("login", (data) => {
 });
 
 // ---------------------------
-// EVENTOS RECORDATORIOS
+// RUTAS RECORDATORIOS
 // ---------------------------
-
 subscribePOSTEvent("agregarRecordatorio", (data) => {
   let recordatorios = leerArchivo("recordatorios.json");
 
@@ -118,6 +116,8 @@ subscribePOSTEvent("agregarRecordatorio", (data) => {
     fecha: data.fecha,
     hora: data.hora,
     avisarAntesMinutos: data.avisarAntesMinutos,
+    avisoPrevioEmitido: false,   // ⭐ NUEVO
+    recordatorioEmitido: false,  // ⭐ NUEVO
   });
 
   fs.writeFileSync(
@@ -125,7 +125,6 @@ subscribePOSTEvent("agregarRecordatorio", (data) => {
     JSON.stringify(recordatorios, null, 2)
   );
 
-  // Aviso en tiempo real para la pantalla de inicio
   realTimeEvent("nuevoRecordatorio", data);
 
   return { ok: true, msg: "Recordatorio agregado con éxito" };
@@ -135,12 +134,9 @@ subscribeGETEvent("listarRecordatorios", () => {
   return leerArchivo("recordatorios.json");
 });
 
-// poner para que cada x cantidad de tiempo se pueda buscar la fecha y la hora. y que si coincide con los recordatorios se active la api y cambie el texto a vos
-
 // ---------------------------
-// EVENTOS OBJETOS
+// RUTAS OBJETOS
 // ---------------------------
-
 subscribePOSTEvent("agregarObjeto", (data) => {
   let objetos = leerArchivo("objetos.json");
 
@@ -161,14 +157,11 @@ subscribePOSTEvent("eliminarObjeto", (data) => {
   return { ok: true, msg: "Objeto eliminado" };
 });
 
-subscribeGETEvent("listarObjetos", () => {
-  return leerArchivo("objetos.json");
-});
+subscribeGETEvent("listarObjetos", () => leerArchivo("objetos.json"));
 
 // ---------------------------
-// EVENTOS TAREAS
+// RUTAS TAREAS
 // ---------------------------
-
 subscribePOSTEvent("agregarTarea", (data) => {
   let tareas = leerArchivo("tareas.json");
 
@@ -205,9 +198,56 @@ subscribePOSTEvent("eliminarTarea", (data) => {
 
 subscribeGETEvent("listarTareas", () => leerArchivo("tareas.json"));
 
-// ---------------------------
+// ============================================================
+// ⭐ NUEVO — SISTEMA QUE REVISA RECORDATORIOS AUTOMÁTICAMENTE
+// ============================================================
+
+setInterval(async () => {
+  const recordatorios = leerArchivo("recordatorios.json");
+
+  const ahora = new Date();
+  const fechaHoy = ahora.toISOString().slice(0, 10);
+  const horaActual = ahora.toTimeString().slice(0, 5);
+
+  for (let rec of recordatorios) {
+    // --------------------------
+    // AVISO PREVIO
+    // --------------------------
+    if (!rec.avisoPrevioEmitido) {
+      const fechaHoraRec = new Date(`${rec.fecha}T${rec.hora}:00`);
+      const fechaHoraAviso = new Date(fechaHoraRec - rec.avisarAntesMinutos * 60000);
+
+      if (ahora >= fechaHoraAviso && ahora < fechaHoraRec) {
+        if (!usuarioAusente) {
+          const texto = `Acordate que en ${rec.avisarAntesMinutos} minutos tenés que ${rec.titulo}`;
+          const nombreArchivo = await convertirTextoAVoz(texto);
+          console.log("[AVISO PREVIO] Generado:", nombreArchivo);
+        }
+
+        rec.avisoPrevioEmitido = true;
+      }
+    }
+
+    // --------------------------
+    // RECORDATORIO FINAL
+    // --------------------------
+    if (!rec.recordatorioEmitido && rec.fecha === fechaHoy && rec.hora === horaActual) {
+      if (!usuarioAusente) {
+        const texto = `Recordatorio: ${rec.titulo}`;
+        const nombreArchivo = await convertirTextoAVoz(texto);
+        console.log("[RECORDATORIO] Generado:", nombreArchivo);
+      }
+
+      rec.recordatorioEmitido = true;
+    }
+  }
+
+  fs.writeFileSync("recordatorios.json", JSON.stringify(recordatorios, null, 2));
+}, 1000); // se revisa cada segundo
+
+// ------------------------------------------------------------
 // INICIAR SERVIDOR
-// ---------------------------
+// ------------------------------------------------------------
 
 startServer(3000, true);
 console.log("✅ Backend DAD iniciado en puerto 3000");
