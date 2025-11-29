@@ -9,7 +9,7 @@ const openai = new OpenAI({
 // Función para convertir texto a voz
 export async function convertirTextoAVoz() {
   try {
-    const texto = "Hola, soy tu asistente de voz funcionando correctamente.";
+    const texto = " Usuario eres tu?.";
     
     // Generar el audio con la API de OpenAI
     const respuesta = await openai.audio.speech.create({
