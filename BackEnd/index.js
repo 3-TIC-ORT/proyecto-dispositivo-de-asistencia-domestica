@@ -265,7 +265,7 @@ setInterval(async () => {
   const fechaHoy = ahora.toISOString().slice(0, 10);
   const horaActual = ahora.toTimeString().slice(0, 5);
 
-  for (let rec of recorditorios) {
+  for (let rec of recordatorios) {
     const fechaHoraRec = new Date(`${rec.fecha}T${rec.hora}:00`);
     const fechaHoraAviso = new Date(fechaHoraRec - 10 * 60000);
 
