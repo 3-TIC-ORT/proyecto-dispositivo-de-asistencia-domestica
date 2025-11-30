@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const grid = document.querySelector(".grid");
   if (!grid) return;
 
-  // Quito la tarjeta de ejemplo del HTML
   grid.innerHTML = "";
 
   getEvent("listarTareas", function (lista) {

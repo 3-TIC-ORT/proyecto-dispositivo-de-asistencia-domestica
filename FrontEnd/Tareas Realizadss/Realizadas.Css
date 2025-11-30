@@ -1,4 +1,3 @@
-/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +9,6 @@ body {
     height: 100vh;
 }
 
-/* ============== LAYOUT GENERAL ================= */
 
 .distribucion {
     display: flex;
@@ -30,7 +28,6 @@ body {
 .sidebar-spacer { flex: 1; }
 
 
-/* ============ FONDO IGUAL AL FIGMA ============ */
 
 .contenido {
     flex: 1;
@@ -39,7 +36,6 @@ body {
     overflow-y: auto;
 }
 
-/* TITULO */
 
 .titulo {
     font-size: 4.2rem;
@@ -48,7 +44,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* GRID */
 
 .grid {
     display: flex;
@@ -56,7 +51,6 @@ body {
     gap: 2.5rem;
 }
 
-/* =============== TARJETA ================= */
 
 .tarjeta {
     width: 18rem;
@@ -66,7 +60,6 @@ body {
     background: #96A34D;
 }
 
-/* MENSAJE */
 
 .mensaje {
     font-size: 1.1rem;
@@ -79,7 +72,6 @@ body {
     font-weight: 900;
 }
 
-/* INFORMACION */
 
 .info-titulo {
     color: white;
@@ -96,7 +88,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* TOGGLE (decorativo) */
 
 .toggle-box {
     display: flex;
@@ -129,7 +120,6 @@ body {
     right: 2px;
 }
 
-/* BOTÓN MARCAR COMO NO REALIZADA */
 
 .btn-no-realizada {
     width: 100%;
