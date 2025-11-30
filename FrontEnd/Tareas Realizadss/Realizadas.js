@@ -35,9 +35,9 @@ function crearTarjetaTarea(tareaObj) {
     </div>
 
     <button class="btn-no-realizada" onclick="eliminarTarea(this)">
-      Eliminar tarea
-      <img src="/Imagenes/TIck.png">
-    </button>
+  Eliminar tarea
+  <img src="/Imagenes/TIck.png">
+</button>
   `;
 
   return tarjeta;
@@ -55,12 +55,17 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    lista.forEach(function (t) {
+    const realizadas = lista.filter(function (t) {
+      return t.realizada === true;
+    });
+
+    realizadas.forEach(function (t) {
       const tarjeta = crearTarjetaTarea(t);
       grid.appendChild(tarjeta);
     });
   });
 });
+
 
 function eliminarTarea(boton) {
   const tarjeta = boton.closest(".tarjeta");

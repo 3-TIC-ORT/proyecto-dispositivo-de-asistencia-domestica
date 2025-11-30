@@ -7,18 +7,19 @@ if (typeof connect2Server === "function") {
   const contenedor = document.getElementById("contenedorObjetos");
   
   document.addEventListener("DOMContentLoaded", function () {
-    if (typeof getEvent !== "function") return;
-  
-    getEvent("listarObjetos", function (lista) {
-      if (!Array.isArray(lista)) return;
-  
-      lista.forEach(function (obj) {
-        if (obj && obj.objeto) {
-          crearTarjetaObjeto(obj.objeto.toUpperCase());
-        }
-      });
+  if (typeof getEvent !== "function") return;
+
+  getEvent("listarObjetos", function (lista) {
+    if (!Array.isArray(lista)) return;
+
+    lista.forEach(function (obj) {
+      if (obj && obj.objeto) {
+        crearTarjetaObjeto(obj.objeto);
+      }
     });
   });
+});
+
   
   function abrirModalObjeto() {
     if (modal) modal.classList.add("activo");
@@ -31,22 +32,25 @@ if (typeof connect2Server === "function") {
   }
   
   function agregarObjeto() {
-    const nombreObjeto = inputNombreObjeto.value.trim();
-    if (!nombreObjeto) {
-      alert("Por favor, ingresa el nombre del objeto.");
-      return;
-    }
-  
-    crearTarjetaObjeto(nombreObjeto.toUpperCase());
-  
-    if (typeof postEvent === "function") {
-      postEvent("agregarObjeto", { objeto: nombreObjeto }, function (resp) {
-        console.log("Objeto guardado en backend:", resp);
-      });
-    }
-  
-    cerrarModalObjeto();
+  const nombreObjeto = inputNombreObjeto.value.trim();
+  if (!nombreObjeto) {
+    alert("Por favor, ingresa el nombre del objeto.");
+    return;
   }
+
+  const normalizado = nombreObjeto.toUpperCase();
+
+  crearTarjetaObjeto(normalizado);
+
+  if (typeof postEvent === "function") {
+    postEvent("agregarObjeto", { objeto: normalizado }, function (resp) {
+      console.log("Objeto guardado en backend:", resp);
+    });
+  }
+
+  cerrarModalObjeto();
+}
+
   
   function crearTarjetaObjeto(nombre) {
     const nuevaTarjeta = document.createElement("div");
