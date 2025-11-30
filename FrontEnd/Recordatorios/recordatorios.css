@@ -18,9 +18,6 @@ body {
   min-height: 100vh;
   flex-direction: row;
 }
-
-
-
 .barra-lateral {
   width: 7rem;
   background-color: #333;
