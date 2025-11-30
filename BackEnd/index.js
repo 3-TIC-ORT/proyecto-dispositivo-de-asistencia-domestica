@@ -42,14 +42,10 @@ parser.on("data", async (msg) => {
 
     temporizadorReconocimiento = setTimeout(async () => {
       if (!usuarioAusente) {
-        console.log("[BACKEND] Usuario presente → emitir recordatorio");
-
         const texto = "Recordatorio pendiente.";
         const nombreArchivo = await convertirTextoAVoz(texto);
-
         console.log("[AUDIO] Archivo generado:", nombreArchivo);
       }
-
       reconocimientoEnProgreso = false;
     }, 15000);
   }
@@ -65,22 +61,17 @@ parser.on("data", async (msg) => {
   }
 });
 
-// ---------------------------
-// FUNCIÓN PARA ENVIAR COMANDOS AL ARDUINO
-// ---------------------------
-function enviarComando(cmd) {
-  port.write(cmd + "\n");
-  console.log("Backend → Arduino:", cmd);
-}
-
-// ---------------------------
-// RUTAS USUARIOS
-// ---------------------------
+// ============================
+// FUNCIÓN UTILIDAD
+// ============================
 function leerArchivo(ruta) {
   if (!fs.existsSync(ruta)) return [];
   return JSON.parse(fs.readFileSync(ruta));
 }
 
+// ------------------------------------------------------------
+// USUARIOS
+// ------------------------------------------------------------
 subscribePOSTEvent("signup", (data) => {
   let usuarios = leerArchivo("usuarios.json");
 
@@ -98,16 +89,13 @@ subscribePOSTEvent("login", (data) => {
     (u) => u.username === data.username && u.password === data.password
   );
 
-  if (user) {
-    return { ok: true, msg: "Inicio de sesión exitoso" };
-  } else {
-    return { ok: false, msg: "Verificar los datos" };
-  }
+  if (user) return { ok: true, msg: "Inicio de sesión exitoso" };
+  else return { ok: false, msg: "Verificar datos" };
 });
 
-// ---------------------------
-// RUTAS RECORDATORIOS
-// ---------------------------
+// ------------------------------------------------------------
+// RECORDATORIOS NORMALES
+// ------------------------------------------------------------
 subscribePOSTEvent("agregarRecordatorio", (data) => {
   let recordatorios = leerArchivo("recordatorios.json");
 
@@ -115,28 +103,23 @@ subscribePOSTEvent("agregarRecordatorio", (data) => {
     titulo: data.titulo,
     fecha: data.fecha,
     hora: data.hora,
-    avisarAntesMinutos: 10,     // ⭐ FIJADO A 10 MINUTOS
+    avisarAntesMinutos: 10,
     avisoPrevioEmitido: false,
     recordatorioEmitido: false,
   });
 
-  fs.writeFileSync(
-    "recordatorios.json",
-    JSON.stringify(recordatorios, null, 2)
-  );
+  fs.writeFileSync("recordatorios.json", JSON.stringify(recordatorios, null, 2));
 
   realTimeEvent("nuevoRecordatorio", data);
 
   return { ok: true, msg: "Recordatorio agregado con éxito" };
 });
 
-subscribeGETEvent("listarRecordatorios", () => {
-  return leerArchivo("recordatorios.json");
-});
+subscribeGETEvent("listarRecordatorios", () => leerArchivo("recordatorios.json"));
 
-// ---------------------------
-// RUTAS OBJETOS
-// ---------------------------
+// ------------------------------------------------------------
+// OBJETOS
+// ------------------------------------------------------------
 subscribePOSTEvent("agregarObjeto", (data) => {
   let objetos = leerArchivo("objetos.json");
 
@@ -159,9 +142,9 @@ subscribePOSTEvent("eliminarObjeto", (data) => {
 
 subscribeGETEvent("listarObjetos", () => leerArchivo("objetos.json"));
 
-// ---------------------------
-// RUTAS TAREAS
-// ---------------------------
+// ------------------------------------------------------------
+// TAREAS
+// ------------------------------------------------------------
 subscribePOSTEvent("agregarTarea", (data) => {
   let tareas = leerArchivo("tareas.json");
 
@@ -175,10 +158,8 @@ subscribePOSTEvent("agregarTarea", (data) => {
 subscribePOSTEvent("marcarTareaRealizada", (data) => {
   let tareas = leerArchivo("tareas.json");
 
-  for (let i = 0; i < tareas.length; i++) {
-    if (tareas[i].tarea === data.tarea) {
-      tareas[i].realizada = true;
-    }
+  for (let t of tareas) {
+    if (t.tarea === data.tarea) t.realizada = true;
   }
 
   fs.writeFileSync("tareas.json", JSON.stringify(tareas, null, 2));
@@ -198,23 +179,93 @@ subscribePOSTEvent("eliminarTarea", (data) => {
 
 subscribeGETEvent("listarTareas", () => leerArchivo("tareas.json"));
 
-// ============================================================
-//  SISTEMA DE RECORDATORIOS (10 MINUTOS ANTES FIJO)
-// ============================================================
+// ====================================================================
+// ⭐⭐⭐ RECORDATORIOS DIARIOS — NUEVO ⭐⭐⭐
+// ====================================================================
 
+// AGREGAR DIARIO
+subscribePOSTEvent("agregarRecordatorioDiario", (data) => {
+  let diarios = leerArchivo("recordatoriosDiarios.json");
+
+  diarios.push({
+    titulo: data.titulo,
+    frecuencia: data.frecuencia,          // "cadaXMin" | "vecesDia"
+    vecesDia: data.vecesDia || null,
+    intervaloMin: data.intervaloMin || null,
+    desde: data.desde,
+    hasta: data.hasta,
+
+    // Control interno
+    ultimaEjecucion: null,
+    avisoPrevioEmitido: false,
+  });
+
+  fs.writeFileSync(
+    "recordatoriosDiarios.json",
+    JSON.stringify(diarios, null, 2)
+  );
+
+  return { ok: true, msg: "Recordatorio diario agregado con éxito" };
+});
+
+// LISTAR
+subscribeGETEvent("listarRecordatoriosDiarios", () =>
+  leerArchivo("recordatoriosDiarios.json")
+);
+
+// ====================================================================
+// SISTEMA AUTOMÁTICO — DIARIOS
+// ====================================================================
+setInterval(async () => {
+  let diarios = leerArchivo("recordatoriosDiarios.json");
+  const ahora = new Date();
+  const horaActual = ahora.toTimeString().slice(0, 5);
+
+  for (let rec of diarios) {
+    const dentroDelHorario =
+      horaActual >= rec.desde && horaActual <= rec.hasta;
+
+    if (!dentroDelHorario) continue;
+
+    let debeEjecutar = false;
+
+    if (rec.frecuencia === "cadaXMin") {
+      if (!rec.ultimaEjecucion) debeEjecutar = true;
+      else {
+        const anterior = new Date(rec.ultimaEjecucion);
+        const diffMin = (ahora - anterior) / 60000;
+        if (diffMin >= rec.intervaloMin) debeEjecutar = true;
+      }
+    }
+
+    if (debeEjecutar && !usuarioAusente) {
+      const texto = `Recordatorio diario: ${rec.titulo}`;
+      const nombreArchivo = await convertirTextoAVoz(texto);
+      console.log("[DIARIO] Emitido:", nombreArchivo);
+
+      rec.ultimaEjecucion = ahora;
+    }
+  }
+
+  fs.writeFileSync(
+    "recordatoriosDiarios.json",
+    JSON.stringify(diarios, null, 2)
+  );
+}, 1000);
+
+// ------------------------------------------------------------
+// SISTEMA DE RECORDATORIOS NORMALES (10 MIN ANTES)
+// ------------------------------------------------------------
 setInterval(async () => {
   const recordatorios = leerArchivo("recordatorios.json");
   const ahora = new Date();
   const fechaHoy = ahora.toISOString().slice(0, 10);
   const horaActual = ahora.toTimeString().slice(0, 5);
 
-  for (let rec of recordatorios) {
+  for (let rec of recorditorios) {
     const fechaHoraRec = new Date(`${rec.fecha}T${rec.hora}:00`);
-    const fechaHoraAviso = new Date(fechaHoraRec - 10 * 60000); // ⭐ SIEMPRE 10 MINUTOS
+    const fechaHoraAviso = new Date(fechaHoraRec - 10 * 60000);
 
-    // --------------------------
-    // AVISO PREVIO
-    // --------------------------
     if (!rec.avisoPrevioEmitido) {
       if (ahora >= fechaHoraAviso && ahora < fechaHoraRec) {
         if (!usuarioAusente) {
@@ -222,21 +273,16 @@ setInterval(async () => {
           const nombreArchivo = await convertirTextoAVoz(texto);
           console.log("[AVISO PREVIO] Generado:", nombreArchivo);
         }
-
         rec.avisoPrevioEmitido = true;
       }
     }
 
-    // --------------------------
-    // RECORDATORIO FINAL
-    // --------------------------
     if (!rec.recordatorioEmitido && rec.fecha === fechaHoy && rec.hora === horaActual) {
       if (!usuarioAusente) {
         const texto = `Recordatorio: ${rec.titulo}`;
         const nombreArchivo = await convertirTextoAVoz(texto);
         console.log("[RECORDATORIO] Generado:", nombreArchivo);
       }
-
       rec.recordatorioEmitido = true;
     }
   }
