@@ -16,7 +16,7 @@ let temporizadorReconocimiento = null;
 //  SERIAL
 // ============================
 const port = new SerialPort({
-  path: "COM5",
+  path: "COM10",
   baudRate: 9600,
 });
 const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
@@ -45,7 +45,7 @@ parser.on("data", async (msg) => {
         console.log("[BACKEND] Usuario presente → emitir recordatorio");
 
         const texto = "Recordatorio pendiente.";
-        const nombreArchivo = await convertirTextoAVoz(texto);
+        //const nombreArchivo = await convertirTextoAVoz(texto);
 
         console.log("[AUDIO] Archivo generado:", nombreArchivo);
       }
