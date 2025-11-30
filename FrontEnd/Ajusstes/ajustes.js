@@ -25,3 +25,6 @@ inputNombre.addEventListener("blur", () => {
     inputNombre.disabled = true;
     localStorage.setItem("nombreUsuario", inputNombre.value.trim());
 });
+
+const guardado = localStorage.getItem("nombreUsuario");
+if (guardado) inputNombre.value = guardado;

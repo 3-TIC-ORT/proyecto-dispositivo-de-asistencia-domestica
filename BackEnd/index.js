@@ -43,7 +43,12 @@ parser.on("data", async (msg) => {
     temporizadorReconocimiento = setTimeout(async () => {
       if (!usuarioAusente) {
         const texto = "Recordatorio pendiente.";
+<<<<<<< HEAD
         const nombreArchivo = await convertirTextoAVoz(texto);
+=======
+        //const nombreArchivo = await convertirTextoAVoz(texto);
+
+>>>>>>> c457e6995b07e94ad0d8d07bd065dc2fe6a874cd
         console.log("[AUDIO] Archivo generado:", nombreArchivo);
       }
       reconocimientoEnProgreso = false;
