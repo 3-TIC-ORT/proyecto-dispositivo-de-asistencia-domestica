@@ -2,15 +2,18 @@ import OpenAI from "openai";
 import player from "play-sound";
 import fs from "fs";
 
+
 const openai = new OpenAI({
   apiKey: ""});
+
+
 
 
 // Función para convertir texto a voz
 export async function convertirTextoAVoz() {
   try {
     const texto = " Usuario eres tu?.";
-    
+   
     // Generar el audio con la API de OpenAI
     const respuesta = await openai.audio.speech.create({
       model: "gpt-4o-mini-tts",
@@ -18,13 +21,16 @@ export async function convertirTextoAVoz() {
       input: texto,
     });  
 
+
     // Guardar el audio como archivo
     const arrayBuffer = await respuesta.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     const filePath = "./voz.mp3";
     fs.writeFileSync(filePath, buffer);
 
+
     console.log("✅ Audio generado correctamente:", filePath);
+
 
     // Reproducir el audio automáticamente
     const reproductor = player();
@@ -36,10 +42,13 @@ export async function convertirTextoAVoz() {
       }
     });
 
+
   } catch (error) {
     console.error("❌ Error al generar audio:", error);
   }
 }
+
+
 
 
 /*
@@ -52,6 +61,7 @@ export async function convertirTextoAVoz() {
       instructions: "Hablar en un tono alegre y positivo.",
       response_format: "wav",      // Formato de salida
     });
+
 
     // Reproducir el audio generado
     await playAudio(response);

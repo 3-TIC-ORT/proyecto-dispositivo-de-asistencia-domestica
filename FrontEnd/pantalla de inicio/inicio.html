@@ -1,9 +1,9 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pantalla de inicio</title>
     <link rel="stylesheet" href="inicio.css">
 </head>
 <body>
@@ -11,18 +11,24 @@
         
         <div class="barra-lateral">
 
-    <a href="/FrontEnd/Ajusstes/ajustess.html" class="sidebar-btn">
-        <img src="/Imagenes/Ajustes.png" class="icono-sidebar">
-    </a>
+            <a href="/FrontEnd/Ajusstes/ajustess.html" class="sidebar-btn">
+                <img src="/Imagenes/Ajustes.png" class="icono-sidebar">
+            </a>
 
-    <img src="/Imagenes/LogoDAD.png" class="sidebar-logo" alt="logo">
+            <img src="/Imagenes/LogoDAD.png" class="sidebar-logo" alt="logo">
 
-</div>
+        </div>
         
         <div class="contenido">
             <div class="contenedor">
+                
+                <!-- Caja Recordatorios -->
                 <div class="cajarecor">
-                    <h2>Recordatorios</h2>
+                    <h2>
+                        <a href="/FrontEnd/Recordatorios/recordatorios.html">
+                            Recordatorios
+                        </a>
+                    </h2>
                     <div class="fila-recordatorio">
                         <button class="texto-recordatorio">
                             <a href="/FrontEnd/Recordatorios/recordatorios.html">Llama a Mario</a>
@@ -36,9 +42,13 @@
                     </div>
                 </div>
 
+                <!-- Caja Recordatorios diarios -->
                 <div class="cajarecor">
-                    <h2>Recordatorios diarios</h2>
-                   
+                    <h2>
+                        <a href="/FrontEnd/Recordatorios diarios/Diarios.html">
+                            Recordatorios recurrentes
+                        </a>
+                    </h2>
                     <div class="fila-recordatorio">
                         <button class="texto-recordatorio">
                             <a href="/FrontEnd/Recordatorios diarios/Diarios.html">Toma agua</a>
@@ -52,40 +62,48 @@
                     </div>
                 </div>
 
+                <!-- Caja Objetos para salir de casa -->
                 <div class="cajarecor">
-                    <h2>Objetos para salir de casa</h2>
+                    <h2>
+                        <a href="/FrontEnd/Recordatorios salir casa/Casa.html">
+                            Objetos para salir de casa
+                        </a>
+                    </h2>
                     <div class="Botoncitos">
                         <button class="caji">
                             <a href="/FrontEnd/Recordatorios salir casa/Casa.html">Anteojos</a>
                         </button>
-                       
                     </div>
                 </div>
                   
             </div>
+
+            <!-- Caja Tareas realizadas -->
             <div class="cajalarga">
-                <h2>Tareas Realizadas</h2>
+                <h2>
+                    <a href="/FrontEnd/Tareas Realizadss/Realizadas.html">
+                        Tareas realizadas
+                    </a>
+                </h2>
                 <div class="grupo-botones-tareas">
                     <div class="contenedor-tarea">
-                        <div class="contenedor-tarea">
-                            <a href="/FrontEnd/Tareas Realizadss/Realizadas.html" class="texto-tarea">
-                                Llama a Irene
-                            </a>
-                            <a href="/FrontEnd/Tareas Realizadss/Realizadas.html" class="circulo-mini">
-                                Hoy
-                            </a>
-                            <a href="/FrontEnd/Tareas Realizadss/Realizadas.html" class="circulo-mini">
-                                17:30
-                            </a>
-                        </div>
+                        <a href="/FrontEnd/Tareas Realizadss/Realizadas.html" class="texto-tarea">
+                            Llama a Irene
+                        </a>
+                        <a href="/FrontEnd/Tareas Realizadss/Realizadas.html" class="circulo-mini">
+                            Hoy
+                        </a>
+                        <a href="/FrontEnd/Tareas Realizadss/Realizadas.html" class="circulo-mini">
+                            17:30
+                        </a>
                     </div>
-                   
                 </div>
             </div>
         </div>
     </div>
+
     <!-- SoqueTIC: cliente -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/JZylber/SoqueTIC-Client@v1.4.2/soquetic-client.js"></script>
     <!-- JS de la pantalla de inicio -->
     <script src="inicio.js"></script>
