@@ -207,5 +207,19 @@ function marcarRealizada(boton) {
 function eliminarTarea(boton) {
   const tarjeta = boton.closest(".tarjeta");
   if (!tarjeta) return;
+
+  const mensajeNodo = tarjeta.querySelector(".mensaje-texto");
+  const mensaje = mensajeNodo ? mensajeNodo.textContent.trim() : "";
+
+  if (mensaje && typeof postEvent === "function") {
+    postEvent(
+      "eliminarRecordatorio",
+      { titulo: mensaje },
+      function (resp) {
+        console.log("Recordatorio eliminado en backend:", resp);
+      }
+    );
+  }
+
   tarjeta.remove();
 }

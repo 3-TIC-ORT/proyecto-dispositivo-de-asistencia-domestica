@@ -120,6 +120,16 @@ subscribePOSTEvent("agregarRecordatorio", (data) => {
 
 subscribeGETEvent("listarRecordatorios", () => leerArchivo("recordatorios.json"));
 
+subscribePOSTEvent("eliminarRecordatorio", (data) => {
+  let recordatorios = leerArchivo("recordatorios.json");
+
+  recordatorios = recordatorios.filter((r) => r.titulo !== data.titulo);
+
+  fs.writeFileSync("recordatorios.json", JSON.stringify(recordatorios, null, 2));
+
+  return { ok: true, msg: "Recordatorio eliminado" };
+});
+
 // ------------------------------------------------------------
 // OBJETOS
 // ------------------------------------------------------------
