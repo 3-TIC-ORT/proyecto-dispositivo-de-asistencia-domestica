@@ -1,4 +1,6 @@
-connect2Server();
+if (typeof connect2Server === "function") {
+  connect2Server();
+}
 
 const inputUsuario   = document.getElementById("usuario");
 const inputPassword  = document.getElementById("contrasena");
@@ -28,16 +30,15 @@ function iniciarSesion() {
     return;
   }
 
- 
   postEvent(
     "login",
     { username: username, password: password },
     (resp) => {
       if (resp && resp.ok) {
-       
-        location.href = "/FrontEnd/pantalla de inicio/inicio.html";
+        location.href = "../pantalla de inicio/inicio.html";
       } else {
-        mensajeError.textContent = resp?.msg || "Usuario o contraseña incorrectos.";
+        mensajeError.textContent =
+          resp && resp.msg ? resp.msg : "Usuario o contraseña incorrectos.";
       }
     }
   );
