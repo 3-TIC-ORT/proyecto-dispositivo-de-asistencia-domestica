@@ -2,16 +2,17 @@ if (typeof connect2Server === "function") {
   connect2Server();
 }
 
-const inputUsuario   = document.getElementById("usuario");
-const inputPassword  = document.getElementById("contrasena");
-const mensajeError   = document.getElementById("mensajeError");
-const botonLogin     = document.getElementById("btnLogin");
+const inputUsuarioLogin = document.getElementById("usuario");
+const inputPasswordLogin = document.getElementById("contrasena");
+const mensajeError = document.getElementById("mensajeError");
+const botonLogin = document.getElementById("btnLogin");
 
 if (botonLogin) {
   botonLogin.addEventListener("click", iniciarSesion);
 }
 
-[ inputUsuario, inputPassword ].forEach((input) => {
+[inputUsuarioLogin, inputPasswordLogin].forEach((input) => {
+  if (!input) return;
   input.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       iniciarSesion();
@@ -20,13 +21,19 @@ if (botonLogin) {
 });
 
 function iniciarSesion() {
-  const username = inputUsuario.value.trim();
-  const password = inputPassword.value.trim();
+  const username = inputUsuarioLogin.value.trim();
+  const password = inputPasswordLogin.value.trim();
 
-  mensajeError.textContent = "";
+  if (mensajeError) {
+    mensajeError.textContent = "";
+  }
 
   if (!username || !password) {
-    mensajeError.textContent = "Completá usuario y contraseña.";
+    if (mensajeError) {
+      mensajeError.textContent = "Completá usuario y contraseña.";
+    } else {
+      alert("Completá usuario y contraseña.");
+    }
     return;
   }
 
@@ -37,8 +44,12 @@ function iniciarSesion() {
       if (resp && resp.ok) {
         location.href = "../pantalla de inicio/inicio.html";
       } else {
-        mensajeError.textContent =
-          resp && resp.msg ? resp.msg : "Usuario o contraseña incorrectos.";
+        const msg = resp && resp.msg ? resp.msg : "Usuario o contraseña incorrectos.";
+        if (mensajeError) {
+          mensajeError.textContent = msg;
+        } else {
+          alert(msg);
+        }
       }
     }
   );

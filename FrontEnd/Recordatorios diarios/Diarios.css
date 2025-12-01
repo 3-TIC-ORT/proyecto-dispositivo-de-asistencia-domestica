@@ -50,11 +50,11 @@ body {
 
 .contenedor-objetos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1.2rem;          /* antes 2rem: menos espacio entre tarjetas */
   width: 100%;
   max-width: 100%;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
 
@@ -95,75 +95,83 @@ body {
 
 
 .modal {
-  display: none;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   z-index: 5000;
-  inset: 0; 
-  display: none; 
-  align-items: center;
+  display: none;
   justify-content: center;
+  align-items: flex-start;
+  padding: 1.5rem;
+
+  
+  overflow-y: auto;
 }
 
+
+
 .modal-caja {
-  width: 90%;
+  width: 100%;
   max-width: 800px;
+  
   background: rgba(255, 200, 185, 0.32);
   backdrop-filter: blur(30px) saturate(140%);
   -webkit-backdrop-filter: blur(30px) saturate(140%);
 
-  border-radius: 28px;
-  padding: 40px;
+  border-radius: 24px;
+  padding: 24px 28px;
 
   border: 2px solid rgba(255,255,255,0.3);
-
   box-shadow:
     inset 0 4px 15px rgba(255,255,255,0.5),
     inset 0 -6px 20px rgba(0,0,0,0.18),
     0 10px 30px rgba(0,0,0,0.35);
+
+  /* un poco de aire arriba/abajo dentro de la pantalla gris */
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .modal-caja h2 {
-  font-size: 2.6rem;
+  font-size: 2rem;
   font-weight: 800;
-  margin-bottom: 25px;
+  margin-bottom: 18px;
 }
 
 .label-texto {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: white;
 }
 
 textarea {
   width: 100%;
-  border-radius: 18px;
-  padding: 15px;
+  border-radius: 16px;
+  padding: 12px;
   background: rgba(255,255,255,0.25);
   border: none;
-  font-size: 1.3rem;
+  font-size: 1.05rem;
   color: white;
   resize: none;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .fila-doble {
   display: flex;
-  gap: 40px;
-  margin-bottom: 30px;
+  gap: 24px;
+  margin-bottom: 18px;
 }
 
 .fila-simple {
-  margin: 20px 0;
+  margin: 14px 0;
 }
 
 .label-campos {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   display: block;
   color: #000;
 }
@@ -172,70 +180,35 @@ textarea {
 .input-hora-real,
 .input-num,
 .input-select {
-  padding: 15px;
-  border-radius: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
   border: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   background: rgba(130,110,100,0.35);
   color: white;
   width: 100%;
 }
 
-.toggle-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 25px 0;
-}
-
-.toggle-text {
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-.toggle {
-  width: 55px;
-  height: 28px;
-  background: #ff5722;
-  border-radius: 30px;
-  position: relative;
-  cursor: pointer;
-}
-
-.toggle-circulo {
-  width: 22px;
-  height: 22px;
-  background: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 3px;
-  left: 28px;
-  transition: left .25s;
-}
-
-/* ===== Botones modal ===== */
-.btn-agregar {
+.btn-agregar,
+.btn-cancelar {
   width: 100%;
-  padding: 22px;
-  background: #FF4500;
-  color: rgb(0, 0, 0);
-  border-radius: 14px;
-  border: none;
-  font-size: 1.8rem;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 1.4rem;
   font-weight: 800;
   cursor: pointer;
-  margin-bottom: 18px;
+}
+
+.btn-agregar {
+  background: #FF4500;
+  border: none;
+  color: #000;
+  margin-bottom: 12px;
 }
 
 .btn-cancelar {
-  width: 100%;
-  padding: 22px;
-  border-radius: 14px;
   background: rgba(255,255,255,0.4);
-  border: 3px solid #FF4500;
-  font-size: 1.8rem;
-  font-weight: 800;
-  cursor: pointer;
+  border: 2px solid #FF4500;
 }
 
 .botonagregar,

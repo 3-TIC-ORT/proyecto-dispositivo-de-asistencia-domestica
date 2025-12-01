@@ -2,9 +2,9 @@ if (typeof connect2Server === "function") {
   connect2Server();
 }
 
-const inputs = document.querySelectorAll(".campo");
-const inputUsuario = inputs[0];
-const inputPassword = inputs[1];
+const camposSignup = document.querySelectorAll(".campo");
+const inputUsuarioSignup = camposSignup[0];
+const inputPasswordSignup = camposSignup[1];
 const botonConfirmar = document.querySelector(".boton-confirmar");
 
 if (botonConfirmar) {
@@ -12,17 +12,17 @@ if (botonConfirmar) {
 }
 
 function crearCuenta() {
-  const nombre = inputUsuario.value.trim();
-  const contraseña = inputPassword.value.trim();
+  const username = inputUsuarioSignup.value.trim();
+  const password = inputPasswordSignup.value.trim();
 
-  if (!nombre || !contraseña) {
+  if (!username || !password) {
     alert("Por favor completá todos los campos.");
     return;
   }
 
   postEvent(
     "signup",
-    { nombre: nombre, contraseña: contraseña },
+    { username: username, password: password },
     (resp) => {
       if (resp && resp.ok) {
         alert("Cuenta creada con éxito.");
