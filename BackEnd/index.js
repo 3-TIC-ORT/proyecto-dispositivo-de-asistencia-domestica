@@ -16,7 +16,7 @@ let temporizadorReconocimiento = null;
 //  SERIAL
 // ============================
 const port = new SerialPort({
-  path: "COM5",
+  path: "COM6",
   baudRate: 9600,
 });
 const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
