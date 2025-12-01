@@ -82,5 +82,13 @@
     "fecha": "2025-11-21",
     "hora": "15:55",
     "avisarAntesMinutos": 10
+  },
+  {
+    "titulo": "dwxskkcjasdjb",
+    "fecha": "2026-01-01",
+    "hora": "09:36",
+    "avisarAntesMinutos": 10,
+    "avisoPrevioEmitido": false,
+    "recordatorioEmitido": false
   }
 ]

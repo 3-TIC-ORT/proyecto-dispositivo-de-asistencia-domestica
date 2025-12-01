@@ -7,9 +7,9 @@ const inputPasswordLogin = document.getElementById("contrasena");
 const mensajeError = document.getElementById("mensajeError");
 const botonLogin = document.getElementById("btnLogin");
 
-if (botonLogin) {
-  botonLogin.addEventListener("click", iniciarSesion);
-}
+
+botonLogin.addEventListener("click", iniciarSesion);
+
 
 [inputUsuarioLogin, inputPasswordLogin].forEach((input) => {
   if (!input) return;
