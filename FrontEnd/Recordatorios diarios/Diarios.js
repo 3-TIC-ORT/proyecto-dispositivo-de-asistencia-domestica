@@ -1,4 +1,29 @@
-var toggleActivo = true; // Avisar antes
+connect2Server();
+
+var toggleActivo = true;
+
+document.addEventListener("DOMContentLoaded", function () {
+  var cont = document.querySelector(".contenedor-objetos");
+  if (!cont) return;
+  if (typeof getEvent !== "function") return;
+
+  getEvent("listarRecordatoriosDiarios", function (lista) {
+    if (!Array.isArray(lista)) {
+      console.warn("listarRecordatoriosDiarios devolvió algo raro:", lista);
+      return;
+    }
+
+    lista.forEach(function (rec) {
+      var mensaje = rec.titulo || "";
+      var frecuenciaTexto = rec.frecuenciaTexto || rec.frecuencia || "";
+      var veces = rec.vecesDia != null ? String(rec.vecesDia) : "";
+      var minutos = rec.intervaloMin != null ? String(rec.intervaloMin) : "";
+      var horaInicio = rec.desde || "";
+      var horaFin = rec.hasta || "";
+      crearTarjeta(mensaje, true, frecuenciaTexto, veces, minutos, horaInicio, horaFin);
+    });
+  });
+});
 
 function abrirModal() {
   document.getElementById("modal").style.display = "flex";
@@ -36,8 +61,6 @@ function cambiarToggle() {
   }
 }
 
-// --- AGREGAR TARJETA ---
-
 function agregarRecordatorio() {
   var mensaje = document.getElementById("mensaje").value.trim();
   var frecuencia = document.getElementById("frecuencia").value;
@@ -47,14 +70,34 @@ function agregarRecordatorio() {
   var horaFin = document.getElementById("horaFin").value;
 
   if (mensaje !== "" && frecuencia !== "" && veces !== "" && minutos !== "") {
-    crearTarjeta(mensaje, toggleActivo, frecuencia, veces, minutos, horaInicio, horaFin);
+    var frecuenciaTexto = frecuencia;
+    var frecuenciaSistema = "cadaXMin";
+
+    crearTarjeta(mensaje, toggleActivo, frecuenciaTexto, veces, minutos, horaInicio, horaFin);
+
+    if (typeof postEvent === "function") {
+      postEvent(
+        "agregarRecordatorioDiario",
+        {
+          titulo: mensaje,
+          frecuencia: frecuenciaSistema,
+          frecuenciaTexto: frecuenciaTexto,
+          vecesDia: parseInt(veces, 10) || null,
+          intervaloMin: parseInt(minutos, 10) || null,
+          desde: horaInicio || "00:00",
+          hasta: horaFin || "23:59"
+        },
+        function (resp) {
+          console.log("Recordatorio diario guardado en backend:", resp);
+        }
+      );
+    }
+
     cerrarModal();
   } else {
     alert("Completa mensaje, frecuencia, veces al día y minutos entre repeticiones");
   }
 }
-
-// --- CREAR TARJETA ---
 
 function crearTarjeta(mensaje, avisar, frecuencia, veces, minutos, horaInicio, horaFin) {
   var cont = document.querySelector(".contenedor-objetos");
@@ -140,8 +183,6 @@ function crearTarjeta(mensaje, avisar, frecuencia, veces, minutos, horaInicio, h
   cont.appendChild(card);
 }
 
-// --- ACCIONES DE BOTONES ---
-
 function toggleRealizada(btn) {
   const tarjeta = btn.closest(".tarjeta");
   if (!tarjeta) return;
@@ -150,7 +191,20 @@ function toggleRealizada(btn) {
 
 function eliminarTarea(btn) {
   const tarjeta = btn.closest(".tarjeta");
-  if (tarjeta) {
-    tarjeta.remove();
+  if (!tarjeta) return;
+
+  const mensajeNodo = tarjeta.querySelector(".mensaje-texto");
+  const titulo = mensajeNodo ? mensajeNodo.textContent.trim() : "";
+
+  if (titulo && typeof postEvent === "function") {
+    postEvent(
+      "eliminarRecordatorioDiario",
+      { titulo: titulo },
+      function (resp) {
+        console.log("Recordatorio diario eliminado en backend:", resp);
+      }
+    );
   }
+
+  tarjeta.remove();
 }

@@ -106,7 +106,7 @@ subscribePOSTEvent("agregarRecordatorio", (data) => {
     titulo: data.titulo,
     fecha: data.fecha,
     hora: data.hora,
-    avisarAntesMinutos: 10,
+    avisarAntesMinutos: data.avisarAntesMinutos ?? 10,
     avisoPrevioEmitido: false,
     recordatorioEmitido: false,
   });
@@ -216,6 +216,20 @@ subscribeGETEvent("listarRecordatoriosDiarios", () =>
   leerArchivo("recordatoriosDiarios.json")
 );
 
+subscribePOSTEvent("eliminarRecordatorioDiario", (data) => {
+  let diarios = leerArchivo("recordatoriosDiarios.json");
+
+  diarios = diarios.filter((d) => d.titulo !== data.titulo);
+
+  fs.writeFileSync(
+    "recordatoriosDiarios.json",
+    JSON.stringify(diarios, null, 2)
+  );
+
+  return { ok: true, msg: "Recordatorio diario eliminado" };
+});
+
+
 // ====================================================================
 // SISTEMA AUTOMÁTICO — DIARIOS
 // ====================================================================
@@ -257,7 +271,7 @@ setInterval(async () => {
 }, 1000);
 
 // ------------------------------------------------------------
-// SISTEMA DE RECORDATORIOS NORMALES (10 MIN ANTES)
+// SISTEMA DE RECORDATORIOS NORMALES (usa avisarAntesMinutos)
 // ------------------------------------------------------------
 setInterval(async () => {
   const recordatorios = leerArchivo("recordatorios.json");
@@ -267,12 +281,19 @@ setInterval(async () => {
 
   for (let rec of recordatorios) {
     const fechaHoraRec = new Date(`${rec.fecha}T${rec.hora}:00`);
-    const fechaHoraAviso = new Date(fechaHoraRec - 10 * 60000);
 
-    if (!rec.avisoPrevioEmitido) {
+    const minutosAviso = rec.avisarAntesMinutos ?? 10;
+    const fechaHoraAviso = new Date(fechaHoraRec - minutosAviso * 60000);
+
+    if (!rec.avisoPrevioEmitido && minutosAviso > 0) {
       if (ahora >= fechaHoraAviso && ahora < fechaHoraRec) {
         if (!usuarioAusente) {
-          const texto = `Acordate que en 10 minutos tenés que ${rec.titulo}`;
+          let texto;
+          if (minutosAviso === 1) {
+            texto = `Acordate que en 1 minuto tenés que ${rec.titulo}`;
+          } else {
+            texto = `Acordate que en ${minutosAviso} minutos tenés que ${rec.titulo}`;
+          }
           const nombreArchivo = await convertirTextoAVoz(texto);
           console.log("[AVISO PREVIO] Generado:", nombreArchivo);
         }
@@ -280,7 +301,11 @@ setInterval(async () => {
       }
     }
 
-    if (!rec.recordatorioEmitido && rec.fecha === fechaHoy && rec.hora === horaActual) {
+    if (
+      !rec.recordatorioEmitido &&
+      rec.fecha === fechaHoy &&
+      rec.hora === horaActual
+    ) {
       if (!usuarioAusente) {
         const texto = `Recordatorio: ${rec.titulo}`;
         const nombreArchivo = await convertirTextoAVoz(texto);
