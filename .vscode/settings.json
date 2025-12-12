@@ -1,4 +1,7 @@
 {
     "liveServer.settings.wait": 500,
-    "liveServer.settings.ignoreFiles": ["**/*.json"]
+    "liveServer.settings.ignoreFiles": [
+        "**/*.json"
+    ],
+    "liveServer.settings.port": 5501
 }
