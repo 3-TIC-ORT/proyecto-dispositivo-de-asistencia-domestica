@@ -1,92 +1,16 @@
 [
   {
-    "titulo": "Cita medica",
-    "fecha": "2025-12-9",
-    "hora": "12:00",
-    "avisarAntesMinutos": 60
+    "titulo": "visita de los nietos ",
+    "fecha": "2025-12-16",
+    "hora": "12:18",
+    "avisarAntesMinutos": 10,
+    "avisoPrevioEmitido": false,
+    "recordatorioEmitido": false
   },
   {
-    "titulo": "Cita medica",
-    "fecha": "2025-09-26",
-    "hora": "15:00",
-    "avisarAntesMinutos": 30
-  },
-  {
-    "titulo": "llamar a manu",
-    "hora": "15:36",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "hola gel",
-    "hora": "10:41",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "holal titi da pene",
-    "hora": "10:42",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "hola",
-    "hora": "15:42",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "asdf",
-    "hora": "15:44",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "asdf",
-    "fecha": "2025-11-21",
-    "hora": "10:56",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "asdf",
-    "hora": "14:53",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "שדגכ",
-    "fecha": "2025-11-22",
-    "hora": "11:23",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "ff",
-    "fecha": "2025-12-05",
-    "hora": "11:28",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "asdf",
-    "fecha": "2025-11-22",
-    "hora": "11:31",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "asdf",
-    "fecha": "2025-11-22",
-    "hora": "11:35",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "asdf",
-    "fecha": "2025-11-29",
-    "hora": "11:38",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "asdf",
-    "fecha": "2025-11-21",
-    "hora": "15:55",
-    "avisarAntesMinutos": 10
-  },
-  {
-    "titulo": "dwxskkcjasdjb",
-    "fecha": "2026-01-01",
-    "hora": "09:36",
+    "titulo": "call your daughter",
+    "fecha": "2025-12-16",
+    "hora": "15:29",
     "avisarAntesMinutos": 10,
     "avisoPrevioEmitido": false,
     "recordatorioEmitido": false
